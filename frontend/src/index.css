@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+/* Custom Brand Styles for L'Oven Coffee */
+:root {
+  --brown: #2B1B12;
+  --brown-800: #473526;
+  --brown-900: #2B1B12;
+  --orange: #F28C13;
+  --orange-700: #C47110;
+  --cream: #FFF4E6;
+  --cream-50: #FFFFFF;
+  --cream-100: #FFF4E6;
+  --cream-200: #FFE9CD;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--cream);
+  color: var(--brown);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* Button Styles */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background-color: var(--orange);
+  color: white;
+  box-shadow: 0 4px 20px rgba(242, 140, 19, 0.1);
+}
+
+.btn-primary:hover {
+  background-color: var(--orange-700);
+}
+
+.btn-secondary {
+  background-color: var(--brown);
+  color: white;
+  box-shadow: 0 4px 20px rgba(43, 27, 18, 0.15);
+}
+
+.btn-secondary:hover {
+  background-color: var(--brown-800);
+}
+
+.btn-outline {
+  border: 2px solid var(--brown);
+  color: var(--brown);
+}
+
+.btn-outline:hover {
+  background-color: var(--brown);
+  color: white;
+}
+
+/* Card Styles */
+.card {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.card-hover:hover {
+  box-shadow: 0 4px 20px rgba(242, 140, 19, 0.1);
+  transform: translateY(-4px);
+}
+
+.product-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.product-card:hover {
+  box-shadow: 0 4px 20px rgba(242, 140, 19, 0.1);
+  transform: translateY(-4px);
+}
+
+/* Input Styles */
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #D1C7C1;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(242, 140, 19, 0.1);
+}
