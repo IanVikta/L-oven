@@ -5,10 +5,12 @@ use App\Http\Controllers\Api\V1\Admin\AdminProductController;
 use App\Http\Controllers\Api\V1\Admin\AdminReportController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CategoryController;
+use App\Http\Controllers\Api\V1\CouponController;
 use App\Http\Controllers\Api\V1\LoyaltyController;
 use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\V1\PaymentController;
 use App\Http\Controllers\Api\V1\ProductController;
+use App\Http\Controllers\Api\V1\ReviewController;
 use App\Http\Middleware\EnsureAdminOrStaff;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +41,12 @@ Route::prefix('v1')->group(function () {
     Route::get('/products', [ProductController::class, 'index']);
     Route::get('/products/{slug}', [ProductController::class, 'show']);
 
+    // Product Reviews
+    Route::get('/products/{id}/reviews', [ReviewController::class, 'index']);
+
+    // Coupon Validation
+    Route::post('/coupons/validate', [CouponController::class, 'validateCoupon']);
+
     // Public Order placement (supports Guest & Auth checkout)
     Route::post('/orders', [OrderController::class, 'store']);
     Route::get('/orders/track/{order_number}', [OrderController::class, 'show']);
@@ -55,6 +63,9 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/auth/me', [AuthController::class, 'me']);
         Route::post('/auth/logout', [AuthController::class, 'logout']);
+
+        // Submit product review
+        Route::post('/products/{id}/reviews', [ReviewController::class, 'store']);
 
         // Customer order history
         Route::get('/orders', [OrderController::class, 'index']);
