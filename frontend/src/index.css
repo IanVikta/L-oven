@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+:root {
+  --brown: #1a0f0a;
+  --brown-800: #332017;
+  --brown-900: #1a0f0a;
+  --orange: #e67e22;
+  --orange-500: #e67e22;
+  --orange-600: #d35400;
+  --orange-700: #b94600;
+  --cream: #faf6f0;
+  --cream-50: #ffffff;
+  --cream-100: #faf6f0;
+  --cream-200: #f4ece1;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #faf6f0;
+  color: #1a0f0a;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* Glassmorphism & Elevation */
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(230, 126, 34, 0.15);
+}
+
+.glass-card-dark {
+  background: rgba(26, 15, 10, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(230, 126, 34, 0.25);
+}
+
+/* Premium Buttons */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 50%, #d35400 100%);
+  color: white;
+  box-shadow: 0 8px 25px -5px rgba(230, 126, 34, 0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -4px rgba(230, 126, 34, 0.5);
+  background: linear-gradient(135deg, #f1c40f 0%, #e67e22 50%, #c0392b 100%);
+}
+
+.btn-secondary {
+  background-color: #1a0f0a;
+  color: #f39c12;
+  border: 1px solid rgba(230, 126, 34, 0.3);
+  box-shadow: 0 4px 20px rgba(26, 15, 10, 0.2);
+}
+
+.btn-secondary:hover {
+  background-color: #332017;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  border: 2px solid #e67e22;
+  color: #e67e22;
+  background: transparent;
+}
+
+.btn-outline:hover {
+  background: #e67e22;
+  color: white;
+  box-shadow: 0 6px 20px rgba(230, 126, 34, 0.3);
+}
+
+/* Luxury Cards */
+.card {
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(230, 126, 34, 0.1);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  box-shadow: 0 20px 40px -10px rgba(230, 126, 34, 0.18);
+  transform: translateY(-6px);
+  border-color: rgba(230, 126, 34, 0.3);
+}
+
+/* Input Fields */
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2d7cd;
+  border-radius: 0.75rem;
+  background-color: white;
+  transition: all 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #e67e22;
+  box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.15);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f4ece1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d35400;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b94600;
+}
