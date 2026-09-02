@@ -11,9 +11,13 @@ export const CartProvider = ({ children }) => {
   useEffect(() => {
     const savedCart = localStorage.getItem('cart');
     if (savedCart) {
-      const items = JSON.parse(savedCart);
-      setCartItems(items);
-      calculateTotals(items);
+      try {
+        const items = JSON.parse(savedCart);
+        setCartItems(items);
+        calculateTotals(items);
+      } catch (e) {
+        console.error('Failed to parse cart:', e);
+      }
     }
   }, []);
 
@@ -25,43 +29,56 @@ export const CartProvider = ({ children }) => {
 
   const calculateTotals = (items) => {
     const count = items.reduce((sum, item) => sum + item.quantity, 0);
-    const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const total = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
     setCartCount(count);
     setCartTotal(total);
   };
 
-  const addToCart = (product, quantity = 1, options = []) => {
-    const optionsPrice = options.reduce((sum, opt) => sum + (opt.price_modifier || 0), 0);
-    const itemPrice = parseFloat(product.price) + optionsPrice;
-    
-    const cartItem = {
-      id: product.id,
-      variant_id: product.variant_id || null,
-      name: product.name,
-      variant_name: product.variant_name || null,
-      price: itemPrice,
-      quantity,
-      options,
-      image: product.image_url || null,
-    };
+  const addToCart = (productOrCustomItem, quantity = 1) => {
+    let newItem;
 
-    // Check if item already exists with same options
-    const existingItemIndex = cartItems.findIndex(
-      item => 
-        item.id === cartItem.id && 
-        item.variant_id === cartItem.variant_id &&
-        JSON.stringify(item.options) === JSON.stringify(cartItem.options)
-    );
-
-    if (existingItemIndex !== -1) {
-      // Update quantity of existing item
-      const updatedItems = [...cartItems];
-      updatedItems[existingItemIndex].quantity += quantity;
-      setCartItems(updatedItems);
+    // Check if it's already a formatted custom item from ProductModal
+    if (productOrCustomItem.product) {
+      const { product, variant, options, itemNotes, unitPrice } = productOrCustomItem;
+      newItem = {
+        cartKey: `${product.id}-${variant?.id || 'base'}-${options.map((o) => o.id).sort().join('-')}`,
+        product_id: product.id,
+        product_variant_id: variant?.id || null,
+        name: product.name,
+        variant_name: variant?.name || null,
+        unitPrice: unitPrice || (product.price + (variant?.price_modifier || 0)),
+        quantity: productOrCustomItem.quantity || quantity,
+        options: options || [],
+        item_notes: itemNotes || '',
+        image_url: product.image_url,
+      };
     } else {
-      // Add new item
-      setCartItems([...cartItems, cartItem]);
+      // Standard product without modal customization
+      const product = productOrCustomItem;
+      newItem = {
+        cartKey: `${product.id}-base-none`,
+        product_id: product.id,
+        product_variant_id: null,
+        name: product.name,
+        variant_name: null,
+        unitPrice: parseFloat(product.price),
+        quantity,
+        options: [],
+        item_notes: '',
+        image_url: product.image_url,
+      };
     }
+
+    setCartItems((prevItems) => {
+      const existingIndex = prevItems.findIndex((i) => i.cartKey === newItem.cartKey);
+      if (existingIndex !== -1) {
+        const updated = [...prevItems];
+        updated[existingIndex].quantity += newItem.quantity;
+        return updated;
+      } else {
+        return [...prevItems, newItem];
+      }
+    });
   };
 
   const updateQuantity = (index, quantity) => {
@@ -69,14 +86,15 @@ export const CartProvider = ({ children }) => {
       removeFromCart(index);
       return;
     }
-    const updatedItems = [...cartItems];
-    updatedItems[index].quantity = quantity;
-    setCartItems(updatedItems);
+    setCartItems((prevItems) => {
+      const updated = [...prevItems];
+      updated[index].quantity = quantity;
+      return updated;
+    });
   };
 
   const removeFromCart = (index) => {
-    const updatedItems = cartItems.filter((_, i) => i !== index);
-    setCartItems(updatedItems);
+    setCartItems((prevItems) => prevItems.filter((_, i) => i !== index));
   };
 
   const clearCart = () => {

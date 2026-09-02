@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { productService } from '../services/productService';
 import { useCart } from '../hooks/useCart';
 import Loading from '../components/common/Loading';
+import ProductModal from '../components/products/ProductModal';
 
 const Menu = () => {
   const [categories, setCategories] = useState([]);
@@ -10,7 +11,11 @@ const Menu = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
+  // Modal State
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -46,9 +51,22 @@ const Menu = () => {
       setError(null);
     } catch (err) {
       console.error('Failed to load products:', err);
-      setError('Failed to load menu items. Please ensure the backend is running.');
+      setError('Failed to load menu items. Please check database connection.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleOpenProduct = async (product) => {
+    try {
+      // Fetch deep product details with option groups and items
+      const detailData = await productService.getProduct(product.slug);
+      setSelectedProduct(detailData.product || product);
+      setIsModalOpen(true);
+    } catch (e) {
+      // Fallback to basic product
+      setSelectedProduct(product);
+      setIsModalOpen(true);
     }
   };
 
@@ -61,7 +79,7 @@ const Menu = () => {
             Our Menu & Treats
           </h1>
           <p className="text-brown-700 text-lg mb-6">
-            Handcrafted coffees, artisanal pastries, and savory gourmet bites.
+            Handcrafted coffees, artisanal pastries, and gourmet cafe bites.
           </p>
 
           {/* Search bar */}
@@ -136,7 +154,6 @@ const Menu = () => {
             {products.map((product) => (
               <div key={product.id} className="product-card flex flex-col justify-between p-6">
                 <div>
-                  {/* Category Badge & Prep Time */}
                   <div className="flex items-center justify-between mb-3 text-xs font-semibold text-orange-600">
                     <span>{product.category?.name}</span>
                     <span className="text-brown-500 flex items-center gap-1">
@@ -158,18 +175,33 @@ const Menu = () => {
                     ${product.price.toFixed(2)}
                   </div>
 
-                  <button
-                    onClick={() => addToCart(product)}
-                    className="btn btn-primary text-xs py-2 px-4 shadow"
-                  >
-                    Add to Cart
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleOpenProduct(product)}
+                      className="btn btn-outline text-xs py-2 px-3"
+                    >
+                      Customize
+                    </button>
+                    <button
+                      onClick={() => addToCart(product)}
+                      className="btn btn-primary text-xs py-2 px-3 shadow"
+                    >
+                      Add
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         )}
       </div>
+
+      {/* Product Customization Modal */}
+      <ProductModal
+        product={selectedProduct}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };
