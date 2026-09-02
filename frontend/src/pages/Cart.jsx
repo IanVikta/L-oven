@@ -1,11 +1,38 @@
-import { Link, useNavigate } from 'react';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../hooks/useCart';
+import { couponService } from '../services/couponService';
 
 const Cart = () => {
   const { cartItems, cartTotal, updateQuantity, removeFromCart, clearCart } = useCart();
   const navigate = useNavigate();
 
-  const taxAmount = cartTotal * 0.08; // 8% Tax
+  const [couponCode, setCouponCode] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [couponError, setCouponError] = useState('');
+  const [couponLoading, setCouponLoading] = useState(false);
+
+  const handleApplyCoupon = async (e) => {
+    e.preventDefault();
+    if (!couponCode.trim()) return;
+
+    setCouponError('');
+    setCouponLoading(true);
+
+    try {
+      const res = await couponService.validateCoupon(couponCode.trim(), cartTotal);
+      setAppliedCoupon(res.coupon);
+    } catch (err) {
+      setAppliedCoupon(null);
+      setCouponError(err.response?.data?.message || 'Invalid promo code');
+    } finally {
+      setCouponLoading(false);
+    }
+  };
+
+  const discountAmount = appliedCoupon ? appliedCoupon.discount_amount : 0.00;
+  const taxableSubtotal = Math.max(0, cartTotal - discountAmount);
+  const taxAmount = taxableSubtotal * 0.08;
 
   if (cartItems.length === 0) {
     return (
@@ -128,16 +155,58 @@ const Cart = () => {
           </div>
 
           {/* Order Summary Sidebar */}
-          <div className="bg-white rounded-2xl p-6 shadow-md border border-amber-100 h-fit">
-            <h2 className="text-xl font-display font-bold text-brown-900 mb-4 pb-3 border-b border-amber-100">
+          <div className="bg-white rounded-2xl p-6 shadow-md border border-amber-100 h-fit space-y-6">
+            <h2 className="text-xl font-display font-bold text-brown-900 pb-3 border-b border-amber-100">
               Summary
             </h2>
 
-            <div className="space-y-3 text-sm text-brown-700 mb-6">
+            {/* Promo Code Box */}
+            <div>
+              <form onSubmit={handleApplyCoupon} className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="Promo code (e.g. LOVEN10)"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                  className="input text-xs flex-1 uppercase"
+                />
+                <button
+                  type="submit"
+                  disabled={couponLoading}
+                  className="btn btn-outline text-xs px-3"
+                >
+                  Apply
+                </button>
+              </form>
+              {appliedCoupon && (
+                <div className="text-xs text-emerald-600 font-semibold mt-1.5 flex justify-between">
+                  <span>Code {appliedCoupon.code} applied!</span>
+                  <button
+                    onClick={() => setAppliedCoupon(null)}
+                    className="text-red-500 hover:underline text-[10px]"
+                  >
+                    Remove
+                  </button>
+                </div>
+              )}
+              {couponError && (
+                <div className="text-xs text-red-600 mt-1 font-medium">{couponError}</div>
+              )}
+            </div>
+
+            <div className="space-y-3 text-sm text-brown-700">
               <div className="flex justify-between">
                 <span>Subtotal</span>
                 <span className="font-semibold">${cartTotal.toFixed(2)}</span>
               </div>
+
+              {appliedCoupon && (
+                <div className="flex justify-between text-emerald-600 font-medium">
+                  <span>Discount</span>
+                  <span>-${discountAmount.toFixed(2)}</span>
+                </div>
+              )}
+
               <div className="flex justify-between">
                 <span>Estimated Tax (8%)</span>
                 <span className="font-semibold">${taxAmount.toFixed(2)}</span>
@@ -147,7 +216,7 @@ const Cart = () => {
               </div>
               <div className="pt-3 border-t border-amber-100 flex justify-between text-lg font-bold text-brown-900">
                 <span>Total</span>
-                <span className="text-orange-600">${(cartTotal + taxAmount).toFixed(2)}</span>
+                <span className="text-orange-600">${(taxableSubtotal + taxAmount).toFixed(2)}</span>
               </div>
             </div>
 

@@ -1,14 +1,24 @@
 import { useState, useEffect } from 'react';
 import { useCart } from '../../hooks/useCart';
+import { useAuth } from '../../hooks/useAuth';
+import { reviewService } from '../../services/reviewService';
 
 const ProductModal = ({ product, isOpen, onClose }) => {
   if (!isOpen || !product) return null;
 
   const { addToCart } = useCart();
+  const { isAuthenticated } = useAuth();
+
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [selectedOptions, setSelectedOptions] = useState({});
   const [quantity, setQuantity] = useState(1);
   const [itemNotes, setItemNotes] = useState('');
+
+  // Reviews state
+  const [reviewsData, setReviewsData] = useState({ average_rating: 0, total_reviews: 0, reviews: [] });
+  const [newRating, setNewRating] = useState(5);
+  const [newComment, setNewComment] = useState('');
+  const [submittingReview, setSubmittingReview] = useState(false);
 
   useEffect(() => {
     // Set default variant if available
@@ -33,7 +43,19 @@ const ProductModal = ({ product, isOpen, onClose }) => {
     setSelectedOptions(initialOptions);
     setQuantity(1);
     setItemNotes('');
+
+    // Fetch Reviews
+    fetchReviews(product.id);
   }, [product]);
+
+  const fetchReviews = async (productId) => {
+    try {
+      const data = await reviewService.getProductReviews(productId);
+      setReviewsData(data);
+    } catch (e) {
+      console.error('Failed to load reviews:', e);
+    }
+  };
 
   const handleOptionToggle = (groupId, itemId, isSingleChoice) => {
     setSelectedOptions((prev) => {
@@ -50,7 +72,6 @@ const ProductModal = ({ product, isOpen, onClose }) => {
     });
   };
 
-  // Calculate dynamic price
   const calculatePrice = () => {
     let price = product.price || 0;
     if (selectedVariant) {
@@ -72,7 +93,6 @@ const ProductModal = ({ product, isOpen, onClose }) => {
   };
 
   const handleAddToCart = () => {
-    // Collect all selected option item details
     const optionDetails = [];
     if (product.option_groups) {
       product.option_groups.forEach((group) => {
@@ -103,15 +123,34 @@ const ProductModal = ({ product, isOpen, onClose }) => {
     onClose();
   };
 
+  const handleSubmitReview = async (e) => {
+    e.preventDefault();
+    setSubmittingReview(true);
+    try {
+      await reviewService.submitReview(product.id, newRating, newComment);
+      setNewComment('');
+      fetchReviews(product.id);
+    } catch (e) {
+      alert('Failed to submit review. Make sure you are logged in.');
+    } finally {
+      setSubmittingReview(false);
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-60 backdrop-blur-sm">
       <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-amber-100 flex flex-col">
         {/* Header */}
         <div className="p-6 border-b border-amber-100 flex justify-between items-start">
           <div>
-            <span className="text-xs font-semibold text-orange-600 uppercase tracking-wider">
-              {product.category?.name}
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold text-orange-600 uppercase tracking-wider">
+                {product.category?.name}
+              </span>
+              <span className="text-xs text-amber-500 font-bold flex items-center gap-0.5">
+                ★ {reviewsData.average_rating > 0 ? reviewsData.average_rating : 'New'} ({reviewsData.total_reviews})
+              </span>
+            </div>
             <h2 className="text-2xl font-display font-bold text-brown-900 mt-1">
               {product.name}
             </h2>
@@ -224,11 +263,71 @@ const ProductModal = ({ product, isOpen, onClose }) => {
               className="input text-xs"
             />
           </div>
+
+          {/* Customer Reviews Section */}
+          <div className="pt-4 border-t border-amber-100">
+            <h4 className="text-sm font-bold text-brown-900 mb-3">
+              Customer Reviews ({reviewsData.total_reviews})
+            </h4>
+
+            {isAuthenticated ? (
+              <form onSubmit={handleSubmitReview} className="mb-4 bg-cream-50 p-3 rounded-xl border border-amber-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xs font-bold text-brown-800">Your Rating:</span>
+                  <select
+                    value={newRating}
+                    onChange={(e) => setNewRating(parseInt(e.target.value, 10))}
+                    className="text-xs p-1 border rounded"
+                  >
+                    <option value={5}>★★★★★ (5/5)</option>
+                    <option value={4}>★★★★☆ (4/5)</option>
+                    <option value={3}>★★★☆☆ (3/5)</option>
+                    <option value={2}>★★☆☆☆ (2/5)</option>
+                    <option value={1}>★☆☆☆☆ (1/5)</option>
+                  </select>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Write a quick review..."
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  className="input text-xs mb-2"
+                />
+                <button
+                  type="submit"
+                  disabled={submittingReview}
+                  className="btn btn-outline text-xs py-1 px-3"
+                >
+                  Submit Review
+                </button>
+              </form>
+            ) : (
+              <p className="text-[11px] text-brown-500 mb-3">
+                <a href="/login" className="text-orange-600 underline font-semibold">Sign in</a> to leave a rating.
+              </p>
+            )}
+
+            {/* Reviews List */}
+            <div className="space-y-2 max-h-40 overflow-y-auto">
+              {reviewsData.reviews && reviewsData.reviews.length > 0 ? (
+                reviewsData.reviews.map((rev) => (
+                  <div key={rev.id} className="text-xs p-2 bg-gray-50 rounded-lg border border-gray-100">
+                    <div className="flex justify-between font-semibold text-brown-900">
+                      <span>{rev.user_name}</span>
+                      <span className="text-amber-500">{'★'.repeat(rev.rating)}</span>
+                    </div>
+                    {rev.comment && <p className="text-brown-700 mt-1">{rev.comment}</p>}
+                  </div>
+                ))
+              ) : (
+                <p className="text-xs text-brown-400 italic">No reviews yet for this product.</p>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* Footer */}
         <div className="p-6 border-t border-amber-100 bg-cream-50 flex items-center justify-between gap-4">
-          {/* Quantity Selector */}
           <div className="flex items-center border border-gray-300 rounded-lg bg-white">
             <button
               onClick={() => setQuantity(Math.max(1, quantity - 1))}
