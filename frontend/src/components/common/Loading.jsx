@@ -9,7 +9,7 @@ export const Loading = ({ size = 'md', fullScreen = false }) => {
 
   const spinner = (
     <motion.div
-      className={`${sizes[size]} border-4 border-cream-400 border-t-orange rounded-full`}
+      className={`${sizes[size]} border-4 border-amber-200 border-t-orange-500 rounded-full`}
       animate={{ rotate: 360 }}
       transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
     />
@@ -29,3 +29,5 @@ export const Loading = ({ size = 'md', fullScreen = false }) => {
     </div>
   );
 };
+
+export default Loading;
