@@ -3,6 +3,7 @@ import { productService } from '../services/productService';
 import { useCart } from '../hooks/useCart';
 import Loading from '../components/common/Loading';
 import ProductModal from '../components/products/ProductModal';
+import { formatProductPrice } from '../utils/currency';
 
 const Menu = () => {
   const [categories, setCategories] = useState([]);
@@ -62,7 +63,7 @@ const Menu = () => {
       const detailData = await productService.getProduct(product.slug);
       setSelectedProduct(detailData.product || product);
       setIsModalOpen(true);
-    } catch (e) {
+    } catch {
       setSelectedProduct(product);
       setIsModalOpen(true);
     }
@@ -215,8 +216,8 @@ const Menu = () => {
                 <div className="pt-4 border-t border-amber-100 flex items-center justify-between mt-auto">
                   <div>
                     <span className="text-[10px] text-brown-400 block">Price</span>
-                    <div className="text-xl font-bold text-brown-900">
-                      ${product.price.toFixed(2)}
+                    <div className="text-sm font-bold text-brown-900">
+                      {formatProductPrice(product.price)}
                     </div>
                   </div>
 

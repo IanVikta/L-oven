@@ -14,11 +14,18 @@
   --cream-200: #f4ece1;
 }
 
+html {
+  overflow-x: clip;
+  overflow-y: auto;
+}
+
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background-color: #faf6f0;
   color: #1a0f0a;
-  overflow-x: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
+  min-height: 100vh;
 }
 
 h1, h2, h3, h4, h5, h6 {

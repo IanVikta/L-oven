@@ -60,6 +60,8 @@ class OrderTest extends TestCase
             'user_id' => $user->id,
             'fulfilment_type' => 'dine_in',
             'status' => 'pending',
+            'tax_amount' => 0.00,
+            'total_amount' => 9.00,
         ]);
 
         $this->assertDatabaseHas('loyalty_accounts', [
