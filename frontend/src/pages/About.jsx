@@ -782,96 +782,221 @@ const About = () => {
           </div>
         </motion.div>
 
-        {/* Menu Highlights */}
+        {/* Menu Highlights - Enhanced */}
         <motion.div 
           variants={staggerContainer}
           initial="initial"
           whileInView="whileInView"
           viewport={{ once: true }}
-          className="space-y-12"
+          className="relative space-y-12"
         >
-          <div className="text-center max-w-3xl mx-auto">
-            <motion.div variants={fadeInUp} className="inline-block mb-4">
-              <span className="text-sm font-bold uppercase tracking-widest text-orange-600 bg-orange-100 px-4 py-2 rounded-full">
-                Premium Selection
-              </span>
-            </motion.div>
-            <h2 className="text-4xl md:text-5xl font-display font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 bg-clip-text text-transparent mb-6">
-              Our Coffee Selection
-            </h2>
-            <p className="text-lg text-gray-700">
-              Choose from our premium selection of Arabica, Robusta, or expertly crafted blended coffees.
-            </p>
+          {/* Background decorative elements */}
+          <div className="absolute inset-0 -z-10 overflow-hidden">
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-200/20 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-amber-200/20 rounded-full blur-3xl"></div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="text-center max-w-4xl mx-auto">
+            <motion.div variants={fadeInUp} className="inline-block mb-4">
+              <div className="flex items-center gap-3 bg-gradient-to-r from-orange-100 to-amber-100 px-6 py-3 rounded-full border border-orange-200 shadow-sm">
+                <svg className="w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+                <span className="text-sm font-bold uppercase tracking-widest text-orange-700">
+                  Premium Coffee Collection
+                </span>
+              </div>
+            </motion.div>
+            
+            <motion.h2 
+              variants={fadeInUp}
+              className="text-4xl md:text-6xl font-display font-bold mb-6"
+            >
+              <span className="bg-gradient-to-r from-gray-900 via-orange-800 to-gray-900 bg-clip-text text-transparent">
+                Discover Your Perfect
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600 bg-clip-text text-transparent">
+                Coffee Experience
+              </span>
+            </motion.h2>
+            
+            <motion.p variants={fadeInUp} className="text-xl text-gray-700 leading-relaxed">
+              From Uganda's finest coffee regions, each variety tells a unique story of terroir, 
+              craftsmanship, and dedication. Choose the perfect match for your taste.
+            </motion.p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {[
               {
                 title: 'ARABICA',
+                tagline: 'Elegant & Refined',
                 subtitle: 'Mt. Elgon & Mt. Rwenzori',
-                items: ['High-altitude grown (1,600m-2,000m)', 'Volcanic soil minerals', 'Fruity and floral notes', 'Smooth, refined taste'],
+                description: 'Grown at high altitudes where cool mountain air and volcanic soil create beans with exceptional complexity and sweetness.',
+                items: [
+                  { text: 'High-altitude grown (1,600m-2,000m)', icon: '🏔️' },
+                  { text: 'Rich volcanic soil minerals', icon: '🌋' },
+                  { text: 'Bright fruity & floral notes', icon: '🍒' },
+                  { text: 'Smooth, refined taste', icon: '✨' }
+                ],
                 icon: MountainIcon,
-                gradient: 'from-amber-500 to-orange-500',
+                gradient: 'from-amber-500 via-orange-500 to-amber-600',
                 bgGradient: 'from-amber-50 via-orange-50 to-amber-50',
                 accentColor: 'text-amber-700',
-                borderColor: 'border-amber-200'
+                borderColor: 'border-amber-300',
+                badge: 'Most Popular',
+                badgeColor: 'bg-amber-500'
               },
               {
                 title: 'ROBUSTA',
+                tagline: 'Bold & Powerful',
                 subtitle: 'Lake Victoria Shores',
-                items: ['Rich, full-bodied flavor', 'Higher caffeine content', 'Chocolate undertones', 'Strong and bold'],
+                description: 'Cultivated near Africa\'s largest lake, these beans deliver an intense, full-bodied experience with remarkable depth.',
+                items: [
+                  { text: 'Rich, full-bodied flavor', icon: '💪' },
+                  { text: 'Higher caffeine content', icon: '⚡' },
+                  { text: 'Deep chocolate undertones', icon: '🍫' },
+                  { text: 'Strong and bold character', icon: '🔥' }
+                ],
                 icon: WaterIcon,
-                gradient: 'from-stone-600 to-slate-800',
+                gradient: 'from-stone-700 via-slate-800 to-stone-900',
                 bgGradient: 'from-stone-50 via-slate-50 to-stone-50',
-                accentColor: 'text-stone-800',
-                borderColor: 'border-stone-300'
+                accentColor: 'text-stone-900',
+                borderColor: 'border-stone-400',
+                badge: 'Energy Boost',
+                badgeColor: 'bg-stone-700'
               },
               {
                 title: 'BLENDED',
-                subtitle: 'Best of Both Worlds',
-                items: ['Balanced flavor profile', 'Perfect crema', 'Versatile for any brew method', 'Consistently excellent'],
+                tagline: 'Balanced Perfection',
+                subtitle: 'Master Roaster\'s Choice',
+                description: 'Our expertly crafted blend combines the best of both varieties, creating a harmonious cup that pleases every palate.',
+                items: [
+                  { text: 'Perfectly balanced profile', icon: '⚖️' },
+                  { text: 'Silky smooth crema', icon: '☕' },
+                  { text: 'Versatile for any brew', icon: '🎯' },
+                  { text: 'Consistently excellent', icon: '⭐' }
+                ],
                 icon: CoffeeIcon,
-                gradient: 'from-orange-600 to-rose-600',
+                gradient: 'from-orange-600 via-rose-600 to-orange-700',
                 bgGradient: 'from-orange-50 via-rose-50 to-orange-50',
                 accentColor: 'text-orange-700',
-                borderColor: 'border-orange-200'
+                borderColor: 'border-orange-300',
+                badge: 'Barista\'s Pick',
+                badgeColor: 'bg-orange-600'
               }
             ].map((category, index) => (
               <motion.div
                 key={index}
                 variants={fadeInUp}
-                whileHover={{ y: -12, transition: { duration: 0.3 } }}
-                className={`group relative bg-gradient-to-br ${category.bgGradient} border-2 ${category.borderColor} p-10 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden`}
+                whileHover={{ y: -16, scale: 1.02 }}
+                className={`group relative bg-gradient-to-br ${category.bgGradient} border-2 ${category.borderColor} rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500 overflow-hidden`}
               >
-                {/* Animated gradient background */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+                {/* Animated gradient overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-0 group-hover:opacity-[0.08] transition-opacity duration-500`}></div>
                 
-                {/* Decorative circle */}
-                <div className={`absolute -top-20 -right-20 w-40 h-40 bg-gradient-to-br ${category.gradient} opacity-10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500`}></div>
+                {/* Decorative elements */}
+                <div className={`absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br ${category.gradient} opacity-10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700`}></div>
+                <div className={`absolute -bottom-16 -left-16 w-40 h-40 bg-gradient-to-br ${category.gradient} opacity-5 rounded-full blur-2xl`}></div>
                 
-                <div className="relative">
-                  {/* Icon */}
-                  <div className={`w-16 h-16 mb-6 p-3 rounded-2xl bg-gradient-to-br ${category.gradient} text-white shadow-lg transform group-hover:rotate-12 group-hover:scale-110 transition-all duration-300`}>
-                    <category.icon />
+                {/* Badge */}
+                <div className="absolute top-6 right-6 z-10">
+                  <div className={`${category.badgeColor} text-white text-xs font-bold uppercase tracking-wide px-4 py-2 rounded-full shadow-lg`}>
+                    {category.badge}
                   </div>
+                </div>
+
+                <div className="relative p-10">
+                  {/* Icon with enhanced styling */}
+                  <motion.div 
+                    whileHover={{ rotate: 360, scale: 1.1 }}
+                    transition={{ duration: 0.6 }}
+                    className={`w-20 h-20 mb-6 p-4 rounded-2xl bg-gradient-to-br ${category.gradient} text-white shadow-2xl transform group-hover:shadow-3xl transition-all duration-300`}
+                  >
+                    <category.icon />
+                  </motion.div>
                   
-                  <h3 className={`text-3xl font-display font-bold mb-2 ${category.accentColor}`}>{category.title}</h3>
-                  <p className={`text-sm font-semibold mb-6 ${category.accentColor} opacity-80 uppercase tracking-wide`}>{category.subtitle}</p>
+                  {/* Title section */}
+                  <div className="mb-6">
+                    <h3 className={`text-4xl font-display font-extrabold mb-2 ${category.accentColor} tracking-tight`}>
+                      {category.title}
+                    </h3>
+                    <p className={`text-base font-bold mb-3 ${category.accentColor} opacity-70 italic`}>
+                      {category.tagline}
+                    </p>
+                    <p className={`text-sm font-semibold ${category.accentColor} opacity-60 uppercase tracking-widest`}>
+                      {category.subtitle}
+                    </p>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-gray-700 leading-relaxed mb-8 text-base">
+                    {category.description}
+                  </p>
                   
-                  <ul className="space-y-3">
+                  {/* Divider */}
+                  <div className={`h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent mb-6`}></div>
+
+                  {/* Features list */}
+                  <ul className="space-y-4">
                     {category.items.map((item, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <svg className={`w-5 h-5 mt-0.5 flex-shrink-0 ${category.accentColor}`} fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                        <span className="text-gray-800">{item}</span>
-                      </li>
+                      <motion.li 
+                        key={i}
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.1 * i }}
+                        className="flex items-start gap-3 group/item"
+                      >
+                        <div className={`flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br ${category.gradient} flex items-center justify-center text-white font-bold shadow-md group-hover/item:scale-110 transition-transform`}>
+                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                        <span className="text-gray-800 font-medium text-base leading-relaxed">
+                          {item.text}
+                        </span>
+                      </motion.li>
                     ))}
                   </ul>
+
+                  {/* CTA Button */}
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`w-full mt-8 bg-gradient-to-r ${category.gradient} text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-2 group/btn`}
+                  >
+                    <span>Explore {category.title}</span>
+                    <svg className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </motion.button>
                 </div>
               </motion.div>
             ))}
           </div>
+
+          {/* Bottom CTA */}
+          <motion.div 
+            variants={fadeInUp}
+            className="text-center pt-8"
+          >
+            <p className="text-gray-600 mb-6 text-lg">
+              Not sure which to choose? Our expert baristas are here to help you find your perfect match.
+            </p>
+            <a
+              href="/menu"
+              className="inline-flex items-center gap-3 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white font-bold px-10 py-5 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              <span>View Full Menu & Prices</span>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </motion.div>
         </motion.div>
 
         {/* Coffee Experience Section */}
