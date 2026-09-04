@@ -426,7 +426,7 @@ const Menu = () => {
                             </div>
 
                             <div className="mt-5 flex items-center justify-between gap-3">
-                              <span className="font-sans text-base font-semibold text-[#2B1B12] sm:text-lg">
+                              <span className="font-sans text-base font-semibold text-[#2B1B12] sm:text-lg whitespace-nowrap">
                                 {formatProductPrice(product.price)}
                               </span>
                               <div className="flex items-center gap-2">
@@ -440,12 +440,20 @@ const Menu = () => {
                                 <button
                                   type="button"
                                   onClick={() => addToCart(product)}
-                                  aria-label={`Add ${product.name} to cart`}
-                                  className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F28C13] text-white shadow-sm transition-all duration-200 hover:scale-105 hover:bg-[#d97706] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13] focus-visible:ring-offset-2"
+                                  className="group/btn relative inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#F28C13] text-white font-sans text-xs font-semibold uppercase tracking-[0.1em] rounded transition-all duration-300 hover:bg-[#d97706] shadow-sm hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13] focus-visible:ring-offset-2 whitespace-nowrap overflow-hidden min-w-[120px]"
                                 >
-                                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-                                    <path d="M12 5v14M5 12h14" />
-                                  </svg>
+                                  {/* Cart icon and text - visible by default, hidden on hover */}
+                                  <span className="inline-flex items-center gap-2 transition-all duration-300 group-hover/btn:opacity-0 group-hover/btn:scale-75">
+                                    <svg className="h-4 w-4 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.4 5M17 13l1.4 5M9 21a1 1 0 100-2 1 1 0 000 2zm8 0a1 1 0 100-2 1 1 0 000 2z" />
+                                    </svg>
+                                    <span>Add to cart</span>
+                                  </span>
+                                  
+                                  {/* Plus icon - hidden by default, visible on hover */}
+                                  <span className="absolute inset-0 flex items-center justify-center text-2xl font-light opacity-0 scale-150 transition-all duration-300 group-hover/btn:opacity-100 group-hover/btn:scale-100">
+                                    +
+                                  </span>
                                 </button>
                               </div>
                             </div>
@@ -461,8 +469,40 @@ const Menu = () => {
         </div>
       </section>
 
-      {/* Marquee Section - Product Cards */}
-      <section className="bg-[#2B1B12] py-12 sm:py-16 overflow-hidden group" aria-labelledby="popular-picks-heading">
+      {/* Marquee Section - Product Cards with Parallax */}
+      <section className="relative py-12 sm:py-16 overflow-hidden group" aria-labelledby="popular-picks-heading">
+        {/* Parallax Background Banner */}
+        <motion.div
+          className="absolute inset-0 bg-[#2B1B12]"
+          style={{
+            backgroundImage: 'linear-gradient(135deg, #2B1B12 0%, #1a0f0a 50%, #2B1B12 100%)',
+          }}
+          initial={{ y: 0 }}
+          whileInView={{ y: -50 }}
+          viewport={{ once: false, amount: 0.5 }}
+          transition={{
+            duration: 0.8,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+        />
+
+        {/* Decorative parallax pattern overlay */}
+        <motion.div
+          className="absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.828-1.415 1.415L51.8 0h2.827zM5.373 0l-.83.828L5.96 2.243 8.2 0H5.374zM48.97 0l3.657 3.657-1.414 1.414L46.143 0h2.828zM11.03 0L7.372 3.657 8.787 5.07 13.857 0H11.03zm32.284 0L49.8 6.485 48.384 7.9l-7.9-7.9h2.83zM16.686 0L10.2 6.485 11.616 7.9l7.9-7.9h-2.83zM22.344 0L13.858 8.485 15.272 9.9l9.9-9.9h-2.83zM27.03 0L15.272 11.757 16.686 13.17 30 0h-2.97zm5.657 0L17.888 14.8l1.414 1.414L34.828 0h-2.142zM41.314 0L23.03 18.284l1.414 1.414L43.8 0h-2.485zm5.657 0L27.687 19.284l1.414 1.414L47.8 0h-.83zM54.627 0L29.03 25.597l1.414 1.414L56.828 0h-2.2zM0 0l13.858 13.858 1.414-1.414L1.414 0H0zm11.03 0L0 11.03v2.828l13.857-13.858H11.03zM15.687 0L0 15.687v2.828L18.515 0h-2.828zM20.344 0L0 20.344v2.828L23.172 0h-2.828zM25 0L0 25v2.828L27.828 0H25zM29.657 0L0 29.657v2.828L32.485 0h-2.828zM34.315 0L0 34.315v2.827L37.143 0h-2.828zM38.97 0L0 38.97v2.83L41.8 0h-2.83zM43.627 0L0 43.627v2.83L46.455 0h-2.83zM48.284 0L0 48.284v2.83L51.113 0h-2.83zM52.942 0L0 52.942v2.83L55.77 0h-2.83zM57.6 0L0 57.6v2.83L60 0h-2.4z' fill='%23F28C13' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
+          }}
+          initial={{ y: 0 }}
+          whileInView={{ y: 30 }}
+          viewport={{ once: false, amount: 0.5 }}
+          transition={{
+            duration: 1,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+        />
+
+        {/* Content wrapper */}
+        <div className="relative z-10">
         {/* Section Heading */}
         <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 mb-8 sm:mb-10">
           <h2 
@@ -515,8 +555,7 @@ const Menu = () => {
                   </p>
 
                   <div className="flex items-center justify-between">
-                    <span className="font-sans text-base font-semibold text-[#2B1B12]">
-                      {formatProductPrice(product.price)}
+                    <span className="font-sans text-base font-semibold text-[#2B1B12] whitespace-nowrap">{formatProductPrice(product.price)}
                     </span>
                     
                     <button
@@ -575,8 +614,7 @@ const Menu = () => {
                   </p>
 
                   <div className="flex items-center justify-between">
-                    <span className="font-sans text-base font-semibold text-[#2B1B12]">
-                      {formatProductPrice(product.price)}
+                    <span className="font-sans text-base font-semibold text-[#2B1B12] whitespace-nowrap">{formatProductPrice(product.price)}
                     </span>
                     
                     <button
@@ -635,8 +673,7 @@ const Menu = () => {
                   </p>
 
                   <div className="flex items-center justify-between">
-                    <span className="font-sans text-base font-semibold text-[#2B1B12]">
-                      {formatProductPrice(product.price)}
+                    <span className="font-sans text-base font-semibold text-[#2B1B12] whitespace-nowrap">{formatProductPrice(product.price)}
                     </span>
                     
                     <button
@@ -653,6 +690,7 @@ const Menu = () => {
               </div>
             ))}
           </motion.div>
+        </div>
         </div>
       </section>
 
@@ -755,3 +793,4 @@ const Menu = () => {
 };
 
 export default Menu;
+
