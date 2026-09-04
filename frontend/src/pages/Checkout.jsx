@@ -24,15 +24,14 @@ const Checkout = () => {
   const [recipientName, setRecipientName] = useState(user?.name || '');
   const [recipientPhone, setRecipientPhone] = useState(user?.phone || '');
   const [streetAddress, setStreetAddress] = useState('');
-  const [city, setCity] = useState('Kampala');
+  const [city] = useState('Kampala');
   const [deliveryInstructions, setDeliveryInstructions] = useState('');
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
-  const taxAmount = cartTotal * 0.08;
   const deliveryFee = fulfilmentType === 'delivery' ? 3.00 : 0.00;
-  const grandTotal = cartTotal + taxAmount + deliveryFee;
+  const grandTotal = cartTotal + deliveryFee;
 
   const handleSubmitOrder = async (e) => {
     e.preventDefault();
@@ -366,10 +365,6 @@ const Checkout = () => {
               <div className="flex justify-between">
                 <span>Subtotal</span>
                 <span className="font-semibold">${cartTotal.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Tax (8%)</span>
-                <span className="font-semibold">${taxAmount.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Delivery Fee</span>

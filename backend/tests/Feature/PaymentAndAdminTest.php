@@ -36,10 +36,10 @@ class PaymentAndAdminTest extends TestCase
             'status' => 'pending',
             'payment_status' => 'unpaid',
             'subtotal' => 4.95,
-            'tax_amount' => 0.40,
+            'tax_amount' => 0.00,
             'delivery_fee' => 0.00,
             'discount_amount' => 0.00,
-            'total_amount' => 5.35,
+            'total_amount' => 4.95,
         ]);
 
         // Initiate payment
@@ -85,10 +85,10 @@ class PaymentAndAdminTest extends TestCase
             'status' => 'pending',
             'payment_status' => 'unpaid',
             'subtotal' => 10.00,
-            'tax_amount' => 0.80,
+            'tax_amount' => 0.00,
             'delivery_fee' => 0.00,
             'discount_amount' => 0.00,
-            'total_amount' => 10.80,
+            'total_amount' => 10.00,
         ]);
 
         $response = $this->actingAs($staff, 'sanctum')

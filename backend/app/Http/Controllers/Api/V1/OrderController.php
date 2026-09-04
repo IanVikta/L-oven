@@ -110,11 +110,11 @@ class OrderController extends Controller
                 ];
             }
 
-            // 2. Fees & Totals
-            $taxAmount = round($subtotal * 0.08, 2); // 8% Tax
+            // 2. Fees & Totals (Tax calculation disabled for now)
+            $taxAmount = 0.00;
             $deliveryFee = $validated['fulfilment_type'] === 'delivery' ? 3.00 : 0.00;
             $discountAmount = 0.00;
-            $totalAmount = round($subtotal + $taxAmount + $deliveryFee - $discountAmount, 2);
+            $totalAmount = round($subtotal + $deliveryFee - $discountAmount, 2);
 
             // 3. Create Master Order
             $order = Order::create([
