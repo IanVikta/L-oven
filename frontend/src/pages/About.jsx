@@ -329,18 +329,18 @@ const About = () => {
                   bridging the gap between East African terroir and Italian mastery. Every cup served is a celebration of 
                   this extraordinary journey.
                 </p>
-                <div className="grid grid-cols-3 gap-3 sm:gap-4 lg:gap-6 max-w-2xl mx-auto">
-                  <div className="bg-orange-600/20 backdrop-blur-sm p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl border border-orange-400/30">
-                    <div className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-orange-400 mb-1">100%</div>
-                    <p className="text-[9px] sm:text-[10px] lg:text-xs text-cream-100/80 leading-tight">Arabica Beans</p>
+                <div className="grid grid-cols-3 gap-2 sm:gap-3 lg:gap-4 max-w-2xl mx-auto">
+                  <div className="bg-orange-600/20 backdrop-blur-sm p-2 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl border border-orange-400/30">
+                    <div className="text-lg sm:text-xl lg:text-2xl font-display font-bold text-orange-400 mb-1 whitespace-nowrap">100%</div>
+                    <p className="text-[8px] sm:text-[9px] lg:text-[10px] text-cream-100/80 leading-tight">Arabica</p>
                   </div>
-                  <div className="bg-orange-600/20 backdrop-blur-sm p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl border border-orange-400/30">
-                    <div className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-orange-400 mb-1">Italian</div>
-                    <p className="text-[9px] sm:text-[10px] lg:text-xs text-cream-100/80 leading-tight">Roasting Method</p>
+                  <div className="bg-orange-600/20 backdrop-blur-sm p-2 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl border border-orange-400/30">
+                    <div className="text-lg sm:text-xl lg:text-2xl font-display font-bold text-orange-400 mb-1 whitespace-nowrap">Italian</div>
+                    <p className="text-[8px] sm:text-[9px] lg:text-[10px] text-cream-100/80 leading-tight">Roasting</p>
                   </div>
-                  <div className="bg-orange-600/20 backdrop-blur-sm p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl border border-orange-400/30">
-                    <div className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-orange-400 mb-1">Direct</div>
-                    <p className="text-[9px] sm:text-[10px] lg:text-xs text-cream-100/80 leading-tight">Farm Partnership</p>
+                  <div className="bg-orange-600/20 backdrop-blur-sm p-2 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl border border-orange-400/30">
+                    <div className="text-lg sm:text-xl lg:text-2xl font-display font-bold text-orange-400 mb-1 whitespace-nowrap">Direct</div>
+                    <p className="text-[8px] sm:text-[9px] lg:text-[10px] text-cream-100/80 leading-tight">Trade</p>
                   </div>
                 </div>
               </div>
@@ -352,12 +352,12 @@ const About = () => {
       {/* Stats - Updated */}
       <section className="bg-brown-900 text-cream-100 py-16 sm:py-20 lg:py-24">
         <div className="container mx-auto px-6 sm:px-8 lg:px-12 max-w-6xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 lg:gap-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 lg:gap-12">
             {[
-              { number: 'Kilimanjaro', label: 'Origin' },
-              { number: 'Italian', label: 'Roasting' },
-              { number: '100%', label: 'Arabica' },
-              { number: 'Direct', label: 'Trade' }
+              { number: 'Kilimanjaro', label: 'Origin', short: 'Kili' },
+              { number: 'Italian', label: 'Roasting', short: 'IT' },
+              { number: '100%', label: 'Arabica', short: '100%' },
+              { number: 'Direct', label: 'Trade', short: 'Direct' }
             ].map((stat, index) => (
               <div
                 key={index}
@@ -366,7 +366,7 @@ const About = () => {
                 data-aos-delay={index * 100}
                 className="text-center"
               >
-                <div className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-orange-600 mb-2 sm:mb-3 break-words">
+                <div className="font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-orange-600 mb-2 sm:mb-3 whitespace-nowrap overflow-hidden text-ellipsis px-2">
                   {stat.number}
                 </div>
                 <div className="text-[10px] sm:text-xs font-bold tracking-widest text-cream-100/80 uppercase">
