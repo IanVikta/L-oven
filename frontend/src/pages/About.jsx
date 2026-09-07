@@ -329,18 +329,18 @@ const About = () => {
                   bridging the gap between East African terroir and Italian mastery. Every cup served is a celebration of 
                   this extraordinary journey.
                 </p>
-                <div className="grid grid-cols-3 gap-3 sm:gap-6 max-w-2xl mx-auto">
-                  <div className="bg-orange-600/20 backdrop-blur-sm p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-orange-400/30">
-                    <div className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-orange-400 mb-1 sm:mb-2">100%</div>
-                    <p className="text-[10px] sm:text-xs lg:text-sm text-cream-100/80">Arabica Beans</p>
+                <div className="grid grid-cols-3 gap-3 sm:gap-4 lg:gap-6 max-w-2xl mx-auto">
+                  <div className="bg-orange-600/20 backdrop-blur-sm p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl border border-orange-400/30">
+                    <div className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-orange-400 mb-1">100%</div>
+                    <p className="text-[9px] sm:text-[10px] lg:text-xs text-cream-100/80 leading-tight">Arabica Beans</p>
                   </div>
-                  <div className="bg-orange-600/20 backdrop-blur-sm p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-orange-400/30">
-                    <div className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-orange-400 mb-1 sm:mb-2">Italian</div>
-                    <p className="text-[10px] sm:text-xs lg:text-sm text-cream-100/80">Roasting Method</p>
+                  <div className="bg-orange-600/20 backdrop-blur-sm p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl border border-orange-400/30">
+                    <div className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-orange-400 mb-1">Italian</div>
+                    <p className="text-[9px] sm:text-[10px] lg:text-xs text-cream-100/80 leading-tight">Roasting Method</p>
                   </div>
-                  <div className="bg-orange-600/20 backdrop-blur-sm p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-orange-400/30">
-                    <div className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-orange-400 mb-1 sm:mb-2">Direct</div>
-                    <p className="text-[10px] sm:text-xs lg:text-sm text-cream-100/80">Farm Partnership</p>
+                  <div className="bg-orange-600/20 backdrop-blur-sm p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl border border-orange-400/30">
+                    <div className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-orange-400 mb-1">Direct</div>
+                    <p className="text-[9px] sm:text-[10px] lg:text-xs text-cream-100/80 leading-tight">Farm Partnership</p>
                   </div>
                 </div>
               </div>
@@ -352,7 +352,7 @@ const About = () => {
       {/* Stats - Updated */}
       <section className="bg-brown-900 text-cream-100 py-16 sm:py-20 lg:py-24">
         <div className="container mx-auto px-6 sm:px-8 lg:px-12 max-w-6xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 lg:gap-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 lg:gap-16">
             {[
               { number: 'Kilimanjaro', label: 'Origin' },
               { number: 'Italian', label: 'Roasting' },
@@ -366,10 +366,10 @@ const About = () => {
                 data-aos-delay={index * 100}
                 className="text-center"
               >
-                <div className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-orange-600 mb-3">
+                <div className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-orange-600 mb-2 sm:mb-3 break-words">
                   {stat.number}
                 </div>
-                <div className="text-xs sm:text-sm font-bold tracking-widest text-cream-100/80 uppercase">
+                <div className="text-[10px] sm:text-xs font-bold tracking-widest text-cream-100/80 uppercase">
                   {stat.label}
                 </div>
               </div>
