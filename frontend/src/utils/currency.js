@@ -9,7 +9,7 @@
 // When false: customer-facing price tags show "Price to be confirmed" rather than exposing
 // unapproved template numbers or guessing currency conversions.
 // When true: displays finalized UGX amounts (e.g., "UGX 16,000").
-export const PRICING_FINALIZED = false;
+export const PRICING_FINALIZED = true;
 
 export const isPricingFinalized = () => PRICING_FINALIZED;
 
