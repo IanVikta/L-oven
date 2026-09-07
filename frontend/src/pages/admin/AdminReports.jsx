@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { adminService } from '../../services/adminService';
 import Loading from '../../components/common/Loading';
+import { formatCurrency } from '../../utils/currency';
 
 const AdminReports = () => {
   const [report, setReport] = useState(null);
@@ -40,7 +41,7 @@ const AdminReports = () => {
               <div className="bg-white p-6 rounded-2xl shadow-sm border border-amber-100">
                 <div className="text-xs font-bold text-brown-500 uppercase">Total Revenue</div>
                 <div className="text-3xl font-display font-bold text-orange-600 mt-2">
-                  ${report.total_revenue.toFixed(2)}
+                  {formatCurrency(report.total_revenue)}
                 </div>
               </div>
 
@@ -54,7 +55,7 @@ const AdminReports = () => {
               <div className="bg-white p-6 rounded-2xl shadow-sm border border-amber-100">
                 <div className="text-xs font-bold text-brown-500 uppercase">Avg Order Value</div>
                 <div className="text-3xl font-display font-bold text-emerald-600 mt-2">
-                  ${report.average_order_value.toFixed(2)}
+                  {formatCurrency(report.average_order_value)}
                 </div>
               </div>
 
@@ -86,7 +87,7 @@ const AdminReports = () => {
                           </span>
                         </div>
                         <span className="text-base font-bold text-orange-600">
-                          ${parseFloat(item.revenue || 0).toFixed(2)}
+                          {formatCurrency(parseFloat(item.revenue || 0))}
                         </span>
                       </div>
                     ))}
@@ -112,7 +113,7 @@ const AdminReports = () => {
                           </div>
                         </div>
                         <span className="font-bold text-brown-900">
-                          ${parseFloat(item.total_revenue || 0).toFixed(2)}
+                          {formatCurrency(parseFloat(item.total_revenue || 0))}
                         </span>
                       </div>
                     ))}

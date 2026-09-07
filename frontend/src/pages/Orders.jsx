@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { orderService } from '../services/orderService';
 import { useAuth } from '../hooks/useAuth';
 import Loading from '../components/common/Loading';
+import { formatCurrency } from '../utils/currency';
 
 const Orders = () => {
   const [searchParams] = useSearchParams();
@@ -121,7 +122,7 @@ const Orders = () => {
                         {activeTracking.fulfilment_type.replace('_', ' ')}
                       </span>
                       <div className="text-xs text-brown-500 mt-1">
-                        Total: ${activeTracking.total_amount.toFixed(2)}
+                        Total: {formatCurrency(activeTracking.total_amount)}
                       </div>
                     </div>
                   </div>
@@ -187,7 +188,7 @@ const Orders = () => {
                               )}
                             </div>
                             <span className="font-bold text-brown-900">
-                              ${item.line_total.toFixed(2)}
+                              {formatCurrency(item.line_total)}
                             </span>
                           </div>
                         ))}
@@ -226,7 +227,7 @@ const Orders = () => {
                     >
                       <div className="flex justify-between font-bold text-brown-900 mb-1">
                         <span>#{ord.order_number}</span>
-                        <span className="text-orange-600">${ord.total_amount.toFixed(2)}</span>
+                        <span className="text-orange-600">{formatCurrency(ord.total_amount)}</span>
                       </div>
                       <div className="flex justify-between text-[11px] text-brown-600">
                         <span className="capitalize">{ord.fulfilment_type.replace('_', ' ')}</span>

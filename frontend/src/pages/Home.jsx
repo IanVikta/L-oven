@@ -84,6 +84,11 @@ const Home = () => {
     setIsModalOpen(true);
   };
 
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
+
   return (
     <div className="relative overflow-x-clip">
       {/* Hero Section */}
@@ -115,7 +120,7 @@ const Home = () => {
         <ProductModal
           product={selectedProduct}
           isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          onClose={handleCloseModal}
         />
       )}
 

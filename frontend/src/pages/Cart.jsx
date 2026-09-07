@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../hooks/useCart';
 import { couponService } from '../services/couponService';
+import { isPricingFinalized, formatCurrency } from '../utils/currency';
 
 const Cart = () => {
   const { cartItems, cartTotal, updateQuantity, removeFromCart, clearCart } = useCart();
@@ -97,7 +98,11 @@ const Cart = () => {
                       <div className="text-xs text-brown-500 mt-0.5">
                         Options:{' '}
                         {item.options
-                          .map((o) => `${o.name} (+$${o.price_modifier.toFixed(2)})`)
+                          .map((o) =>
+                            isPricingFinalized() && o.price_modifier > 0
+                              ? `${o.name} (+${formatCurrency(o.price_modifier, { allowUnfinalized: false })})`
+                              : o.name
+                          )
                           .join(', ')}
                       </div>
                     )}
@@ -107,7 +112,7 @@ const Cart = () => {
                       </div>
                     )}
                     <div className="text-xs font-semibold text-brown-700 mt-1">
-                      Unit Price: ${item.unitPrice.toFixed(2)}
+                      Unit Price: {formatCurrency(item.unitPrice)}
                     </div>
                   </div>
                 </div>
@@ -134,7 +139,7 @@ const Cart = () => {
 
                   <div className="text-right">
                     <div className="font-bold text-brown-900 text-base">
-                      ${(item.unitPrice * item.quantity).toFixed(2)}
+                      {formatCurrency(item.unitPrice * item.quantity)}
                     </div>
                     <button
                       onClick={() => removeFromCart(item.cartKey)}
@@ -195,7 +200,7 @@ const Cart = () => {
               {appliedCoupon && (
                 <div className="text-xs text-emerald-600 mt-2 font-semibold flex justify-between items-center bg-emerald-50 p-2 rounded-lg border border-emerald-200">
                   <span>✓ Promo applied: {appliedCoupon.code}</span>
-                  <span>-${discountAmount.toFixed(2)}</span>
+                  <span>-{formatCurrency(discountAmount, { allowUnfinalized: false })}</span>
                 </div>
               )}
               {couponError && (
@@ -206,13 +211,13 @@ const Cart = () => {
             <div className="space-y-3 text-sm text-brown-700">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span className="font-semibold">${cartTotal.toFixed(2)}</span>
+                <span className="font-semibold">{formatCurrency(cartTotal)}</span>
               </div>
 
               {appliedCoupon && (
                 <div className="flex justify-between text-emerald-600 font-medium">
                   <span>Discount</span>
-                  <span>-${discountAmount.toFixed(2)}</span>
+                  <span>-{formatCurrency(discountAmount, { allowUnfinalized: false })}</span>
                 </div>
               )}
 
@@ -221,15 +226,26 @@ const Cart = () => {
               </div>
               <div className="pt-3 border-t border-amber-100 flex justify-between text-lg font-bold text-brown-900">
                 <span>Total</span>
-                <span className="text-orange-600">${totalAmount.toFixed(2)}</span>
+                <span className="text-orange-600">{formatCurrency(totalAmount)}</span>
               </div>
             </div>
 
+            {!isPricingFinalized() && (
+              <div className="bg-amber-50 border border-amber-200 p-3.5 rounded-xl text-xs text-amber-900 leading-relaxed text-center font-medium">
+                Ordering is temporarily unavailable while menu pricing is being finalized.
+              </div>
+            )}
+
             <button
               onClick={() => navigate('/checkout')}
-              className="btn btn-primary w-full py-3 font-semibold shadow-lg"
+              disabled={!isPricingFinalized()}
+              className={`w-full py-3 font-semibold rounded-xl text-sm transition-all justify-center ${
+                !isPricingFinalized()
+                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed border border-gray-300'
+                  : 'btn btn-primary shadow-lg'
+              }`}
             >
-              Proceed to Checkout →
+              {!isPricingFinalized() ? 'Ordering Temporarily Unavailable' : 'Proceed to Checkout →'}
             </button>
           </div>
         </div>

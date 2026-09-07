@@ -93,7 +93,7 @@ const Profile = () => {
             Redeem Loyalty Rewards
           </h2>
           <p className="text-xs text-brown-600 mb-6">
-            Earn 1 point for every $1 spent. Redeem points on your next coffee or bakery order!
+            Earn loyalty points on qualifying purchases. Redeem points on your next coffee or bakery order!
           </p>
 
           {loading ? (

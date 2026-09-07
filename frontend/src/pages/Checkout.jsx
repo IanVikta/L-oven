@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
 import { orderService } from '../services/orderService';
+import { isPricingFinalized, formatCurrency } from '../utils/currency';
 
 const Checkout = () => {
   const { cartItems, cartTotal, clearCart } = useCart();
@@ -36,6 +37,11 @@ const Checkout = () => {
   const handleSubmitOrder = async (e) => {
     e.preventDefault();
     if (cartItems.length === 0) return;
+
+    if (!isPricingFinalized()) {
+      setError('Ordering is temporarily unavailable while menu pricing is being finalized.');
+      return;
+    }
 
     setError('');
     setSubmitting(true);
@@ -110,6 +116,15 @@ const Checkout = () => {
         {error && (
           <div className="max-w-2xl mx-auto mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl">
             {error}
+          </div>
+        )}
+
+        {!isPricingFinalized() && (
+          <div className="max-w-2xl mx-auto mb-6 p-4 bg-amber-50 border border-amber-200 text-amber-900 text-sm rounded-xl">
+            <p className="font-bold">Ordering is temporarily unavailable while menu pricing is being finalized.</p>
+            <p className="text-xs text-amber-700 mt-1">
+              Please feel free to review your selections. Live orders will be enabled once official local pricing is published.
+            </p>
           </div>
         )}
 
@@ -356,7 +371,7 @@ const Checkout = () => {
                     <span className="font-semibold">{item.quantity}x</span> {item.name}
                     {item.variant_name && ` (${item.variant_name})`}
                   </div>
-                  <div className="font-bold">${(item.unitPrice * item.quantity).toFixed(2)}</div>
+                  <div className="font-bold">{formatCurrency(item.unitPrice * item.quantity)}</div>
                 </div>
               ))}
             </div>
@@ -364,30 +379,50 @@ const Checkout = () => {
             <div className="pt-4 border-t border-amber-100 space-y-2 text-sm text-brown-700">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span className="font-semibold">${cartTotal.toFixed(2)}</span>
+                <span className="font-semibold">{formatCurrency(cartTotal)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Delivery Fee</span>
-                <span className="font-semibold">${deliveryFee.toFixed(2)}</span>
+                <span className="font-semibold">
+                  {isPricingFinalized()
+                    ? fulfilmentType === 'delivery'
+                      ? formatCurrency(deliveryFee, { allowUnfinalized: false })
+                      : 'UGX 0'
+                    : fulfilmentType === 'delivery'
+                    ? 'To be confirmed'
+                    : 'Free'}
+                </span>
               </div>
               <div className="pt-3 border-t border-amber-100 flex justify-between text-xl font-bold text-brown-900">
                 <span>Grand Total</span>
-                <span className="text-orange-600">${grandTotal.toFixed(2)}</span>
+                <span className="text-orange-600">
+                  {isPricingFinalized()
+                    ? formatCurrency(grandTotal, { allowUnfinalized: false })
+                    : 'To be confirmed'}
+                </span>
               </div>
             </div>
 
             {user && (
               <div className="bg-orange-50 border border-orange-200 p-3 rounded-xl text-xs text-orange-800">
-                🎉 You will earn <strong>{Math.floor(grandTotal)} Loyalty Points</strong> for this order!
+                🎉 You will earn Loyalty Points on qualifying orders!
               </div>
             )}
 
             <button
               type="submit"
-              disabled={submitting}
-              className="btn btn-primary w-full py-3 text-base font-semibold shadow-lg justify-center"
+              disabled={submitting || !isPricingFinalized()}
+              className={`w-full py-3 text-base font-semibold shadow-lg justify-center rounded-xl transition-all ${
+                !isPricingFinalized()
+                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed border border-gray-300'
+                  : 'btn btn-primary'
+              }`}
             >
-              {submitting ? 'Placing Order...' : 'Place Order Now'}
+              {!isPricingFinalized()
+                ? 'Ordering Temporarily Unavailable'
+                : submitting
+                ? 'Placing Order...'
+                : 'Place Order Now'}
             </button>
           </div>
         </form>
