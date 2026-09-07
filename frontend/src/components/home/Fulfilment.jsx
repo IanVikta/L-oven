@@ -125,7 +125,7 @@ const Fulfilment = () => {
 
               <h2
                 id="fulfilment-heading"
-                className="font-['Playfair_Display',Georgia,serif] text-4xl sm:text-5xl lg:text-6xl text-[#2B1B12] font-normal leading-[1.08] tracking-tight mb-4 sm:mb-5"
+                className="font-\['Cormorant_Garamond',Georgia,serif\] text-4xl sm:text-5xl lg:text-6xl text-[#2B1B12] font-normal leading-[1.08] tracking-tight mb-4 sm:mb-5"
               >
                 Your L'Oven,<br />
                 your way.
@@ -192,7 +192,7 @@ const Fulfilment = () => {
                       </div>
 
                       <p
-                        className={`font-['Playfair_Display',Georgia,serif] text-xl sm:text-2xl italic font-normal mt-1.5 transition-colors duration-200 ${
+                        className={`font-\['Cormorant_Garamond',Georgia,serif\] text-xl sm:text-2xl italic font-normal mt-1.5 transition-colors duration-200 ${
                           isActive ? 'text-[#2B1B12]' : 'text-[#2B1B12]/50 group-hover:text-[#2B1B12]/75'
                         }`}
                       >
@@ -287,3 +287,5 @@ const Fulfilment = () => {
 };
 
 export default Fulfilment;
+
+

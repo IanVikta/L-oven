@@ -46,11 +46,11 @@ const Footer = () => {
               COFFEE &amp; BAKERY
             </span>
 
-            <h2 className="font-['Playfair_Display',Georgia,serif] text-5xl sm:text-6xl lg:text-7xl text-[#FFF4E6] font-normal tracking-tight leading-none mb-3">
+            <h2 className="font-\['Cormorant_Garamond',Georgia,serif\] text-5xl sm:text-6xl lg:text-7xl text-[#FFF4E6] font-normal tracking-tight leading-none mb-3">
               L'OVEN
             </h2>
 
-            <p className="font-['Playfair_Display',Georgia,serif] text-xl sm:text-2xl text-[#FFF4E6]/90 italic font-normal tracking-wide mb-5">
+            <p className="font-\['Cormorant_Garamond',Georgia,serif\] text-xl sm:text-2xl text-[#FFF4E6]/90 italic font-normal tracking-wide mb-5">
               Made fresh. Served with care.
             </p>
 
@@ -423,3 +423,5 @@ const Footer = () => {
 };
 
 export default Footer;
+
+

@@ -1,1203 +1,684 @@
-import { motion } from 'framer-motion';
-import bakeryStory from '../assets/bakery_story.jpg';
-import heroBanner from '../assets/hero_banner.jpg';
-import coffeeSplash from '../assets/coffee_splash.jpg';
-import coffeeImage from '../assets/coffee.jpg';
-import calmCoffee from '../assets/calm-coffee.jpg';
+import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import AOS from 'aos';
 
-// Enhanced Icon Components with gradient fills
-const CoffeeIcon = ({ className = "w-full h-full" }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-  </svg>
-);
-
-const MenuIcon = ({ className = "w-full h-full" }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-  </svg>
-);
-
-const ClockIcon = ({ className = "w-full h-full" }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-  </svg>
-);
-
-const GlobeIcon = ({ className = "w-full h-full" }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-  </svg>
-);
-
-const FireIcon = ({ className = "w-full h-full" }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
-  </svg>
-);
-
-const LeafIcon = ({ className = "w-full h-full" }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-  </svg>
-);
-
-const MountainIcon = ({ className = "w-full h-full" }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3l3.057-3L8 12l5 6 1-7 4 5h2" />
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 20h18" />
-  </svg>
-);
-
-const WaterIcon = ({ className = "w-full h-full" }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
-  </svg>
-);
-
-const HeartIcon = ({ className = "w-full h-full" }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-  </svg>
-);
-
-const AwardIcon = ({ className = "w-full h-full" }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-  </svg>
-);
+// High-End Coffee Assets - Using numbered files to avoid special characters
+import roasteryBeans from '../assets/coffee high end/130956301659872151.jpg';
+import specialtyBeans from '../assets/coffee high end/24277285508179752.jpg';
+import coffeeArt from '../assets/coffee high end/254171972718602478.jpg';
+import coffeeWallpaper from '../assets/coffee high end/295196950594306982.jpg';
+import coffeeSimple from '../assets/coffee high end/COFFEE.jpg';
+import italianCoffee from '../assets/coffee high end/Italian coffee.jpg';
 
 const About = () => {
-  const fadeInUp = {
-    initial: { opacity: 0, y: 60 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.6 }
-  };
-
-  const staggerContainer = {
-    initial: {},
-    whileInView: { transition: { staggerChildren: 0.1 } },
-    viewport: { once: true }
-  };
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      once: true,
+      easing: 'ease-out',
+    });
+    
+    const timer = setTimeout(() => {
+      AOS.refreshHard();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <div className="bg-gradient-to-b from-cream-100 via-white to-cream-50 min-h-screen">
-      {/* Hero Section - World-Class Premium Design */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      >
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0">
-          <motion.img 
-            initial={{ scale: 1.05 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 3, ease: "easeOut" }}
-            src={heroBanner} 
-            alt="L'Oven Coffee Experience" 
-            className="w-full h-full object-cover brightness-75"
+    <div className="bg-cream-100 min-h-screen">
+      {/* Hero Section */}
+      <section className="relative bg-brown-900 text-cream-100 overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src={roasteryBeans} 
+            alt="L'Oven Coffee Roastery" 
+            className="w-full h-full object-cover"
           />
-          {/* Multi-layer gradient for depth */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-orange-900/10 via-transparent to-black/20"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-brown-900/80 via-brown-900/70 to-brown-900/60"></div>
         </div>
         
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-10 z-0">
-          <motion.div
-            animate={{ 
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.5, 0.3]
-            }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -top-20 -left-20 w-96 h-96 bg-orange-500 rounded-full blur-[100px]"
-          />
-          <motion.div
-            animate={{ 
-              scale: [1, 1.3, 1],
-              opacity: [0.3, 0.6, 0.3]
-            }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-            className="absolute -bottom-20 -right-20 w-[500px] h-[500px] bg-amber-500 rounded-full blur-[120px]"
-          />
-        </div>
-        
-        {/* Hero Content Container */}
-        <div className="relative z-10 container mx-auto px-4 py-20 text-center">
-          <div className="max-w-6xl mx-auto space-y-8">
-            
-            {/* Premium Top Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              className="flex justify-center mb-6"
-            >
-              <div className="inline-flex items-center gap-4 bg-gradient-to-r from-white/5 via-white/10 to-white/5 backdrop-blur-xl border border-white/20 px-8 py-4 rounded-full shadow-2xl">
-                <div className="flex items-center gap-2">
-                  <span className="relative flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-orange-500"></span>
-                  </span>
-                  <span className="text-orange-400 font-bold text-sm tracking-wider uppercase">Premium Ugandan Coffee</span>
-                </div>
-                <div className="w-px h-5 bg-white/30"></div>
-                <span className="text-white font-semibold text-sm">Since 2019</span>
-                <div className="w-px h-5 bg-white/30"></div>
-                <span className="text-white font-semibold text-sm">Kampala</span>
-              </div>
-            </motion.div>
-            
-            {/* Main Headline - Bold & Impactful */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.7 }}
-              className="space-y-2"
-            >
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-extrabold text-white leading-none tracking-tight" 
-                  style={{ textShadow: '0 4px 20px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,0.5)' }}>
-                Where Every Cup
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-12 z-10">
+          <div className="min-h-[540px] lg:min-h-[640px] flex items-center py-20 lg:py-28">
+            <div className="max-w-3xl" data-aos="fade-right" data-aos-duration="1000">
+              <span className="block text-xs sm:text-sm font-bold tracking-widest text-orange-600 uppercase mb-5">
+                About L'Oven Coffee
+              </span>
+
+              <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.1] tracking-tight text-cream-100 mb-6">
+                Supporting 15,300+<br />
+                Ugandan <span className="italic text-orange-600">farmers.</span>
               </h1>
-            </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.7 }}
-              className="relative inline-block"
-            >
-              <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-extrabold leading-none tracking-tight"
-                  style={{ 
-                    background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 50%, #f97316 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    textShadow: '0 0 60px rgba(251,146,60,0.5)',
-                    filter: 'drop-shadow(0 4px 20px rgba(251,146,60,0.4))'
-                  }}>
-                Tells a Story
-              </h2>
-              {/* Decorative underline */}
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: '100%' }}
-                transition={{ delay: 1.4, duration: 1 }}
-                className="absolute -bottom-4 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-orange-400 to-transparent rounded-full mx-auto"
-                style={{ boxShadow: '0 0 20px rgba(251,146,60,0.6)' }}
-              />
-            </motion.div>
-            
-            {/* Compelling Subtitle */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9, duration: 0.7 }}
-              className="pt-8 pb-6"
-            >
-              <p className="text-xl sm:text-2xl md:text-3xl text-white/95 max-w-4xl mx-auto leading-relaxed font-light"
-                 style={{ textShadow: '0 2px 15px rgba(0,0,0,0.9)' }}>
-                At L'Oven Coffee, we believe in the <span className="font-semibold text-orange-300">transformative power</span> of exceptional coffee.
+
+              <div className="w-20 h-[3px] bg-orange-600 my-7" aria-hidden="true" />
+
+              <p className="text-base sm:text-lg md:text-xl text-cream-100/90 font-light leading-relaxed max-w-xl">
+                Building a coffee company owned by the farmers who grow it.
               </p>
-              <p className="text-lg sm:text-xl md:text-2xl text-orange-200 font-medium mt-4 max-w-3xl mx-auto"
-                 style={{ textShadow: '0 2px 15px rgba(0,0,0,0.9)' }}>
-                From 15,300+ passionate farmers to your cup
-              </p>
-            </motion.div>
-            
-            {/* Premium CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.1, duration: 0.7 }}
-              className="flex flex-col sm:flex-row gap-5 justify-center items-center pt-4"
-            >
-              <motion.a
-                href="/menu"
-                whileHover={{ scale: 1.05, y: -3 }}
-                whileTap={{ scale: 0.98 }}
-                className="group relative bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 hover:from-orange-600 hover:via-orange-700 hover:to-orange-600 text-white font-bold text-lg px-14 py-6 rounded-2xl transition-all duration-300 shadow-[0_10px_40px_rgba(251,146,60,0.4)] hover:shadow-[0_15px_50px_rgba(251,146,60,0.6)] overflow-hidden"
-              >
-                <span className="relative z-10 flex items-center gap-3">
-                  Explore Our Menu
-                  <motion.svg 
-                    className="w-6 h-6" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </motion.svg>
-                </span>
-                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700" />
-              </motion.a>
-              
-              <motion.a
-                href="/contact"
-                whileHover={{ scale: 1.05, y: -3 }}
-                whileTap={{ scale: 0.98 }}
-                className="group bg-white/10 hover:bg-white backdrop-blur-xl border-2 border-white/40 hover:border-white text-white hover:text-gray-900 font-bold text-lg px-14 py-6 rounded-2xl transition-all duration-300 shadow-2xl"
-              >
-                <span className="flex items-center gap-3">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  Visit Us Today
-                </span>
-              </motion.a>
-            </motion.div>
-            
-            {/* Key Stats - Premium Cards */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.3, duration: 0.7 }}
-              className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto pt-12"
-            >
-              {[
-                { 
-                  value: '15,300+', 
-                  label: 'Coffee Farmers',
-                  icon: (
-                    <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                  )
-                },
-                { 
-                  value: '3 Regions', 
-                  label: 'Growing Areas',
-                  icon: (
-                    <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  )
-                },
-                { 
-                  value: '100%', 
-                  label: 'Farmer Owned',
-                  icon: (
-                    <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
-                  )
-                }
-              ].map((stat, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.5 + index * 0.15, duration: 0.6 }}
-                  whileHover={{ y: -8, scale: 1.03 }}
-                  className="group bg-gradient-to-br from-black/40 to-black/20 backdrop-blur-xl border border-white/20 hover:border-orange-400/60 p-8 rounded-3xl transition-all duration-300 shadow-2xl hover:shadow-orange-500/30"
-                >
-                  <div className="text-orange-400 mb-4 flex justify-center group-hover:scale-110 transition-transform duration-300">
-                    {stat.icon}
-                  </div>
-                  <div className="text-4xl md:text-5xl font-display font-bold text-white mb-2" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}>
-                    {stat.value}
-                  </div>
-                  <div className="text-sm md:text-base text-white/90 font-semibold uppercase tracking-wider">
-                    {stat.label}
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-            
+            </div>
           </div>
         </div>
-        
-        {/* Scroll Indicator - Elegant */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 1, 0] }}
-          transition={{ 
-            duration: 2,
-            repeat: Infinity,
-            delay: 2
-          }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/70 z-20"
-        >
-          <span className="text-xs uppercase tracking-widest font-semibold">Scroll to Explore</span>
-          <motion.svg 
-            className="w-6 h-6" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </motion.svg>
-        </motion.div>
-        
-        {/* Premium Wave Divider */}
-        <div className="absolute bottom-0 left-0 right-0 z-10">
-          <svg className="w-full h-24 md:h-32 fill-white drop-shadow-2xl" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".3"></path>
-            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5"></path>
-            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"></path>
-          </svg>
-        </div>
-        
-      </motion.div>
+      </section>
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-20 max-w-7xl space-y-32">
-        
-        {/* Our Story Section */}
-        <motion.div {...fadeInUp} className="relative">
-          {/* Decorative background elements */}
-          <div className="absolute -top-20 -left-20 w-72 h-72 bg-orange-200/30 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-amber-200/30 rounded-full blur-3xl"></div>
-          
-          <div className="relative max-w-4xl mx-auto text-center space-y-8 bg-white/80 backdrop-blur-sm rounded-3xl p-12 shadow-xl border border-orange-100">
-            <div className="inline-block">
-              <div className="w-20 h-20 mx-auto mb-6 p-4 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 text-white shadow-lg">
-                <CoffeeIcon />
+      {/* Our Story */}
+      <section className="bg-cream-100 text-brown-900 py-20 sm:py-28 lg:py-36">
+        <div className="container mx-auto px-6 sm:px-8 lg:px-12 max-w-6xl">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            {/* Left Column - Heading */}
+            <div data-aos="fade-right" data-aos-duration="800">
+              <span className="block text-xs sm:text-sm font-bold tracking-widest text-orange-600 uppercase mb-6">
+                Our Story
+              </span>
+
+              <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-brown-900 font-bold leading-[1.08] tracking-tight mb-8">
+                Started small.<br />
+                Dreamed <span className="italic text-orange-600">big.</span>
+              </h2>
+
+              <div className="w-20 h-[3px] bg-orange-600 mb-8" aria-hidden="true" />
+
+              <p className="text-base sm:text-lg text-brown-700/90 leading-relaxed font-light italic max-w-xl">
+                From delivering espresso to offices around Kampala, to becoming a farmer-owned coffee company serving thousands.
+              </p>
+            </div>
+
+            {/* Right Column - Story Content */}
+            <div data-aos="fade-left" data-aos-duration="800" data-aos-delay="100" className="space-y-5">
+              <div className="bg-white border border-brown-900/10 p-8 rounded-3xl shadow-md space-y-4">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-orange-600/10 text-orange-600 flex items-center justify-center">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M10 2v2.343M14 2v2.343M8.5 7.5h7v7h-7z" />
+                      <path d="M8.5 14.5v2a2 2 0 0 0 2 2h3a2 2 0 0 0 2-2v-2" />
+                    </svg>
+                  </div>
+                  <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
+                    The Beginning
+                  </span>
+                </div>
+                <p className="text-sm sm:text-base text-brown-900 leading-relaxed font-normal">
+                  L'Oven Coffee started small, delivering espresso to offices around Kampala. 
+                  We served bankers, insurers, and other professionals who loved our coffee so much 
+                  they kept referring their colleagues.
+                </p>
+              </div>
+
+              <div className="bg-white border border-brown-900/10 p-8 rounded-3xl shadow-md space-y-4">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-orange-600/10 text-orange-600 flex items-center justify-center">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
+                    </svg>
+                  </div>
+                  <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
+                    The Growth
+                  </span>
+                </div>
+                <p className="text-sm sm:text-base text-brown-900 leading-relaxed font-normal">
+                  Before we knew it, <span className="font-bold text-orange-600">70% of the offices</span> in the area were drinking L'Oven coffee 
+                  every day. What started as small cash transactions grew into something bigger.
+                </p>
+              </div>
+
+              <div className="bg-brown-900 text-cream-100 p-8 rounded-3xl shadow-lg space-y-4">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-orange-600 text-white flex items-center justify-center">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z" />
+                    </svg>
+                  </div>
+                  <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">
+                    Today
+                  </span>
+                </div>
+                <p className="text-sm sm:text-base text-cream-100 leading-relaxed font-normal">
+                  In <span className="font-bold text-orange-600">August 2019</span>, we registered 
+                  as a private company. Today, we are owned by <span className="font-bold text-orange-600">ten members</span> — all 
+                  coffee entrepreneurs and farmers. Our goal is simple: get more farmers to own shares 
+                  in L'Oven, so they benefit directly from their hard work.
+                </p>
               </div>
             </div>
-            
-            <h2 className="text-4xl md:text-5xl font-display font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 bg-clip-text text-transparent">
-              Our Story
-            </h2>
-            
-            <div className="text-lg text-gray-800 leading-relaxed space-y-6 text-left">
-              <p className="pl-6 border-l-4 border-orange-400">
-                L'Oven Coffee is a coffee shop that started on a small scale as office coffee espresso. 
-                The directors started with a small cluster of individuals who mostly were bankers and 
-                insurers whom we used to serve on a daily basis in their respective offices.
-              </p>
-              <p>
-                Following their existence, we continued serving them day in and day out, who further 
-                kept referring their colleagues for similar products. This demand broadened, and 
-                eventually, up to <strong className="text-orange-600">70% of the customers</strong> were already taking L'Oven coffee. This growing 
-                demand led to the phasing out of cash payment to a contract structure.
-              </p>
-              <p className="pl-6 border-l-4 border-amber-400">
-                In <strong className="text-gray-900">August 2019</strong>, the organization was legally registered as a private 
-                company limited by shares. Currently, the organization is owned by <strong className="text-gray-900">ten members</strong> who 
-                are also coffee entrepreneurs and farmers. The strategy is to ensure more coffee farmers 
-                buy shares into the organization.
-              </p>
-              <p className="text-center italic text-gray-700 pt-4">
-                "L'Oven Coffee's passion is to market high-quality coffees. Our focus on innovation has 
-                been the driving force, combined with a mature awareness of what we need to do to improve 
-                our market, our society, and our world."
-              </p>
+          </div>
+
+          {/* Timeline */}
+          <div className="mt-20 sm:mt-24 lg:mt-28" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 lg:gap-12">
+              <div className="text-center sm:text-left bg-white p-8 rounded-3xl shadow-sm border border-amber-200/70">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-orange-600 text-white mb-4 text-2xl font-display font-bold">
+                  1
+                </div>
+                <h3 className="text-xs font-bold tracking-widest text-brown-900 uppercase mb-2">
+                  Small Beginnings
+                </h3>
+                <p className="text-xs text-brown-700 leading-relaxed">
+                  Office deliveries and word-of-mouth growth in Kampala
+                </p>
+              </div>
+
+              <div className="text-center sm:text-left bg-white p-8 rounded-3xl shadow-sm border border-amber-200/70">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-orange-600 text-white mb-4 text-2xl font-display font-bold">
+                  2
+                </div>
+                <h3 className="text-xs font-bold tracking-widest text-brown-900 uppercase mb-2">
+                  August 2019
+                </h3>
+                <p className="text-xs text-brown-700 leading-relaxed">
+                  Registered as a private company with farmer-owners
+                </p>
+              </div>
+
+              <div className="text-center sm:text-left bg-white p-8 rounded-3xl shadow-sm border border-amber-200/70">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-orange-600 text-white mb-4 text-2xl font-display font-bold">
+                  3
+                </div>
+                <h3 className="text-xs font-bold tracking-widest text-brown-900 uppercase mb-2">
+                  15,300+ Farmers
+                </h3>
+                <p className="text-xs text-brown-700 leading-relaxed">
+                  Supporting thousands of farming families across 3 regions
+                </p>
+              </div>
             </div>
           </div>
-        </motion.div>
+        </div>
+      </section>
 
-        {/* Stats Section */}
-        <motion.div 
-          variants={staggerContainer}
-          initial="initial"
-          whileInView="whileInView"
-          viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-6"
-        >
-          {[
-            { number: '15,300+', label: 'Smallholder Farmers', Icon: GlobeIcon, gradient: 'from-blue-500 to-cyan-500' },
-            { number: '3 Regions', label: 'Coffee Growing Areas', Icon: MountainIcon, gradient: 'from-green-500 to-emerald-500' },
-            { number: 'Since 2019', label: 'Legally Registered', Icon: AwardIcon, gradient: 'from-orange-500 to-amber-500' },
-            { number: '100%', label: 'Farmer Owned', Icon: HeartIcon, gradient: 'from-rose-500 to-pink-500' }
-          ].map((stat, index) => (
-            <motion.div
-              key={index}
-              variants={fadeInUp}
-              whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className="group relative bg-white p-8 rounded-3xl shadow-lg hover:shadow-2xl border border-gray-100 text-center transition-all duration-300 overflow-hidden"
-            >
-              {/* Gradient background on hover */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${stat.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
-              
-              {/* Icon with gradient */}
-              <div className="relative">
-                <div className={`w-16 h-16 mx-auto mb-4 p-3 rounded-2xl bg-gradient-to-br ${stat.gradient} text-white shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300`}>
-                  <stat.Icon />
-                </div>
-                <div className="text-4xl font-display font-bold bg-gradient-to-br bg-clip-text text-transparent from-gray-800 to-gray-600 mb-2">
+      {/* Stats */}
+      <section className="bg-brown-900 text-cream-100 py-16 sm:py-20 lg:py-24">
+        <div className="container mx-auto px-6 sm:px-8 lg:px-12 max-w-6xl">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 lg:gap-16">
+            {[
+              { number: '15,300+', label: 'Farmers' },
+              { number: '3', label: 'Regions' },
+              { number: '2019', label: 'Established' },
+              { number: '100%', label: 'Farmer Owned' }
+            ].map((stat, index) => (
+              <div
+                key={index}
+                data-aos="fade-up"
+                data-aos-duration="800"
+                data-aos-delay={index * 100}
+                className="text-center"
+              >
+                <div className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-orange-600 mb-3">
                   {stat.number}
                 </div>
-                <div className="text-sm text-gray-600 font-semibold uppercase tracking-wide">{stat.label}</div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Values Grid */}
-        <motion.div 
-          variants={staggerContainer}
-          initial="initial"
-          whileInView="whileInView"
-          viewport={{ once: true }}
-          className="space-y-12"
-        >
-          <div className="text-center max-w-3xl mx-auto">
-            <motion.div variants={fadeInUp} className="inline-block mb-4">
-              <span className="text-sm font-bold uppercase tracking-widest text-orange-600 bg-orange-100 px-4 py-2 rounded-full">
-                Purpose & Direction
-              </span>
-            </motion.div>
-            <h2 className="text-4xl md:text-5xl font-display font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 bg-clip-text text-transparent mb-6">
-              Our Mission & Vision
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-            <motion.div
-              variants={fadeInUp}
-              whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
-              className="group relative bg-gradient-to-br from-orange-50 to-amber-50 border-2 border-orange-200 p-12 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
-            >
-              {/* Decorative circle */}
-              <div className="absolute -top-12 -right-12 w-48 h-48 bg-orange-300/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
-              
-              <div className="relative">
-                <div className="w-16 h-16 mb-6 p-3 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 text-white shadow-lg transform group-hover:rotate-12 transition-transform duration-300">
-                  <FireIcon />
+                <div className="text-xs sm:text-sm font-bold tracking-widest text-cream-100/80 uppercase">
+                  {stat.label}
                 </div>
-                <h3 className="text-3xl font-display font-bold mb-6 text-orange-700">Our Vision</h3>
-                <p className="text-lg leading-relaxed text-gray-800">
-                  To market smallholder farmers' coffee beans and empower them to market value-added 
-                  coffee at competitive prices both nationally and internationally.
-                </p>
               </div>
-            </motion.div>
-
-            <motion.div
-              variants={fadeInUp}
-              whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
-              className="group relative bg-gradient-to-br from-gray-50 to-slate-50 border-2 border-gray-300 p-12 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
-            >
-              {/* Decorative circle */}
-              <div className="absolute -top-12 -right-12 w-48 h-48 bg-gray-300/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
-              
-              <div className="relative">
-                <div className="w-16 h-16 mb-6 p-3 rounded-2xl bg-gradient-to-br from-gray-700 to-gray-900 text-white shadow-lg transform group-hover:rotate-12 transition-transform duration-300">
-                  <AwardIcon />
-                </div>
-                <h3 className="text-3xl font-display font-bold mb-6 text-gray-800">Our Mission</h3>
-                <p className="text-lg leading-relaxed text-gray-800">
-                  To be a leading coffee shop marketing farmer-owned coffees by maintaining exceptional 
-                  quality, offering excellent prices, thus improving livelihoods in the communities.
-                </p>
-              </div>
-            </motion.div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                Icon: MountainIcon,
-                title: 'Mt. Elgon Belt',
-                subtitle: 'Arabica Coffee',
-                description: 'Sourced from Mt. Elgon\'s volcanic soils at altitudes of 1,600m-2,000m. Our partnerships with Kabeywa United Coffee Farmers Association (5,800 farmers) and Bufumbo Organic Farmers Association (5,000+ farmers) ensure premium Arabica beans with rich mineral content, grown organically without fertilizers.',
-                gradient: 'from-emerald-500 to-teal-500',
-                bgColor: 'from-emerald-50 to-teal-50'
-              },
-              {
-                Icon: FireIcon,
-                title: 'Mt. Rwenzori Belt',
-                subtitle: 'Drugar Coffee',
-                description: 'From the Rwenzori mountain range on Uganda\'s western border, rising nearly 17,000m above sea level. We work with Kabonero Peak Modern Farmers Association (3,000 farmers) to bring you Drugar (Dry Uganda Arabica) from these perfect high-altitude growing conditions.',
-                gradient: 'from-orange-500 to-red-500',
-                bgColor: 'from-orange-50 to-red-50'
-              },
-              {
-                Icon: WaterIcon,
-                title: 'Lake Victoria Shores',
-                subtitle: 'Robusta Coffee',
-                description: 'Premium Robusta coffee from the northern shores of Lake Victoria, where coffee once grew wild. Our partnership with BUNJAKKO Modern Farm Limited represents 1,500 passionate smallholder farmers who cultivate top-quality Robusta with exceptional care and attention to detail.',
-                gradient: 'from-blue-500 to-cyan-500',
-                bgColor: 'from-blue-50 to-cyan-50'
-              }
-            ].map((value, index) => (
-              <motion.div
-                key={index}
-                variants={fadeInUp}
-                whileHover={{ y: -10, transition: { duration: 0.3 } }}
-                className={`group relative bg-gradient-to-br ${value.bgColor} p-10 rounded-3xl shadow-xl hover:shadow-2xl border-2 border-white/50 transition-all duration-300 overflow-hidden`}
-              >
-                {/* Gradient overlay on hover */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${value.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
-                
-                <div className="relative">
-                  <div className={`w-16 h-16 mb-6 p-3 rounded-2xl bg-gradient-to-br ${value.gradient} text-white shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300`}>
-                    <value.Icon />
-                  </div>
-                  <h3 className="text-2xl font-display font-bold text-gray-900 mb-2">{value.title}</h3>
-                  <p className="text-sm font-semibold text-orange-600 mb-5 uppercase tracking-wide">{value.subtitle}</p>
-                  <p className="text-gray-800 leading-relaxed">{value.description}</p>
-                </div>
-              </motion.div>
             ))}
           </div>
-        </motion.div>
+        </div>
+      </section>
 
-        {/* Bean to Cup Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="relative"
-        >
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            
-            {/* Image Side - Left with rounded corners */}
-            <div className="relative h-[500px] md:h-[650px] overflow-hidden group rounded-3xl shadow-2xl">
-              <motion.img
-                initial={{ scale: 1.05 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.5 }}
-                src={coffeeSplash}
-                alt="Coffee Bean to Cup Journey"
-                className="w-full h-full object-cover object-center transform group-hover:scale-110 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-              
-              {/* Floating Badge */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.5 }}
-                className="absolute bottom-8 left-8 bg-white/95 backdrop-blur-sm px-6 py-4 rounded-2xl shadow-2xl"
-              >
-                <div className="text-3xl font-display font-bold text-orange-600">Premium</div>
-                <div className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Quality Guaranteed</div>
-              </motion.div>
-            </div>
-            
-            {/* Content Side - Right */}
-            <div className="p-8 md:p-12 flex flex-col justify-center">
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="space-y-6"
-              >
-                <div className="inline-block">
-                  <span className="text-sm font-bold uppercase tracking-widest text-orange-600 bg-orange-100 px-4 py-2 rounded-full">
-                    Our Process
-                  </span>
-                </div>
-                
-                <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-900 leading-tight">
-                  From Bean to Cup,
-                  <span className="block text-orange-600 mt-2">Excellence Every Step</span>
-                </h2>
-                
-                <p className="text-lg text-gray-700 leading-relaxed">
-                  Our journey begins at the source—working directly with over 15,300 smallholder farmers 
-                  across Uganda's premier coffee-growing regions. Every bean is carefully selected, 
-                  processed, and roasted to perfection.
-                </p>
-                
-                <div className="space-y-4 pt-4">
-                  {[
-                    { 
-                      title: 'Farm Selection', 
-                      desc: 'Hand-picked from the finest high-altitude farms',
-                      icon: (
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                        </svg>
-                      )
-                    },
-                    { 
-                      title: 'Perfect Roasting', 
-                      desc: 'Expertly roasted to bring out unique flavors',
-                      icon: (
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
-                        </svg>
-                      )
-                    },
-                    { 
-                      title: 'Quality Control', 
-                      desc: 'Multiple checks ensure consistency and excellence',
-                      icon: (
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                        </svg>
-                      )
-                    }
-                  ].map((item, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, x: 20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.3 + i * 0.1 }}
-                      className="flex items-start gap-4 group"
-                    >
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform shadow-lg text-white">
-                        {item.icon}
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-gray-900 text-lg">{item.title}</h3>
-                        <p className="text-gray-600">{item.desc}</p>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            </div>
-            
-          </div>
-        </motion.div>
+      {/* Mission & Vision with Background */}
+      <section className="relative bg-brown-900 text-cream-100 py-20 sm:py-28 lg:py-36 overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src={coffeeWallpaper} 
+            alt="Coffee Craft" 
+            className="w-full h-full object-cover opacity-20"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-brown-900/90 via-brown-900/85 to-brown-900/90"></div>
+        </div>
 
-        {/* Calm Coffee Moment Section - NEW */}
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="relative"
-        >
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            
-            {/* Content Side - Left */}
-            <div className="p-8 md:p-12 flex flex-col justify-center order-2 md:order-1">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="space-y-6"
-              >
-                <div className="inline-block">
-                  <span className="text-sm font-bold uppercase tracking-widest text-orange-600 bg-orange-100 px-4 py-2 rounded-full">
-                    Our Philosophy
-                  </span>
-                </div>
-                
-                <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-900 leading-tight">
-                  A Moment of Calm
-                  <span className="block text-orange-600 mt-2">In Every Cup</span>
-                </h2>
-                
-                <p className="text-lg text-gray-700 leading-relaxed">
-                  In today's fast-paced world, L'Oven Coffee offers more than just a beverage. 
-                  We create spaces and moments where you can pause, breathe, and savor life's 
-                  simple pleasures. Every cup is an invitation to slow down and reconnect.
-                </p>
-                
-                <div className="space-y-4 pt-4">
-                  {[
-                    { 
-                      title: 'Mindful Brewing', 
-                      desc: 'Each cup crafted with intention and care',
-                      icon: (
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                        </svg>
-                      )
-                    },
-                    { 
-                      title: 'Peaceful Ambiance', 
-                      desc: 'Cozy spaces designed for comfort and relaxation',
-                      icon: (
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                        </svg>
-                      )
-                    },
-                    { 
-                      title: 'Community Connection', 
-                      desc: 'A gathering place for friends and conversations',
-                      icon: (
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                        </svg>
-                      )
-                    }
-                  ].map((item, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.3 + i * 0.1 }}
-                      className="flex items-start gap-4 group"
-                    >
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform shadow-lg text-white">
-                        {item.icon}
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-gray-900 text-lg">{item.title}</h3>
-                        <p className="text-gray-600">{item.desc}</p>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-                
-                <div className="pt-6">
-                  <a
-                    href="/contact"
-                    className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold px-8 py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
-                  >
-                    Visit Our Café
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </a>
-                </div>
-              </motion.div>
-            </div>
-            
-            {/* Image Side - Right with rounded corners */}
-            <div className="relative h-[500px] md:h-[650px] overflow-hidden group rounded-3xl shadow-2xl order-1 md:order-2">
-              <img
-                src={calmCoffee}
-                alt="Calm Coffee Moment at L'Oven"
-                className="w-full h-full object-cover object-center transform group-hover:scale-110 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-brown-900/40 to-transparent"></div>
-              
-              {/* Floating badge on image */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
-                className="absolute bottom-8 right-8 bg-white/95 backdrop-blur-sm px-6 py-4 rounded-2xl shadow-xl"
-              >
-                <div className="text-3xl font-display font-bold text-orange-600">Relax</div>
-                <div className="text-sm font-semibold text-gray-700 uppercase tracking-wide">& Enjoy</div>
-              </motion.div>
-            </div>
-            
-          </div>
-        </motion.div>
+        <div className="container mx-auto px-6 sm:px-8 lg:px-12 max-w-6xl relative z-10">
+          <div className="mb-16 sm:mb-20 text-center max-w-3xl mx-auto" data-aos="fade-up" data-aos-duration="800">
+            <span className="block text-xs sm:text-sm font-bold tracking-widest text-orange-600 uppercase mb-6">
+              Purpose and Direction
+            </span>
 
-        {/* Menu Highlights - Enhanced */}
-        <motion.div 
-          variants={staggerContainer}
-          initial="initial"
-          whileInView="whileInView"
-          viewport={{ once: true }}
-          className="relative space-y-12"
-        >
-          {/* Background decorative elements */}
-          <div className="absolute inset-0 -z-10 overflow-hidden">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-200/20 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-amber-200/20 rounded-full blur-3xl"></div>
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-cream-100 font-bold leading-[1.12] tracking-tight mb-6">
+              Mission and Vision
+            </h2>
+
+            <div className="w-20 h-[3px] bg-orange-600 mx-auto" aria-hidden="true" />
           </div>
 
-          <div className="text-center max-w-4xl mx-auto">
-            <motion.div variants={fadeInUp} className="inline-block mb-4">
-              <div className="flex items-center gap-3 bg-gradient-to-r from-orange-100 to-amber-100 px-6 py-3 rounded-full border border-orange-200 shadow-sm">
-                <svg className="w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <span className="text-sm font-bold uppercase tracking-widest text-orange-700">
-                  Premium Coffee Collection
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+            <div
+              data-aos="fade-right"
+              data-aos-duration="800"
+              className="bg-white/95 backdrop-blur-sm p-8 sm:p-10 rounded-3xl border border-amber-200/60 shadow-xl space-y-6"
+            >
+              <div className="flex items-center gap-4 mb-2">
+                <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-orange-600 text-white flex items-center justify-center shadow-md">
+                  <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 12h20" />
+                    <path d="M12 2v20" />
+                    <circle cx="12" cy="12" r="9" />
+                  </svg>
+                </div>
+                <span className="block text-xs font-bold tracking-widest text-orange-600 uppercase">
+                  Our Vision
                 </span>
               </div>
-            </motion.div>
-            
-            <motion.h2 
-              variants={fadeInUp}
-              className="text-4xl md:text-6xl font-display font-bold mb-6"
+              <p className="text-sm sm:text-base text-brown-900 leading-relaxed font-normal">
+                To market smallholder farmers' coffee beans and empower them to sell value-added 
+                coffee at competitive prices nationally and internationally.
+              </p>
+            </div>
+
+            <div
+              data-aos="fade-left"
+              data-aos-duration="800"
+              data-aos-delay="100"
+              className="bg-white/95 backdrop-blur-sm p-8 sm:p-10 rounded-3xl border border-amber-200/60 shadow-xl space-y-6"
             >
-              <span className="bg-gradient-to-r from-gray-900 via-orange-800 to-gray-900 bg-clip-text text-transparent">
-                Discover Your Perfect
-              </span>
-              <br />
-              <span className="bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600 bg-clip-text text-transparent">
-                Coffee Experience
-              </span>
-            </motion.h2>
-            
-            <motion.p variants={fadeInUp} className="text-xl text-gray-700 leading-relaxed">
-              From Uganda's finest coffee regions, each variety tells a unique story of terroir, 
-              craftsmanship, and dedication. Choose the perfect match for your taste.
-            </motion.p>
+              <div className="flex items-center gap-4 mb-2">
+                <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-orange-600 text-white flex items-center justify-center shadow-md">
+                  <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2v20" />
+                    <path d="M17 7l-5 5-5-5" />
+                    <path d="m17 13-5 5-5-5" />
+                  </svg>
+                </div>
+                <span className="block text-xs font-bold tracking-widest text-orange-600 uppercase">
+                  Our Mission
+                </span>
+              </div>
+              <p className="text-sm sm:text-base text-brown-900 leading-relaxed font-normal">
+                To be a leading coffee shop marketing farmer-owned coffees by maintaining exceptional 
+                quality and offering excellent prices that improve livelihoods.
+              </p>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Additional Values */}
+          <div className="mt-16 sm:mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 pt-12 border-t border-cream-100/20" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+            <div className="text-center">
+              <div className="text-orange-600 mb-3">
+                <svg className="w-10 h-10 mx-auto" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2v20" />
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                </svg>
+              </div>
+              <h4 className="text-xs font-bold tracking-widest text-cream-100 uppercase mb-1.5">
+                Fair Prices
+              </h4>
+              <p className="text-xs text-cream-100/70 leading-relaxed">
+                Competitive rates for farmers
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="text-orange-600 mb-3">
+                <svg className="w-10 h-10 mx-auto" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z" />
+                </svg>
+              </div>
+              <h4 className="text-xs font-bold tracking-widest text-cream-100 uppercase mb-1.5">
+                Quality First
+              </h4>
+              <p className="text-xs text-cream-100/70 leading-relaxed">
+                Excellence in every cup
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="text-orange-600 mb-3">
+                <svg className="w-10 h-10 mx-auto" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  <path d="M21 21v-2a4 4 0 0 0-3-3.85" />
+                </svg>
+              </div>
+              <h4 className="text-xs font-bold tracking-widest text-cream-100 uppercase mb-1.5">
+                Community
+              </h4>
+              <p className="text-xs text-cream-100/70 leading-relaxed">
+                Farmer partnerships
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="text-orange-600 mb-3">
+                <svg className="w-10 h-10 mx-auto" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M2 12h20" />
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+              </div>
+              <h4 className="text-xs font-bold tracking-widest text-cream-100 uppercase mb-1.5">
+                Global Reach
+              </h4>
+              <p className="text-xs text-cream-100/70 leading-relaxed">
+                Local to international
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Coffee Regions */}
+      <section className="bg-cream-100 text-brown-900 py-20 sm:py-28 lg:py-36">
+        <div className="container mx-auto px-6 sm:px-8 lg:px-12 max-w-6xl">
+          <div className="mb-16 sm:mb-20 text-center max-w-3xl mx-auto" data-aos="fade-up" data-aos-duration="800">
+            <span className="block text-xs sm:text-sm font-bold tracking-widest text-orange-600 uppercase mb-6">
+              Where We Source
+            </span>
+
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-brown-900 font-bold leading-[1.08] tracking-tight">
+              Three regions.<br />
+              One <span className="italic text-orange-600">mission.</span>
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
             {[
               {
-                title: 'ARABICA',
-                tagline: 'Elegant & Refined',
-                subtitle: 'Mt. Elgon & Mt. Rwenzori',
-                description: 'Grown at high altitudes where cool mountain air and volcanic soil create beans with exceptional complexity and sweetness.',
-                items: [
-                  { text: 'High-altitude grown (1,600m-2,000m)', icon: '🏔️' },
-                  { text: 'Rich volcanic soil minerals', icon: '🌋' },
-                  { text: 'Bright fruity & floral notes', icon: '🍒' },
-                  { text: 'Smooth, refined taste', icon: '✨' }
-                ],
-                icon: MountainIcon,
-                gradient: 'from-amber-500 via-orange-500 to-amber-600',
-                bgGradient: 'from-amber-50 via-orange-50 to-amber-50',
-                accentColor: 'text-amber-700',
-                borderColor: 'border-amber-300',
-                badge: 'Most Popular',
-                badgeColor: 'bg-amber-500'
+                title: 'Mt. Elgon Belt',
+                type: 'ARABICA COFFEE',
+                desc: 'Grown at 1,600m-2,000m altitude on volcanic soils. We work with Kabeywa United (5,800 farmers) and Bufumbo Organic (5,000+ farmers).',
+                note: '100% organic'
               },
               {
-                title: 'ROBUSTA',
-                tagline: 'Bold & Powerful',
-                subtitle: 'Lake Victoria Shores',
-                description: 'Cultivated near Africa\'s largest lake, these beans deliver an intense, full-bodied experience with remarkable depth.',
-                items: [
-                  { text: 'Rich, full-bodied flavor', icon: '💪' },
-                  { text: 'Higher caffeine content', icon: '⚡' },
-                  { text: 'Deep chocolate undertones', icon: '🍫' },
-                  { text: 'Strong and bold character', icon: '🔥' }
-                ],
-                icon: WaterIcon,
-                gradient: 'from-stone-700 via-slate-800 to-stone-900',
-                bgGradient: 'from-stone-50 via-slate-50 to-stone-50',
-                accentColor: 'text-stone-900',
-                borderColor: 'border-stone-400',
-                badge: 'Energy Boost',
-                badgeColor: 'bg-stone-700'
+                title: 'Mt. Rwenzori Belt',
+                type: 'DRUGAR COFFEE',
+                desc: 'From mountains rising 17,000m on Uganda\'s western border. Partnered with Kabonero Peak Modern Farmers (3,000 farmers).',
+                note: 'High-altitude'
               },
               {
-                title: 'BLENDED',
-                tagline: 'Balanced Perfection',
-                subtitle: 'Master Roaster\'s Choice',
-                description: 'Our expertly crafted blend combines the best of both varieties, creating a harmonious cup that pleases every palate.',
-                items: [
-                  { text: 'Perfectly balanced profile', icon: '⚖️' },
-                  { text: 'Silky smooth crema', icon: '☕' },
-                  { text: 'Versatile for any brew', icon: '🎯' },
-                  { text: 'Consistently excellent', icon: '⭐' }
-                ],
-                icon: CoffeeIcon,
-                gradient: 'from-orange-600 via-rose-600 to-orange-700',
-                bgGradient: 'from-orange-50 via-rose-50 to-orange-50',
-                accentColor: 'text-orange-700',
-                borderColor: 'border-orange-300',
-                badge: 'Barista\'s Pick',
-                badgeColor: 'bg-orange-600'
+                title: 'Lake Victoria',
+                type: 'ROBUSTA COFFEE',
+                desc: 'Premium Robusta from northern lake shores. Working with BUNJAKKO Modern Farm (1,500 farmers).',
+                note: 'Full-bodied'
               }
-            ].map((category, index) => (
-              <motion.div
+            ].map((region, index) => (
+              <div
                 key={index}
-                variants={fadeInUp}
-                whileHover={{ y: -16, scale: 1.02 }}
-                className={`group relative bg-gradient-to-br ${category.bgGradient} border-2 ${category.borderColor} rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500 overflow-hidden`}
+                data-aos="fade-up"
+                data-aos-duration="800"
+                data-aos-delay={index * 100}
+                className="bg-white p-8 rounded-3xl shadow-md border border-amber-200/70 space-y-4"
               >
-                {/* Animated gradient overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-0 group-hover:opacity-[0.08] transition-opacity duration-500`}></div>
-                
-                {/* Decorative elements */}
-                <div className={`absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br ${category.gradient} opacity-10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700`}></div>
-                <div className={`absolute -bottom-16 -left-16 w-40 h-40 bg-gradient-to-br ${category.gradient} opacity-5 rounded-full blur-2xl`}></div>
-                
-                {/* Badge */}
-                <div className="absolute top-6 right-6 z-10">
-                  <div className={`${category.badgeColor} text-white text-xs font-bold uppercase tracking-wide px-4 py-2 rounded-full shadow-lg`}>
-                    {category.badge}
-                  </div>
-                </div>
-
-                <div className="relative p-10">
-                  {/* Icon with enhanced styling */}
-                  <motion.div 
-                    whileHover={{ rotate: 360, scale: 1.1 }}
-                    transition={{ duration: 0.6 }}
-                    className={`w-20 h-20 mb-6 p-4 rounded-2xl bg-gradient-to-br ${category.gradient} text-white shadow-2xl transform group-hover:shadow-3xl transition-all duration-300`}
-                  >
-                    <category.icon />
-                  </motion.div>
-                  
-                  {/* Title section */}
-                  <div className="mb-6">
-                    <h3 className={`text-4xl font-display font-extrabold mb-2 ${category.accentColor} tracking-tight`}>
-                      {category.title}
-                    </h3>
-                    <p className={`text-base font-bold mb-3 ${category.accentColor} opacity-70 italic`}>
-                      {category.tagline}
-                    </p>
-                    <p className={`text-sm font-semibold ${category.accentColor} opacity-60 uppercase tracking-widest`}>
-                      {category.subtitle}
-                    </p>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-gray-700 leading-relaxed mb-8 text-base">
-                    {category.description}
-                  </p>
-                  
-                  {/* Divider */}
-                  <div className={`h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent mb-6`}></div>
-
-                  {/* Features list */}
-                  <ul className="space-y-4">
-                    {category.items.map((item, i) => (
-                      <motion.li 
-                        key={i}
-                        initial={{ opacity: 0, x: -10 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.1 * i }}
-                        className="flex items-start gap-3 group/item"
-                      >
-                        <div className={`flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br ${category.gradient} flex items-center justify-center text-white font-bold shadow-md group-hover/item:scale-110 transition-transform`}>
-                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                          </svg>
-                        </div>
-                        <span className="text-gray-800 font-medium text-base leading-relaxed">
-                          {item.text}
-                        </span>
-                      </motion.li>
-                    ))}
-                  </ul>
-
-                  {/* CTA Button */}
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`w-full mt-8 bg-gradient-to-r ${category.gradient} text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-2 group/btn`}
-                  >
-                    <span>Explore {category.title}</span>
-                    <svg className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                  </motion.button>
-                </div>
-              </motion.div>
+                <span className="block text-xs font-bold tracking-widest text-orange-600 uppercase">
+                  {region.type}
+                </span>
+                <h3 className="font-display text-2xl sm:text-3xl text-brown-900 font-bold leading-tight">
+                  {region.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-brown-900 leading-relaxed">
+                  {region.desc}
+                </p>
+                <p className="text-xs text-orange-600 font-bold uppercase tracking-wide">
+                  {region.note}
+                </p>
+              </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* Bottom CTA */}
-          <motion.div 
-            variants={fadeInUp}
-            className="text-center pt-8"
-          >
-            <p className="text-gray-600 mb-6 text-lg">
-              Not sure which to choose? Our expert baristas are here to help you find your perfect match.
-            </p>
-            <a
-              href="/menu"
-              className="inline-flex items-center gap-3 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white font-bold px-10 py-5 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-              <span>View Full Menu & Prices</span>
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-          </motion.div>
-        </motion.div>
-
-        {/* Coffee Experience Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="relative"
-        >
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            
-            {/* Image Side - Left with rounded corners */}
-            <div className="relative h-[500px] md:h-[650px] overflow-hidden group rounded-3xl shadow-2xl order-2 md:order-1">
-              <motion.img
-                initial={{ scale: 1.05 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.5 }}
-                src={coffeeImage}
-                alt="L'Oven Coffee Experience"
-                className="w-full h-full object-cover object-center transform group-hover:scale-110 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-              
-              {/* Floating Badge on Image */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.5 }}
-                className="absolute bottom-8 left-8 bg-white/95 backdrop-blur-sm px-6 py-4 rounded-2xl shadow-2xl"
-              >
-                <div className="text-3xl font-display font-bold text-orange-600">Fresh Daily</div>
-                <div className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Peak Flavor Guaranteed</div>
-              </motion.div>
-            </div>
-            
-            {/* Content Side - Right */}
-            <div className="p-8 md:p-12 flex flex-col justify-center order-1 md:order-2">
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="space-y-6"
-              >
-                <div className="inline-block">
-                  <span className="text-sm font-bold uppercase tracking-widest text-orange-600 bg-orange-100 px-4 py-2 rounded-full">
-                    Experience Excellence
-                  </span>
-                </div>
-                
-                <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-900 leading-tight">
-                  Crafted With Passion,
-                  <span className="block text-orange-600 mt-2">Served With Love</span>
-                </h2>
-                
-                <p className="text-lg text-gray-700 leading-relaxed">
-                  Step into L'Oven Coffee and experience the perfect blend of tradition and innovation. 
-                  Every cup is a testament to our commitment to quality and our love for the craft.
-                </p>
-                
-                <div className="grid grid-cols-2 gap-5 pt-6">
-                  {[
-                    { 
-                      title: 'Expert Baristas', 
-                      desc: 'Trained to perfection',
-                      icon: (
-                        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                      )
-                    },
-                    { 
-                      title: 'Premium Beans', 
-                      desc: 'Ethically sourced',
-                      icon: (
-                        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                        </svg>
-                      )
-                    },
-                    { 
-                      title: 'Award Winning', 
-                      desc: 'Recognized excellence',
-                      icon: (
-                        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                        </svg>
-                      )
-                    },
-                    { 
-                      title: 'Made Fresh', 
-                      desc: 'Order by order',
-                      icon: (
-                        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                      )
-                    }
-                  ].map((item, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.3 + i * 0.1 }}
-                      className="group bg-orange-50/50 p-5 rounded-2xl hover:bg-orange-50 hover:shadow-md transition-all duration-300 border border-orange-100"
-                    >
-                      <div className="text-orange-600 mb-3 group-hover:scale-110 transition-transform">
-                        {item.icon}
-                      </div>
-                      <h3 className="font-bold text-gray-900 text-base mb-1">{item.title}</h3>
-                      <p className="text-sm text-gray-600">{item.desc}</p>
-                    </motion.div>
-                  ))}
-                </div>
-                
-                <div className="flex flex-col sm:flex-row gap-4 pt-8">
-                  <a
-                    href="/menu"
-                    className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold px-8 py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                    See Full Menu
-                  </a>
-                  <a
-                    href="/contact"
-                    className="inline-flex items-center justify-center gap-2 bg-white hover:bg-orange-50 border-2 border-orange-200 hover:border-orange-400 text-gray-900 font-bold px-8 py-4 rounded-xl transition-all duration-300 shadow-md"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    Find Us
-                  </a>
-                </div>
-              </motion.div>
-            </div>
-            
-          </div>
-        </motion.div>
-
-        {/* Final CTA */}
-        <motion.div 
-          {...fadeInUp}
-          className="relative rounded-3xl overflow-hidden shadow-2xl"
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600"></div>
-          
-          {/* Animated background patterns */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-          </div>
-          
-          <div className="relative p-16 text-center text-white space-y-8">
-            <motion.div
-              initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
-              transition={{ type: "spring", duration: 0.6 }}
-              viewport={{ once: true }}
-              className="inline-block"
-            >
-              <div className="w-20 h-20 mx-auto mb-6 p-4 rounded-2xl bg-white/20 backdrop-blur-sm border-2 border-white/30 shadow-2xl">
-                <CoffeeIcon />
+      {/* Bean to Cup Section with New Image */}
+      <section className="bg-white text-brown-900 py-20 sm:py-28 lg:py-36">
+        <div className="container mx-auto px-6 sm:px-8 lg:px-12 max-w-6xl">
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div className="order-2 md:order-1" data-aos="fade-right" data-aos-duration="800">
+              <div className="overflow-hidden rounded-3xl bg-cream-100 aspect-[4/3] w-full shadow-xl border border-amber-200/60">
+                <img 
+                  src={specialtyBeans} 
+                  alt="Specialty Coffee beans" 
+                  loading="lazy"
+                  className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
+                />
               </div>
-            </motion.div>
+            </div>
             
-            <h2 className="text-4xl md:text-5xl font-display font-bold drop-shadow-lg">
-              Your Perfect Coffee Moment Awaits
-            </h2>
-            <p className="text-xl text-white/95 max-w-2xl mx-auto leading-relaxed">
-              Whether you're joining us in-store, grabbing takeaway, or ordering delivery, 
-              we're ready to serve you the best coffee experience in Kampala.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
-              <motion.a
-                href="/menu"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-block bg-white text-orange-600 font-bold px-12 py-5 rounded-full hover:bg-cream-100 transition-all shadow-2xl hover:shadow-orange-900/50 transform hover:-translate-y-1"
-              >
-                Explore Our Menu
-              </motion.a>
-              <motion.a
-                href="/contact"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-block bg-transparent border-2 border-white text-white font-bold px-12 py-5 rounded-full hover:bg-white hover:text-orange-600 transition-all backdrop-blur-sm"
-              >
-                Visit Us Today
-              </motion.a>
+            <div className="order-1 md:order-2 space-y-8" data-aos="fade-left" data-aos-duration="800" data-aos-delay="100">
+              <div>
+                <span className="block text-xs sm:text-sm font-bold tracking-widest text-orange-600 uppercase mb-6">
+                  Our Process
+                </span>
+
+                <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-brown-900 font-bold leading-[1.12] tracking-tight mb-6">
+                  From bean<br />to <span className="italic text-orange-600">cup.</span>
+                </h2>
+              </div>
+
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-orange-600 text-white flex items-center justify-center shadow-md">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M2 12h20" />
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1 pt-1">
+                    <h4 className="text-xs font-bold tracking-widest text-brown-900 uppercase mb-1">
+                      Farm Selection
+                    </h4>
+                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed">
+                      Hand-picked from high-altitude farms across Uganda's best coffee regions.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-orange-600 text-white flex items-center justify-center shadow-md">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1 pt-1">
+                    <h4 className="text-xs font-bold tracking-widest text-brown-900 uppercase mb-1">
+                      Roasting
+                    </h4>
+                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed">
+                      Carefully roasted to bring out each variety's unique flavors.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-orange-600 text-white flex items-center justify-center shadow-md">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="m9 12 2 2 4-4" />
+                    </svg>
+                  </div>
+                  <div className="flex-1 pt-1">
+                    <h4 className="text-xs font-bold tracking-widest text-brown-900 uppercase mb-1">
+                      Quality Control
+                    </h4>
+                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed">
+                      Multiple checks ensure consistency in every batch.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </motion.div>
+        </div>
+      </section>
 
-      </div>
+      {/* Coffee Moment with New Image */}
+      <section className="relative bg-brown-900 text-cream-100 py-20 sm:py-28 lg:py-36 overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src={coffeeArt} 
+            alt="Coffee Moment" 
+            className="w-full h-full object-cover opacity-30"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-brown-900/90 via-brown-900/85 to-brown-900/90"></div>
+        </div>
+
+        <div className="container mx-auto px-6 sm:px-8 lg:px-12 max-w-6xl relative z-10">
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div className="space-y-8" data-aos="fade-right" data-aos-duration="800">
+              <div>
+                <span className="block text-xs sm:text-sm font-bold tracking-widest text-orange-600 uppercase mb-6">
+                  Our Philosophy
+                </span>
+
+                <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-cream-100 font-bold leading-[1.12] tracking-tight mb-6">
+                  Take a<br /><span className="italic text-orange-600">moment.</span>
+                </h2>
+
+                <p className="text-base sm:text-lg text-cream-100/90 font-light leading-relaxed mb-8">
+                  In today's busy world, L'Oven Coffee is where you can slow down. Whether you're meeting 
+                  friends, working, or just taking a break — we're here for you.
+                </p>
+
+                <div className="space-y-4 text-sm sm:text-base text-cream-100 leading-relaxed">
+                  <p className="flex items-start gap-3">
+                    <svg className="w-6 h-6 text-orange-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="m5 12 5 5L20 7" />
+                    </svg>
+                    <span>Every cup is made fresh</span>
+                  </p>
+                  <p className="flex items-start gap-3">
+                    <svg className="w-6 h-6 text-orange-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="m5 12 5 5L20 7" />
+                    </svg>
+                    <span>Comfortable, welcoming space</span>
+                  </p>
+                  <p className="flex items-start gap-3">
+                    <svg className="w-6 h-6 text-orange-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="m5 12 5 5L20 7" />
+                    </svg>
+                    <span>A place to connect</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div data-aos="fade-left" data-aos-duration="800" data-aos-delay="100">
+              <div className="overflow-hidden rounded-3xl bg-brown-950 aspect-[4/3] w-full shadow-2xl border border-amber-200/30">
+                <img 
+                  src={coffeeSimple} 
+                  alt="Golden hour coffee moment" 
+                  loading="lazy"
+                  className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Coffee Experience with New Image */}
+      <section className="bg-cream-100 text-brown-900 py-20 sm:py-28 lg:py-36">
+        <div className="container mx-auto px-6 sm:px-8 lg:px-12 max-w-6xl">
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div data-aos="fade-right" data-aos-duration="800">
+              <div className="overflow-hidden rounded-3xl bg-amber-50 aspect-[4/3] w-full shadow-xl border border-amber-200/60">
+                <img 
+                  src={italianCoffee} 
+                  alt="Italian Coffee Experience" 
+                  loading="lazy"
+                  className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
+                />
+              </div>
+            </div>
+            
+            <div className="space-y-8" data-aos="fade-left" data-aos-duration="800" data-aos-delay="100">
+              <div>
+                <span className="block text-xs sm:text-sm font-bold tracking-widest text-orange-600 uppercase mb-6">
+                  What To Expect
+                </span>
+
+                <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-brown-900 font-bold leading-[1.12] tracking-tight mb-6">
+                  Fresh <span className="italic text-orange-600">daily.</span>
+                </h2>
+              </div>
+
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-orange-600 text-white flex items-center justify-center shadow-md">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M10 2v2.343M14 2v2.343M8.5 7.5h7v7h-7z" />
+                      <path d="M8.5 14.5v2a2 2 0 0 0 2 2h3a2 2 0 0 0 2-2v-2" />
+                    </svg>
+                  </div>
+                  <div className="flex-1 pt-1">
+                    <h4 className="text-xs font-bold tracking-widest text-brown-900 uppercase mb-1">
+                      Fresh Daily
+                    </h4>
+                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed">
+                      Every cup is made to order, right in front of you.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-orange-600 text-white flex items-center justify-center shadow-md">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="9" cy="7" r="4" />
+                      <path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" />
+                      <path d="m16 11 2 2 4-4" />
+                    </svg>
+                  </div>
+                  <div className="flex-1 pt-1">
+                    <h4 className="text-xs font-bold tracking-widest text-brown-900 uppercase mb-1">
+                      Expert Baristas
+                    </h4>
+                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed">
+                      Our team knows coffee and they're happy to help you find what you like.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-orange-600 text-white flex items-center justify-center shadow-md">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1 pt-1">
+                    <h4 className="text-xs font-bold tracking-widest text-brown-900 uppercase mb-1">
+                      Ethical Sourcing
+                    </h4>
+                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed">
+                      Every purchase supports Ugandan farmers directly.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA with Cozy Coffee Image */}
+      <section className="relative bg-orange-600 text-cream-100 py-20 sm:py-24 lg:py-28 overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src={italianCoffee} 
+            alt="Cozy Coffee Experience" 
+            className="w-full h-full object-cover opacity-20"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-orange-600/95 via-orange-600/90 to-orange-700/95"></div>
+        </div>
+
+        <div className="container mx-auto px-6 sm:px-8 lg:px-12 max-w-4xl text-center relative z-10">
+          <div className="space-y-8" data-aos="fade-up" data-aos-duration="800">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.12] tracking-tight">
+              Visit us.
+            </h2>
+            <p className="text-base sm:text-lg md:text-xl text-cream-100/95 max-w-2xl mx-auto font-light leading-relaxed">
+              Come try our coffee. Dine-in, takeaway, or delivery — we're ready to serve you.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-5 justify-center pt-4">
+              <Link
+                to="/menu"
+                className="inline-flex items-center justify-center px-10 py-4 bg-white text-brown-900 font-bold text-xs sm:text-sm tracking-widest uppercase rounded-xl shadow-lg hover:bg-cream-100 transition-all duration-300 hover:scale-105"
+              >
+                VIEW MENU
+              </Link>
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center px-10 py-4 bg-transparent border-2 border-white text-white font-bold text-xs sm:text-sm tracking-widest uppercase rounded-xl transition-all duration-300 hover:bg-white hover:text-orange-600 hover:scale-105"
+              >
+                FIND US
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

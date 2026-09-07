@@ -72,7 +72,7 @@ const FeaturedMenu = ({
           </span>
           <h2
             id="featured-menu-heading"
-            className="font-['Playfair_Display',Georgia,serif] text-3xl sm:text-4xl lg:text-[46px] font-normal leading-[1.18] text-[#2B1B12] mb-4"
+            className="font-\['Cormorant_Garamond',Georgia,serif\] text-3xl sm:text-4xl lg:text-[46px] font-normal leading-[1.18] text-[#2B1B12] mb-4"
           >
             Made for the moment.
           </h2>
@@ -92,7 +92,7 @@ const FeaturedMenu = ({
         {/* Error State */}
         {!loading && error && products.length === 0 && (
           <div className="bg-[#FFF4E6] border border-[#2B1B12]/10 rounded-lg p-8 sm:p-12 text-center max-w-xl mx-auto">
-            <p className="font-['Playfair_Display',Georgia,serif] text-xl text-[#2B1B12] mb-2">
+            <p className="font-\['Cormorant_Garamond',Georgia,serif\] text-xl text-[#2B1B12] mb-2">
               Unable to load today's favourites.
             </p>
             <p className="font-sans text-xs sm:text-sm text-[#2B1B12]/70 mb-6">
@@ -121,7 +121,7 @@ const FeaturedMenu = ({
         {/* Empty State */}
         {!loading && !error && products.length === 0 && (
           <div className="bg-[#FFF4E6] border border-[#2B1B12]/10 rounded-lg p-8 sm:p-12 text-center max-w-xl mx-auto">
-            <p className="font-['Playfair_Display',Georgia,serif] text-xl text-[#2B1B12] mb-2">
+            <p className="font-\['Cormorant_Garamond',Georgia,serif\] text-xl text-[#2B1B12] mb-2">
               Our daily selection is being freshly updated.
             </p>
             <p className="font-sans text-xs sm:text-sm text-[#2B1B12]/70 mb-6">
@@ -170,7 +170,7 @@ const FeaturedMenu = ({
                     <div className="max-w-lg">
                       <h3
                         onClick={() => onSelectProduct?.(dominantProduct)}
-                        className="cursor-pointer font-['Playfair_Display',Georgia,serif] text-2xl sm:text-3xl text-[#2B1B12] group-hover:text-[#F28C13] transition-colors duration-150 mb-2"
+                        className="cursor-pointer font-\['Cormorant_Garamond',Georgia,serif\] text-2xl sm:text-3xl text-[#2B1B12] group-hover:text-[#F28C13] transition-colors duration-150 mb-2"
                       >
                         {dominantProduct.name}
                       </h3>
@@ -235,7 +235,7 @@ const FeaturedMenu = ({
                     <div className="max-w-md">
                       <h3
                         onClick={() => onSelectProduct?.(supportingProduct)}
-                        className="cursor-pointer font-['Playfair_Display',Georgia,serif] text-xl sm:text-2xl text-[#2B1B12] group-hover:text-[#F28C13] transition-colors duration-150 mb-1.5"
+                        className="cursor-pointer font-\['Cormorant_Garamond',Georgia,serif\] text-xl sm:text-2xl text-[#2B1B12] group-hover:text-[#F28C13] transition-colors duration-150 mb-1.5"
                       >
                         {supportingProduct.name}
                       </h3>
@@ -307,7 +307,7 @@ const FeaturedMenu = ({
                       <div className="max-w-md">
                         <h3
                           onClick={() => onSelectProduct?.(secondaryProduct)}
-                          className="cursor-pointer font-['Playfair_Display',Georgia,serif] text-xl sm:text-2xl text-[#2B1B12] group-hover:text-[#F28C13] transition-colors duration-150 mb-1.5"
+                          className="cursor-pointer font-\['Cormorant_Garamond',Georgia,serif\] text-xl sm:text-2xl text-[#2B1B12] group-hover:text-[#F28C13] transition-colors duration-150 mb-1.5"
                         >
                           {secondaryProduct.name}
                         </h3>
@@ -346,7 +346,7 @@ const FeaturedMenu = ({
                     <span className="block text-xs font-sans font-semibold tracking-[0.2em] text-[#F28C13] uppercase mb-2">
                       MORNING RITUAL
                     </span>
-                    <p className="font-['Playfair_Display',Georgia,serif] text-2xl text-[#2B1B12] italic leading-snug">
+                    <p className="font-\['Cormorant_Garamond',Georgia,serif\] text-2xl text-[#2B1B12] italic leading-snug">
                       "Every item is crafted with patience, reverence for tradition, and seasonal ingredients."
                     </p>
                   </div>
@@ -380,7 +380,7 @@ const FeaturedMenu = ({
                     <div className="max-w-lg">
                       <h3
                         onClick={() => onSelectProduct?.(featureProduct)}
-                        className="cursor-pointer font-['Playfair_Display',Georgia,serif] text-2xl sm:text-3xl text-[#2B1B12] group-hover:text-[#F28C13] transition-colors duration-150 mb-2"
+                        className="cursor-pointer font-\['Cormorant_Garamond',Georgia,serif\] text-2xl sm:text-3xl text-[#2B1B12] group-hover:text-[#F28C13] transition-colors duration-150 mb-2"
                       >
                         {featureProduct.name}
                       </h3>
@@ -434,3 +434,5 @@ const FeaturedMenu = ({
 };
 
 export default FeaturedMenu;
+
+

@@ -37,7 +37,7 @@ const OurCraft = () => {
 
           <h2
             id="craft-heading"
-            className="font-['Playfair_Display',Georgia,serif] text-4xl sm:text-5xl lg:text-6xl text-[#2B1B12] font-normal leading-[1.12] tracking-tight mb-6 sm:mb-8"
+            className="font-\['Cormorant_Garamond',Georgia,serif\] text-4xl sm:text-5xl lg:text-6xl text-[#2B1B12] font-normal leading-[1.12] tracking-tight mb-6 sm:mb-8"
           >
             Made fresh.<br />
             Made with care.
@@ -74,7 +74,7 @@ const OurCraft = () => {
           transition={fadeIn.transition}
           className="max-w-2xl mb-16 sm:mb-20 lg:mb-28"
         >
-          <h3 className="font-['Playfair_Display',Georgia,serif] text-2xl sm:text-3xl lg:text-4xl text-[#2B1B12] font-normal tracking-tight mb-4 sm:mb-5">
+          <h3 className="font-\['Cormorant_Garamond',Georgia,serif\] text-2xl sm:text-3xl lg:text-4xl text-[#2B1B12] font-normal tracking-tight mb-4 sm:mb-5">
             THE MORNING STARTS HERE
           </h3>
           <p className="font-sans text-base sm:text-lg text-[#2B1B12]/75 font-normal leading-relaxed">
@@ -164,3 +164,5 @@ const OurCraft = () => {
 };
 
 export default OurCraft;
+
+

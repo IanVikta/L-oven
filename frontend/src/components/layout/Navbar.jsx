@@ -36,7 +36,7 @@ const Navbar = () => {
           <div className="flex-shrink-0">
             <Link
               to="/"
-              className="text-2xl md:text-[26px] font-['Playfair_Display',Georgia,serif] font-medium tracking-[0.18em] text-[#FFF4E6] hover:text-[#FFFFFF] transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F28C13]"
+              className="text-2xl md:text-[26px] font-\['Cormorant_Garamond',Georgia,serif\] font-medium tracking-[0.18em] text-[#FFF4E6] hover:text-[#FFFFFF] transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F28C13]"
             >
               L'OVEN
             </Link>
@@ -193,3 +193,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
