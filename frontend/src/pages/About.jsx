@@ -80,29 +80,29 @@ const About = () => {
           </div>
 
           {/* Timeline Layout with Images */}
-          <div className="space-y-16 lg:space-y-24">
+          <div className="space-y-12 sm:space-y-16 lg:space-y-24">
             {/* 2016 - The Spark */}
-            <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div className="grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
               <div className="lg:col-span-7" data-aos="fade-right">
                 <div className="relative">
-                  <div className="absolute -left-4 top-0 w-1 h-full bg-gradient-to-b from-orange-600 to-transparent"></div>
-                  <div className="pl-8">
-                    <div className="inline-flex items-center gap-3 mb-6">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-600 to-orange-700 text-white flex items-center justify-center text-2xl font-display font-bold shadow-lg">
+                  <div className="absolute -left-2 sm:-left-4 top-0 w-0.5 sm:w-1 h-full bg-gradient-to-b from-orange-600 to-transparent"></div>
+                  <div className="pl-4 sm:pl-8">
+                    <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-orange-600 to-orange-700 text-white flex items-center justify-center text-lg sm:text-2xl font-display font-bold shadow-lg">
                         2016
                       </div>
-                      <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">The Spark</span>
+                      <span className="text-[10px] sm:text-xs font-bold tracking-widest text-orange-600 uppercase">The Spark</span>
                     </div>
-                    <h3 className="text-2xl sm:text-3xl font-display font-bold text-brown-900 mb-4">
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-brown-900 mb-3 sm:mb-4">
                       A Simple Idea in Kampala
                     </h3>
-                    <p className="text-base text-brown-700 leading-relaxed mb-4">
+                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed mb-3 sm:mb-4">
                       It all began with a bicycle, a thermos, and a passion for exceptional coffee. Our founder 
                       started delivering freshly brewed espresso to busy professionals across Kampala's business district. 
                       The response was overwhelming—people weren't just drinking our coffee, they were sharing stories, 
                       building communities, and asking for more.
                     </p>
-                    <p className="text-base text-brown-700 leading-relaxed">
+                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed">
                       Word spread fast. Within months, <span className="font-bold text-orange-600">70% of offices</span> in 
                       the area became regular customers. Coffee breaks turned into daily rituals, and our small operation 
                       couldn't keep up with demand.
@@ -111,7 +111,7 @@ const About = () => {
                 </div>
               </div>
               <div className="lg:col-span-5" data-aos="fade-left" data-aos-delay="100">
-                <div className="relative h-[400px] rounded-3xl overflow-hidden shadow-2xl">
+                <div className="relative h-[280px] sm:h-[350px] lg:h-[400px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
                   <img src={italianCoffee} alt="Early days of L'Oven" className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-brown-900/40 to-transparent"></div>
                 </div>
@@ -119,36 +119,36 @@ const About = () => {
             </div>
 
             {/* 2017-2018 - Meeting the Farmers */}
-            <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div className="grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
               <div className="lg:col-span-5 order-2 lg:order-1" data-aos="fade-right">
-                <div className="relative h-[400px] rounded-3xl overflow-hidden shadow-2xl">
+                <div className="relative h-[280px] sm:h-[350px] lg:h-[400px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
                   <img src={specialtyBeans} alt="Meeting coffee farmers" className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-brown-900/40 to-transparent"></div>
                 </div>
               </div>
               <div className="lg:col-span-7 order-1 lg:order-2" data-aos="fade-left" data-aos-delay="100">
                 <div className="relative">
-                  <div className="absolute -left-4 top-0 w-1 h-full bg-gradient-to-b from-orange-600 to-transparent"></div>
-                  <div className="pl-8">
-                    <div className="inline-flex items-center gap-3 mb-6">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-600 to-orange-700 text-white flex items-center justify-center text-xl font-display font-bold shadow-lg">
+                  <div className="absolute -left-2 sm:-left-4 top-0 w-0.5 sm:w-1 h-full bg-gradient-to-b from-orange-600 to-transparent"></div>
+                  <div className="pl-4 sm:pl-8">
+                    <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-orange-600 to-orange-700 text-white flex items-center justify-center text-lg sm:text-xl font-display font-bold shadow-lg">
                         2017
                       </div>
-                      <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">The Discovery</span>
+                      <span className="text-[10px] sm:text-xs font-bold tracking-widest text-orange-600 uppercase">The Discovery</span>
                     </div>
-                    <h3 className="text-2xl sm:text-3xl font-display font-bold text-brown-900 mb-4">
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-brown-900 mb-3 sm:mb-4">
                       Finding Our Roots in the Mountains
                     </h3>
-                    <p className="text-base text-brown-700 leading-relaxed mb-4">
+                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed mb-3 sm:mb-4">
                       To maintain our growing demand for quality, we ventured into Uganda's coffee heartlands—Mt. Elgon, 
                       Mt. Rwenzori, and the shores of Lake Victoria. What we discovered changed everything.
                     </p>
-                    <p className="text-base text-brown-700 leading-relaxed mb-4">
+                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed mb-3 sm:mb-4">
                       Farmers were growing some of the world's finest beans but receiving pennies for their harvest. 
                       Middlemen dominated the supply chain, and these hardworking families barely earned enough to 
                       sustain themselves, let alone invest in better farming practices.
                     </p>
-                    <p className="text-base text-brown-700 leading-relaxed">
+                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed">
                       We knew we had to do things differently. What if the farmers didn't just supply our beans—what if 
                       they <span className="font-bold text-orange-600">owned the company</span>?
                     </p>
@@ -158,45 +158,45 @@ const About = () => {
             </div>
 
             {/* 2019 - The Transformation */}
-            <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div className="grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
               <div className="lg:col-span-7" data-aos="fade-right">
                 <div className="relative">
-                  <div className="absolute -left-4 top-0 w-1 h-full bg-gradient-to-b from-orange-600 to-transparent"></div>
-                  <div className="pl-8">
-                    <div className="inline-flex items-center gap-3 mb-6">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-600 to-orange-700 text-white flex items-center justify-center text-2xl font-display font-bold shadow-lg">
+                  <div className="absolute -left-2 sm:-left-4 top-0 w-0.5 sm:w-1 h-full bg-gradient-to-b from-orange-600 to-transparent"></div>
+                  <div className="pl-4 sm:pl-8">
+                    <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-orange-600 to-orange-700 text-white flex items-center justify-center text-lg sm:text-2xl font-display font-bold shadow-lg">
                         2019
                       </div>
-                      <span className="text-xs font-bold tracking-widest text-orange-600 uppercase">The Revolution</span>
+                      <span className="text-[10px] sm:text-xs font-bold tracking-widest text-orange-600 uppercase">The Revolution</span>
                     </div>
-                    <h3 className="text-2xl sm:text-3xl font-display font-bold text-brown-900 mb-4">
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-brown-900 mb-3 sm:mb-4">
                       Becoming Farmer-Owned
                     </h3>
-                    <p className="text-base text-brown-700 leading-relaxed mb-4">
+                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed mb-3 sm:mb-4">
                       In <span className="font-bold text-orange-600">August 2019</span>, we officially registered as a 
                       private company with a radical difference—farmers became shareholders. Ten founding members, all 
                       coffee entrepreneurs and smallholder farmers, took ownership.
                     </p>
-                    <p className="text-base text-brown-700 leading-relaxed mb-4">
+                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed mb-3 sm:mb-4">
                       This wasn't just symbolic. Farmer-owners now receive <span className="font-bold text-orange-600">fair 
                       prices above market rates</span>, participate in business decisions, and share in our profits. 
                       Every bag of coffee sold directly benefits the families who grew it.
                     </p>
-                    <div className="grid grid-cols-2 gap-4 mt-6">
-                      <div className="bg-orange-50 p-4 rounded-2xl border border-orange-200">
-                        <div className="text-3xl font-display font-bold text-orange-600 mb-1">10</div>
-                        <p className="text-xs text-brown-700">Founding Farmer Members</p>
+                    <div className="grid grid-cols-2 gap-3 sm:gap-4 mt-4 sm:mt-6">
+                      <div className="bg-orange-50 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-orange-200">
+                        <div className="text-2xl sm:text-3xl font-display font-bold text-orange-600 mb-1">10</div>
+                        <p className="text-[10px] sm:text-xs text-brown-700">Founding Farmer Members</p>
                       </div>
-                      <div className="bg-orange-50 p-4 rounded-2xl border border-orange-200">
-                        <div className="text-3xl font-display font-bold text-orange-600 mb-1">100%</div>
-                        <p className="text-xs text-brown-700">Farmer-Owned Company</p>
+                      <div className="bg-orange-50 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-orange-200">
+                        <div className="text-2xl sm:text-3xl font-display font-bold text-orange-600 mb-1">100%</div>
+                        <p className="text-[10px] sm:text-xs text-brown-700">Farmer-Owned Company</p>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="lg:col-span-5" data-aos="fade-left" data-aos-delay="100">
-                <div className="relative h-[400px] rounded-3xl overflow-hidden shadow-2xl">
+                <div className="relative h-[280px] sm:h-[350px] lg:h-[400px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
                   <img src={coffeeArt} alt="Farmer partnership" className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-brown-900/40 to-transparent"></div>
                 </div>
@@ -204,44 +204,44 @@ const About = () => {
             </div>
 
             {/* Today - The Impact */}
-            <div className="bg-gradient-to-br from-brown-900 to-brown-800 text-cream-100 rounded-3xl p-8 sm:p-12 lg:p-16 shadow-2xl" data-aos="fade-up">
-              <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="bg-gradient-to-br from-brown-900 to-brown-800 text-cream-100 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 xl:p-16 shadow-2xl" data-aos="fade-up">
+              <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
                 <div>
-                  <div className="inline-flex items-center gap-3 mb-6">
-                    <div className="w-16 h-16 rounded-2xl bg-orange-600 text-white flex items-center justify-center text-2xl font-display font-bold shadow-lg">
+                  <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-orange-600 text-white flex items-center justify-center text-lg sm:text-2xl font-display font-bold shadow-lg">
                       2024
                     </div>
-                    <span className="text-xs font-bold tracking-widest text-orange-400 uppercase">Today</span>
+                    <span className="text-[10px] sm:text-xs font-bold tracking-widest text-orange-400 uppercase">Today</span>
                   </div>
-                  <h3 className="text-3xl sm:text-4xl font-display font-bold text-cream-100 mb-4">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-cream-100 mb-3 sm:mb-4">
                     Empowering <span className="text-orange-400">15,300+ Farmers</span>
                   </h3>
-                  <p className="text-base text-cream-100/90 leading-relaxed mb-4">
+                  <p className="text-sm sm:text-base text-cream-100/90 leading-relaxed mb-3 sm:mb-4">
                     Today, L'Oven Coffee partners with over 15,300 smallholder farmers across three major growing regions. 
                     We're not just buying beans—we're building livelihoods, funding education, and creating sustainable 
                     communities.
                   </p>
-                  <p className="text-base text-cream-100/90 leading-relaxed">
+                  <p className="text-sm sm:text-base text-cream-100/90 leading-relaxed">
                     Our vision remains clear: expand farmer ownership, improve farming practices, and prove that ethical 
                     business isn't just possible—it's profitable for everyone involved.
                   </p>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-orange-600/20 backdrop-blur-sm p-6 rounded-2xl border border-orange-400/30">
-                    <div className="text-4xl font-display font-bold text-orange-400 mb-2">15.3K</div>
-                    <p className="text-sm text-cream-100/80">Farmer Partners</p>
+                <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                  <div className="bg-orange-600/20 backdrop-blur-sm p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-orange-400/30">
+                    <div className="text-3xl sm:text-4xl font-display font-bold text-orange-400 mb-1 sm:mb-2">15.3K</div>
+                    <p className="text-xs sm:text-sm text-cream-100/80">Farmer Partners</p>
                   </div>
-                  <div className="bg-orange-600/20 backdrop-blur-sm p-6 rounded-2xl border border-orange-400/30">
-                    <div className="text-4xl font-display font-bold text-orange-400 mb-2">3</div>
-                    <p className="text-sm text-cream-100/80">Growing Regions</p>
+                  <div className="bg-orange-600/20 backdrop-blur-sm p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-orange-400/30">
+                    <div className="text-3xl sm:text-4xl font-display font-bold text-orange-400 mb-1 sm:mb-2">3</div>
+                    <p className="text-xs sm:text-sm text-cream-100/80">Growing Regions</p>
                   </div>
-                  <div className="bg-orange-600/20 backdrop-blur-sm p-6 rounded-2xl border border-orange-400/30">
-                    <div className="text-4xl font-display font-bold text-orange-400 mb-2">5</div>
-                    <p className="text-sm text-cream-100/80">Cooperatives</p>
+                  <div className="bg-orange-600/20 backdrop-blur-sm p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-orange-400/30">
+                    <div className="text-3xl sm:text-4xl font-display font-bold text-orange-400 mb-1 sm:mb-2">5</div>
+                    <p className="text-xs sm:text-sm text-cream-100/80">Cooperatives</p>
                   </div>
-                  <div className="bg-orange-600/20 backdrop-blur-sm p-6 rounded-2xl border border-orange-400/30">
-                    <div className="text-4xl font-display font-bold text-orange-400 mb-2">100%</div>
-                    <p className="text-sm text-cream-100/80">Traceable Beans</p>
+                  <div className="bg-orange-600/20 backdrop-blur-sm p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-orange-400/30">
+                    <div className="text-3xl sm:text-4xl font-display font-bold text-orange-400 mb-1 sm:mb-2">100%</div>
+                    <p className="text-xs sm:text-sm text-cream-100/80">Traceable Beans</p>
                   </div>
                 </div>
               </div>
@@ -373,19 +373,19 @@ const About = () => {
           </div>
 
           {/* Core Values */}
-          <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8" data-aos="fade-up" data-aos-delay="200">
+          <div className="mt-12 sm:mt-16 lg:mt-20 grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8" data-aos="fade-up" data-aos-delay="200">
             {[
               { icon: 'M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6', title: 'Fair Prices', desc: 'Above-market rates' },
               { icon: 'M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z', title: 'Quality First', desc: 'Excellence guaranteed' },
               { icon: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75', title: 'Community', desc: 'Partnership driven' },
               { icon: 'M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10zM2 12h20', title: 'Sustainability', desc: 'Future focused' }
             ].map((value, i) => (
-              <div key={i} className="text-center p-6 bg-white rounded-2xl border border-brown-100 hover:border-orange-200 hover:shadow-md transition-all duration-300">
-                <svg className="w-10 h-10 mx-auto text-orange-600 mb-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+              <div key={i} className="text-center p-4 sm:p-6 bg-white rounded-xl sm:rounded-2xl border border-brown-100 hover:border-orange-200 hover:shadow-md transition-all duration-300">
+                <svg className="w-8 h-8 sm:w-10 sm:h-10 mx-auto text-orange-600 mb-3 sm:mb-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                   <path d={value.icon} />
                 </svg>
-                <h4 className="text-sm font-bold text-brown-900 mb-1">{value.title}</h4>
-                <p className="text-xs text-brown-600">{value.desc}</p>
+                <h4 className="text-xs sm:text-sm font-bold text-brown-900 mb-1">{value.title}</h4>
+                <p className="text-[10px] sm:text-xs text-brown-600">{value.desc}</p>
               </div>
             ))}
           </div>
@@ -535,69 +535,71 @@ const About = () => {
       </section>
 
       {/* Philosophy - Redesigned with magazine-style layout */}
-      <section className="relative py-20 sm:py-28 lg:py-36 overflow-hidden">
-        {/* Split background */}
-        <div className="absolute inset-0">
+      <section className="relative py-16 sm:py-20 lg:py-28 xl:py-36 overflow-hidden">
+        {/* Split background - hidden on mobile, shown on lg+ */}
+        <div className="absolute inset-0 hidden lg:block">
           <div className="absolute inset-0 left-0 w-1/2 bg-brown-900"></div>
           <div className="absolute inset-0 right-0 w-1/2 bg-cream-100"></div>
         </div>
+        {/* Solid background for mobile */}
+        <div className="absolute inset-0 lg:hidden bg-brown-900"></div>
 
         <div className="container mx-auto px-6 sm:px-8 lg:px-12 max-w-7xl relative z-10">
           <div className="grid lg:grid-cols-2 gap-0 items-stretch">
             {/* Left side - Dark */}
-            <div className="bg-brown-900 text-cream-100 p-8 sm:p-12 lg:p-16 flex flex-col justify-center" data-aos="fade-right">
-              <span className="block text-xs sm:text-sm font-bold tracking-widest text-orange-400 uppercase mb-6">
+            <div className="bg-brown-900 text-cream-100 p-6 sm:p-8 lg:p-12 xl:p-16 flex flex-col justify-center" data-aos="fade-right">
+              <span className="block text-[10px] sm:text-xs lg:text-sm font-bold tracking-widest text-orange-400 uppercase mb-4 sm:mb-6">
                 Our Philosophy
               </span>
-              <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-8">
+              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight mb-6 sm:mb-8">
                 More than just<br />
                 <span className="italic text-orange-400">coffee.</span>
               </h2>
-              <p className="text-lg text-cream-100/90 leading-relaxed mb-8">
+              <p className="text-sm sm:text-base lg:text-lg text-cream-100/90 leading-relaxed mb-6 sm:mb-8">
                 Every cup tells a story. A story of farmers waking before dawn, carefully selecting ripe cherries. 
                 A story of communities coming together, building futures. A story of you, taking a moment in your busy day.
               </p>
-              <div className="space-y-4">
-                <div className="flex items-center gap-4 p-4 bg-white/10 rounded-xl backdrop-blur-sm">
-                  <div className="w-12 h-12 rounded-lg bg-orange-600 flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <div className="space-y-3 sm:space-y-4">
+                <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white/10 rounded-lg sm:rounded-xl backdrop-blur-sm">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-orange-600 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                       <path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z" />
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-bold text-cream-100 mb-1">Crafted with Care</h4>
-                    <p className="text-sm text-cream-100/70">Every bean, every brew, every moment matters</p>
+                    <h4 className="text-sm sm:text-base font-bold text-cream-100 mb-0.5 sm:mb-1">Crafted with Care</h4>
+                    <p className="text-xs sm:text-sm text-cream-100/70">Every bean, every brew, every moment matters</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-4 p-4 bg-white/10 rounded-xl backdrop-blur-sm">
-                  <div className="w-12 h-12 rounded-lg bg-orange-600 flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white/10 rounded-lg sm:rounded-xl backdrop-blur-sm">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-orange-600 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                       <path d="M12 2L2 7l10 5 10-5-10-5z" />
                       <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-bold text-cream-100 mb-1">Built on Values</h4>
-                    <p className="text-sm text-cream-100/70">Fairness, quality, and community in every decision</p>
+                    <h4 className="text-sm sm:text-base font-bold text-cream-100 mb-0.5 sm:mb-1">Built on Values</h4>
+                    <p className="text-xs sm:text-sm text-cream-100/70">Fairness, quality, and community in every decision</p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Right side - Light with image */}
-            <div className="relative h-[500px] lg:h-auto" data-aos="fade-left" data-aos-delay="100">
+            <div className="relative h-[350px] sm:h-[400px] lg:h-auto" data-aos="fade-left" data-aos-delay="100">
               <img 
                 src={coffeeSimple} 
                 alt="Coffee philosophy" 
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brown-900/60 to-transparent"></div>
-              <div className="absolute bottom-8 left-8 right-8 text-white">
-                <p className="text-lg font-light italic leading-relaxed">
+              <div className="absolute bottom-6 sm:bottom-8 left-6 sm:left-8 right-6 sm:right-8 text-white">
+                <p className="text-base sm:text-lg font-light italic leading-relaxed">
                   "Coffee is a bridge between cultures, a catalyst for conversations, and a daily reminder 
                   that the best things in life are worth waiting for."
                 </p>
-                <p className="mt-4 text-sm font-bold tracking-wide">— L'Oven Coffee</p>
+                <p className="mt-3 sm:mt-4 text-xs sm:text-sm font-bold tracking-wide">— L'Oven Coffee</p>
               </div>
             </div>
           </div>
