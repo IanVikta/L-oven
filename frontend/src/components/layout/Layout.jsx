@@ -4,6 +4,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import BackToTop from '../common/BackToTop';
 
 const Layout = () => {
   const location = useLocation();
@@ -33,6 +34,7 @@ const Layout = () => {
         <Outlet />
       </main>
       <Footer />
+      <BackToTop />
     </div>
   );
 };

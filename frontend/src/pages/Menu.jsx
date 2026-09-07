@@ -4,7 +4,6 @@ import { productService } from '../services/productService';
 import { useCart } from '../hooks/useCart';
 import Loading from '../components/common/Loading';
 import ProductModal from '../components/products/ProductModal';
-import BackToTop from '../components/common/BackToTop';
 import { formatProductPrice } from '../utils/currency';
 
 import heroImage from '../assets/hero_coffee_croissant.jpg';
@@ -788,9 +787,6 @@ const Menu = () => {
           }}
         />
       )}
-
-      {/* Floating Back to Top Button */}
-      <BackToTop />
     </div>
   );
 };
