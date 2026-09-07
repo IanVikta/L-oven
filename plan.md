@@ -785,7 +785,7 @@ promotions
 promotion_products
 promotion_categories
 notifications
-settings
+settings.
 
 Use:
 
