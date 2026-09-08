@@ -1,5 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import AOS from 'aos';
+import $ from 'jquery';
+if (typeof window !== 'undefined') {
+  window.jQuery = window.$ = $;
+}
+import 'jquery-validation';
 
 // High-End Coffee Assets
 import goldenHourCoffee from '../assets/coffee high end/Golden Hour Magic_ a Perfect Shot of Coffee Art 🍫☕📸.jpg';
@@ -35,6 +40,7 @@ const FAQS = [
 ];
 
 const Contact = () => {
+  const formRef = useRef(null);
   const [activeCategory, setActiveCategory] = useState('general');
   const [preferredContact, setPreferredContact] = useState('email');
   const [openFaq, setOpenFaq] = useState(null);
@@ -55,6 +61,69 @@ const Contact = () => {
     }, 100);
     return () => clearTimeout(timer);
   }, []);
+
+  // jQuery Form Validation Setup
+  useEffect(() => {
+    let validator;
+    if (formRef.current && !submitted) {
+      validator = $(formRef.current).validate({
+        rules: {
+          name: {
+            required: true,
+            minlength: 2
+          },
+          email: {
+            required: true,
+            email: true
+          },
+          subject: {
+            required: true,
+            minlength: 3
+          },
+          message: {
+            required: true,
+            minlength: 10
+          }
+        },
+        messages: {
+          name: {
+            required: 'Please enter your full name.',
+            minlength: 'Name must be at least 2 characters.'
+          },
+          email: {
+            required: 'Please enter your email address.',
+            email: 'Please enter a valid email address.'
+          },
+          subject: {
+            required: 'Please enter a subject / topic.',
+            minlength: 'Subject must be at least 3 characters.'
+          },
+          message: {
+            required: 'Please enter your message.',
+            minlength: 'Message must be at least 10 characters.'
+          }
+        },
+        errorElement: 'span',
+        errorClass: 'text-[11px] text-red-600 font-semibold mt-1 block',
+        highlight: function (element) {
+          $(element).addClass('border-red-400 focus:border-red-500').removeClass('border-amber-200/80');
+        },
+        unhighlight: function (element) {
+          $(element).removeClass('border-red-400 focus:border-red-500').addClass('border-amber-200/80');
+        },
+        submitHandler: function () {
+          setSubmitted(true);
+          return false;
+        }
+      });
+    }
+
+    return () => {
+      if (validator && typeof validator.destroy === 'function') {
+        validator.destroy();
+      }
+    };
+  }, [submitted]);
 
   // Compute live café status (Open vs Closed)
   const getCafeStatus = () => {
@@ -308,7 +377,7 @@ const Contact = () => {
                   </div>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form ref={formRef} noValidate onSubmit={handleSubmit} className="space-y-5">
 
                   {/* Name & Email */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -318,6 +387,7 @@ const Contact = () => {
                       </label>
                       <input
                         type="text"
+                        name="name"
                         required
                         placeholder="e.g. Jane Austen"
                         value={formData.name}
@@ -331,6 +401,7 @@ const Contact = () => {
                       </label>
                       <input
                         type="email"
+                        name="email"
                         required
                         placeholder="jane@example.com"
                         value={formData.email}
@@ -348,6 +419,7 @@ const Contact = () => {
                       </label>
                       <input
                         type="tel"
+                        name="phone"
                         placeholder="+256 700 000 000"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -384,6 +456,7 @@ const Contact = () => {
                     </label>
                     <input
                       type="text"
+                      name="subject"
                       required
                       placeholder="e.g. Table reservation for 4, Wholesale pricing inquiry..."
                       value={formData.subject}
@@ -399,6 +472,7 @@ const Contact = () => {
                     </label>
                     <textarea
                       rows={4}
+                      name="message"
                       required
                       placeholder={currentCategoryObj?.placeholder || 'Tell us how we can serve you better...'}
                       value={formData.message}
