@@ -34,7 +34,8 @@ const AdminOrders = () => {
       await adminService.updateOrderStatus(orderId, newStatus);
       fetchOrders();
     } catch (e) {
-      alert('Failed to update status. Ensure you are logged in as admin/staff.');
+      console.error('Order status update failed:', e);
+      alert(e.response?.data?.message || 'Failed to update status. Ensure you are logged in as admin/staff.');
     }
   };
 

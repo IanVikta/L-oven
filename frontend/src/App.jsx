@@ -15,6 +15,7 @@ import Profile from './pages/Profile';
 import Orders from './pages/Orders';
 
 // Admin Pages
+import AdminPortal from './pages/admin/AdminPortal';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminReports from './pages/admin/AdminReports';
@@ -40,10 +41,11 @@ function App() {
               <Route path="profile" element={<Profile />} />
               <Route path="orders" element={<Orders />} />
 
-              {/* Admin & Staff Dashboard */}
-              <Route path="admin/orders" element={<AdminOrders />} />
-              <Route path="admin/products" element={<AdminProducts />} />
-              <Route path="admin/reports" element={<AdminReports />} />
+              {/* Admin Portal via URL /admin */}
+              <Route path="admin" element={<AdminPortal />} />
+              <Route path="admin/orders" element={<AdminPortal />} />
+              <Route path="admin/products" element={<AdminPortal />} />
+              <Route path="admin/reports" element={<AdminPortal />} />
             </Route>
           </Routes>
         </Router>

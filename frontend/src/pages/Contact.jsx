@@ -5,6 +5,7 @@ if (typeof window !== 'undefined') {
   window.jQuery = window.$ = $;
 }
 import 'jquery-validation';
+import { sendContactMessage } from '../services/contactService';
 
 // High-End Coffee Assets
 import goldenHourCoffee from '../assets/coffee high end/Golden Hour Magic_ a Perfect Shot of Coffee Art 🍫☕📸.jpg';
@@ -35,7 +36,7 @@ const FAQS = [
   },
   {
     question: 'Do you offer fresh coffee bean deliveries?',
-    answer: 'We roast micro-batches twice weekly. You can purchase whole beans or custom-ground bags directly at our Kololo café or order online for sameday Kampala delivery.'
+    answer: 'We roast micro-batches twice weekly. You can purchase whole beans or custom-ground bags directly at our Kitende café or order online for sameday delivery.'
   }
 ];
 
@@ -54,6 +55,35 @@ const Contact = () => {
     message: ''
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [apiError, setApiError] = useState(null);
+
+  const handleApiSubmit = async () => {
+    setIsSubmitting(true);
+    setApiError(null);
+    try {
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        subject: formData.subject,
+        category: activeCategory,
+        message: formData.message
+      };
+      const res = await sendContactMessage(payload);
+      if (res.success) {
+        setSubmitted(true);
+      } else {
+        setApiError(res.message || 'Failed to send message.');
+      }
+    } catch (err) {
+      console.error('Contact form submission error:', err);
+      const msg = err.response?.data?.message || 'A network error occurred. Please try again.';
+      setApiError(msg);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -112,7 +142,7 @@ const Contact = () => {
           $(element).removeClass('border-red-400 focus:border-red-500').addClass('border-amber-200/80');
         },
         submitHandler: function () {
-          setSubmitted(true);
+          handleApiSubmit();
           return false;
         }
       });
@@ -123,7 +153,7 @@ const Contact = () => {
         validator.destroy();
       }
     };
-  }, [submitted]);
+  }, [submitted, formData, activeCategory]);
 
   // Compute live café status (Open vs Closed)
   const getCafeStatus = () => {
@@ -162,11 +192,14 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    if ($(formRef.current).valid()) {
+      handleApiSubmit();
+    }
   };
 
   const handleResetForm = () => {
     setSubmitted(false);
+    setApiError(null);
     setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
   };
 
@@ -287,8 +320,8 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4 className="text-xs font-bold text-brown-900">Flagship Café</h4>
-                    <p className="text-xs text-brown-700 mt-0.5">Plot 14 Acacia Avenue, Kololo</p>
-                    <p className="text-[11px] text-brown-500">Kampala, Uganda</p>
+                    <p className="text-xs text-brown-700 mt-0.5">Entebbe Road, Kitende</p>
+                    <p className="text-[11px] text-brown-500">Uganda</p>
                   </div>
                 </div>
 
@@ -325,13 +358,13 @@ const Contact = () => {
                     </div>
                     <div>
                       <h4 className="text-xs font-bold text-brown-900">Email Concierge</h4>
-                      <a href="mailto:hello@loven.coffee" className="text-xs text-brown-900 hover:text-orange-600 font-semibold block transition-colors">
-                        hello@loven.coffee
+                      <a href="mailto:lovencoffee2@gmail.com" className="text-xs text-brown-900 hover:text-orange-600 font-semibold block transition-colors">
+                        lovencoffee2@gmail.com
                       </a>
                     </div>
                   </div>
                   <button
-                    onClick={() => handleCopy('hello@loven.coffee', 'email')}
+                    onClick={() => handleCopy('lovencoffee2@gmail.com', 'email')}
                     className="text-[11px] font-semibold text-brown-600 hover:text-orange-600 transition-colors cursor-pointer"
                   >
                     {copiedField === 'email' ? 'Copied ✓' : 'Copy'}
@@ -481,13 +514,33 @@ const Contact = () => {
                     />
                   </div>
 
+                  {apiError && (
+                    <div className="p-3.5 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl flex items-center gap-2">
+                      <span className="font-bold">⚠️</span>
+                      <span>{apiError}</span>
+                    </div>
+                  )}
+
                   {/* Submit Button */}
                   <button
                     type="submit"
-                    className="w-full py-3.5 text-xs font-bold uppercase tracking-wider bg-brown-900 hover:bg-orange-600 text-white rounded-xl transition-all duration-300 shadow-md cursor-pointer flex items-center justify-center gap-2"
+                    disabled={isSubmitting}
+                    className="w-full py-3.5 text-xs font-bold uppercase tracking-wider bg-brown-900 hover:bg-orange-600 disabled:bg-brown-400 text-white rounded-xl transition-all duration-300 shadow-md cursor-pointer disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
-                    <span>Send Message</span>
-                    <span className="text-sm">→</span>
+                    {isSubmitting ? (
+                      <>
+                        <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span>Sending Message...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Send Message</span>
+                        <span className="text-sm">→</span>
+                      </>
+                    )}
                   </button>
 
                   <p className="text-xs text-center text-brown-500 font-normal pt-1">

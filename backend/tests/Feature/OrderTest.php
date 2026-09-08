@@ -324,7 +324,7 @@ class OrderTest extends TestCase
                 'fulfilment_type' => 'delivery',
                 'recipient_name' => 'Jane Doe',
                 'recipient_phone' => '+256770000000',
-                'street_address' => 'Lugogo Bypass, Kololo',
+                'street_address' => 'Entebbe Road, Kitende',
                 'city' => 'Kampala',
                 // Client tries to declare 0 delivery fee:
                 'delivery_fee' => 0.00,
