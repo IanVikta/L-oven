@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { adminService } from '../../services/adminService';
 import Loading from '../../components/common/Loading';
+import { formatCurrency } from '../../utils/currency';
 
 const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -144,7 +145,7 @@ const AdminOrders = () => {
                             <span>
                               {item.quantity}x {item.product_name} {item.variant_name && `(${item.variant_name})`}
                             </span>
-                            <span>${item.line_total.toFixed(2)}</span>
+                            <span>{formatCurrency(item.line_total)}</span>
                           </div>
                           {item.options && item.options.length > 0 && (
                             <div className="text-[11px] text-orange-700 mt-1 font-medium">
@@ -218,3 +219,5 @@ const AdminOrders = () => {
 };
 
 export default AdminOrders;
+
+

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { adminService } from '../../services/adminService';
 import Loading from '../../components/common/Loading';
+import { formatCurrency } from '../../utils/currency';
 
 const AdminProducts = () => {
   const [products, setProducts] = useState([]);
@@ -63,7 +64,7 @@ const AdminProducts = () => {
                     <tr key={product.id} className="hover:bg-cream-50 transition-all">
                       <td className="p-4 font-bold text-brown-900">{product.name}</td>
                       <td className="p-4 font-medium text-orange-700">{product.category?.name}</td>
-                      <td className="p-4 font-bold text-brown-900">${product.price.toFixed(2)}</td>
+                      <td className="p-4 font-bold text-brown-900">{formatCurrency(product.price)}</td>
                       <td className="p-4">{product.prep_time_mins} mins</td>
                       <td className="p-4">
                         <span
@@ -101,3 +102,5 @@ const AdminProducts = () => {
 };
 
 export default AdminProducts;
+
+

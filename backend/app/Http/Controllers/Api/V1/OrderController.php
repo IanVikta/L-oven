@@ -20,6 +20,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class OrderController extends Controller
 {
@@ -28,6 +29,12 @@ class OrderController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+        if (!config('loven.pricing_finalized', false)) {
+            return response()->json([
+                'message' => 'Ordering is temporarily unavailable while menu pricing is being finalized.',
+            ], 422);
+        }
+
         $validated = $request->validate([
             'fulfilment_type' => ['required', 'in:dine_in,takeaway,delivery'],
             'customer_notes' => ['nullable', 'string', 'max:500'],
@@ -68,9 +75,22 @@ class OrderController extends Controller
             // 1. Process Order Line Items and calculate totals
             foreach ($validated['items'] as $itemInput) {
                 $product = Product::findOrFail($itemInput['product_id']);
-                $variant = isset($itemInput['product_variant_id'])
-                    ? ProductVariant::find($itemInput['product_variant_id'])
-                    : null;
+
+                if (!$product->is_available) {
+                    throw ValidationException::withMessages([
+                        'items' => ["The item '{$product->name}' is currently unavailable."],
+                    ]);
+                }
+
+                $variant = null;
+                if (!empty($itemInput['product_variant_id'])) {
+                    $variant = $product->variants()->where('id', $itemInput['product_variant_id'])->first();
+                    if (!$variant) {
+                        throw ValidationException::withMessages([
+                            'items' => ["The selected size/variant does not belong to '{$product->name}'."],
+                        ]);
+                    }
+                }
 
                 $baseUnitPrice = (float) $product->price;
                 $variantModifier = $variant ? (float) $variant->price_modifier : 0.00;
@@ -80,8 +100,23 @@ class OrderController extends Controller
                 $optionsToSave = [];
 
                 if (!empty($itemInput['options'])) {
-                    $optionItems = OptionItem::with('group')->whereIn('id', $itemInput['options'])->get();
+                    $validGroupIds = $product->optionGroups->pluck('id')->map(fn($id) => (int) $id)->toArray();
+                    $uniqueOptionIds = array_unique($itemInput['options']);
+                    $optionItems = OptionItem::with('group')->whereIn('id', $uniqueOptionIds)->get();
+
+                    if ($optionItems->count() !== count($uniqueOptionIds)) {
+                        throw ValidationException::withMessages([
+                            'items' => ["One or more selected options for '{$product->name}' do not exist."],
+                        ]);
+                    }
+
                     foreach ($optionItems as $optItem) {
+                        if (!in_array((int) $optItem->option_group_id, $validGroupIds, true)) {
+                            throw ValidationException::withMessages([
+                                'items' => ["The option '{$optItem->name}' is not applicable to '{$product->name}'."],
+                            ]);
+                        }
+
                         $priceMod = (float) $optItem->price_modifier;
                         $optionsTotal += $priceMod;
                         $optionsToSave[] = [
@@ -110,9 +145,10 @@ class OrderController extends Controller
                 ];
             }
 
-            // 2. Fees & Totals (Tax calculation disabled for now)
+            // 2. Fees & Totals (Tax calculation strictly 0.00)
             $taxAmount = 0.00;
-            $deliveryFee = $validated['fulfilment_type'] === 'delivery' ? 3.00 : 0.00;
+            $configuredDeliveryFee = (float) config('loven.default_delivery_fee', 3.00);
+            $deliveryFee = $validated['fulfilment_type'] === 'delivery' ? $configuredDeliveryFee : 0.00;
             $discountAmount = 0.00;
             $totalAmount = round($subtotal + $deliveryFee - $discountAmount, 2);
 

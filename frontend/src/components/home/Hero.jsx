@@ -57,7 +57,7 @@ const Hero = () => {
             </span>
 
             {/* Main Editorial Heading */}
-            <h1 className="font-['Playfair_Display',Georgia,serif] text-[38px] sm:text-5xl md:text-6xl lg:text-[68px] font-normal leading-[1.12] tracking-tight text-[#FFF4E6]">
+            <h1 className="font-\['Cormorant_Garamond',Georgia,serif\] text-[38px] sm:text-5xl md:text-6xl lg:text-[68px] font-normal leading-[1.12] tracking-tight text-[#FFF4E6]">
               Made fresh.
               <br />
               Served with <span className="text-[#F28C13]">care.</span>
@@ -98,3 +98,5 @@ const Hero = () => {
 };
 
 export default Hero;
+
+

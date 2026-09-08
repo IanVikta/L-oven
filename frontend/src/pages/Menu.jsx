@@ -4,7 +4,6 @@ import { productService } from '../services/productService';
 import { useCart } from '../hooks/useCart';
 import Loading from '../components/common/Loading';
 import ProductModal from '../components/products/ProductModal';
-import BackToTop from '../components/common/BackToTop';
 import { formatProductPrice } from '../utils/currency';
 
 import heroImage from '../assets/hero_coffee_croissant.jpg';
@@ -208,7 +207,7 @@ const Menu = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: shouldReduceMotion ? 0 : 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                className="font-['Playfair_Display',Georgia,serif] text-[64px] font-normal leading-[0.95] tracking-[-0.03em] text-[#FFF4E6] sm:text-7xl md:text-[88px]"
+                className="font-\['Cormorant_Garamond',Georgia,serif\] text-[64px] font-normal leading-[0.95] tracking-[-0.03em] text-[#FFF4E6] sm:text-7xl md:text-[88px]"
               >
                 Menu<span className="ml-2 align-top font-sans text-3xl font-normal text-[#F28C13] sm:text-4xl"></span>
               </motion.h1>
@@ -250,7 +249,7 @@ const Menu = () => {
             </span>
             <h2
               id="menu-heading"
-              className="font-['Playfair_Display',Georgia,serif] text-4xl font-normal leading-[1.12] tracking-tight text-[#2B1B12] sm:text-5xl lg:text-[58px]"
+              className="font-\['Cormorant_Garamond',Georgia,serif\] text-4xl font-normal leading-[1.12] tracking-tight text-[#2B1B12] sm:text-5xl lg:text-[58px]"
             >
               Made with love,<br className="hidden sm:block" /> served with care.
             </h2>
@@ -335,7 +334,7 @@ const Menu = () => {
               <Loading />
             ) : error ? (
               <div className="mx-auto max-w-md rounded-lg border border-[#2B1B12]/10 bg-white p-8 text-center shadow-sm sm:p-10">
-                <p className="font-['Playfair_Display',Georgia,serif] text-xl text-[#2B1B12]">{error}</p>
+                <p className="font-\['Cormorant_Garamond',Georgia,serif\] text-xl text-[#2B1B12]">{error}</p>
                 <button
                   type="button"
                   onClick={fetchProducts}
@@ -347,7 +346,7 @@ const Menu = () => {
             ) : products.length === 0 ? (
               <div className="mx-auto max-w-md rounded-lg border border-[#2B1B12]/10 bg-white p-8 text-center shadow-sm sm:p-10">
                 <div className="mb-4 text-3xl" aria-hidden="true">⌕</div>
-                <p className="font-['Playfair_Display',Georgia,serif] text-xl text-[#2B1B12]">No items found</p>
+                <p className="font-\['Cormorant_Garamond',Georgia,serif\] text-xl text-[#2B1B12]">No items found</p>
                 <p className="mt-2 font-sans text-sm leading-relaxed text-[#2B1B12]/70">
                   Try clearing your search or selecting another category.
                 </p>
@@ -373,7 +372,7 @@ const Menu = () => {
                     <div className="mb-7 flex items-center gap-4 sm:mb-8">
                       <div className="flex items-center gap-2.5 whitespace-nowrap">
                         <span className="text-lg text-[#F28C13]" aria-hidden="true">{group.icon}</span>
-                        <h3 id={`category-${group.key}`} className="font-['Playfair_Display',Georgia,serif] text-xl font-medium tracking-tight text-[#2B1B12] sm:text-2xl">
+                        <h3 id={`category-${group.key}`} className="font-\['Cormorant_Garamond',Georgia,serif\] text-xl font-medium tracking-tight text-[#2B1B12] sm:text-2xl">
                           {group.name}
                         </h3>
                       </div>
@@ -417,7 +416,7 @@ const Menu = () => {
 
                           <div className="flex min-h-[178px] flex-col p-5 sm:p-5.5">
                             <div className="flex-1">
-                              <h4 className="font-['Playfair_Display',Georgia,serif] text-xl font-medium tracking-tight text-[#2B1B12] transition-colors duration-200 group-hover:text-[#F28C13] sm:text-[22px]">
+                              <h4 className="font-\['Cormorant_Garamond',Georgia,serif\] text-xl font-medium tracking-tight text-[#2B1B12] transition-colors duration-200 group-hover:text-[#F28C13] sm:text-[22px]">
                                 {product.name}
                               </h4>
                               <p className="mt-2 line-clamp-2 font-sans text-xs leading-relaxed text-[#2B1B12]/70 sm:text-sm">
@@ -507,7 +506,7 @@ const Menu = () => {
         <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 mb-8 sm:mb-10">
           <h2 
             id="popular-picks-heading"
-            className="font-['Playfair_Display',Georgia,serif] text-3xl sm:text-4xl lg:text-5xl font-normal text-[#FFF4E6] tracking-tight"
+            className="font-\['Cormorant_Garamond',Georgia,serif\] text-3xl sm:text-4xl lg:text-5xl font-normal text-[#FFF4E6] tracking-tight"
           >
             Our Popular <span className="text-[#F28C13]">Picks</span>
           </h2>
@@ -546,7 +545,7 @@ const Menu = () => {
 
                 {/* Product Info */}
                 <div className="p-4">
-                  <h3 className="font-['Playfair_Display',Georgia,serif] text-lg font-normal text-[#2B1B12] mb-1.5 line-clamp-1">
+                  <h3 className="font-\['Cormorant_Garamond',Georgia,serif\] text-lg font-normal text-[#2B1B12] mb-1.5 line-clamp-1">
                     {product.name}
                   </h3>
                   
@@ -605,7 +604,7 @@ const Menu = () => {
 
                 {/* Product Info */}
                 <div className="p-4">
-                  <h3 className="font-['Playfair_Display',Georgia,serif] text-lg font-normal text-[#2B1B12] mb-1.5 line-clamp-1">
+                  <h3 className="font-\['Cormorant_Garamond',Georgia,serif\] text-lg font-normal text-[#2B1B12] mb-1.5 line-clamp-1">
                     {product.name}
                   </h3>
                   
@@ -664,7 +663,7 @@ const Menu = () => {
 
                 {/* Product Info */}
                 <div className="p-4">
-                  <h3 className="font-['Playfair_Display',Georgia,serif] text-lg font-normal text-[#2B1B12] mb-1.5 line-clamp-1">
+                  <h3 className="font-\['Cormorant_Garamond',Georgia,serif\] text-lg font-normal text-[#2B1B12] mb-1.5 line-clamp-1">
                     {product.name}
                   </h3>
                   
@@ -710,7 +709,7 @@ const Menu = () => {
             </div>
 
             {/* Heading */}
-            <h2 className="font-['Playfair_Display',Georgia,serif] text-3xl sm:text-4xl lg:text-5xl font-normal text-[#2B1B12] mb-4 sm:mb-5 tracking-tight">
+            <h2 className="font-\['Cormorant_Garamond',Georgia,serif\] text-3xl sm:text-4xl lg:text-5xl font-normal text-[#2B1B12] mb-4 sm:mb-5 tracking-tight">
               Come back for more
             </h2>
 
@@ -725,7 +724,7 @@ const Menu = () => {
             {/* Benefits grid */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mb-10 sm:mb-12">
               <div className="space-y-2">
-                <div className="text-3xl sm:text-4xl font-['Playfair_Display',Georgia,serif] text-[#F28C13]">
+                <div className="text-3xl sm:text-4xl font-\['Cormorant_Garamond',Georgia,serif\] text-[#F28C13]">
                   Fresh
                 </div>
                 <p className="font-sans text-sm text-[#2B1B12]/70">
@@ -734,7 +733,7 @@ const Menu = () => {
               </div>
               
               <div className="space-y-2">
-                <div className="text-3xl sm:text-4xl font-['Playfair_Display',Georgia,serif] text-[#F28C13]">
+                <div className="text-3xl sm:text-4xl font-\['Cormorant_Garamond',Georgia,serif\] text-[#F28C13]">
                   Quality
                 </div>
                 <p className="font-sans text-sm text-[#2B1B12]/70">
@@ -743,7 +742,7 @@ const Menu = () => {
               </div>
               
               <div className="space-y-2">
-                <div className="text-3xl sm:text-4xl font-['Playfair_Display',Georgia,serif] text-[#F28C13]">
+                <div className="text-3xl sm:text-4xl font-\['Cormorant_Garamond',Georgia,serif\] text-[#F28C13]">
                   Warmth
                 </div>
                 <p className="font-sans text-sm text-[#2B1B12]/70">
@@ -782,15 +781,17 @@ const Menu = () => {
         <ProductModal
           product={selectedProduct}
           isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          onClose={() => {
+            setIsModalOpen(false);
+            setSelectedProduct(null);
+          }}
         />
       )}
-
-      {/* Floating Back to Top Button */}
-      <BackToTop />
     </div>
   );
 };
 
 export default Menu;
+
+
 

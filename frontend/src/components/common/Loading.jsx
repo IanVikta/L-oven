@@ -31,3 +31,5 @@ export const Loading = ({ size = 'md', fullScreen = false }) => {
 };
 
 export default Loading;
+
+
