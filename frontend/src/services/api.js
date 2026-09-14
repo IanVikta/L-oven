@@ -1,7 +1,13 @@
 import axios from 'axios';
 
+const PRIMARY_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001/api';
+const FALLBACK_URL = import.meta.env.VITE_API_FALLBACK_URL || 'http://localhost:8000/api';
+
+// Currently active base URL (persisted in session/memory)
+let activeBaseUrl = localStorage.getItem('active_api_url') || PRIMARY_URL;
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
+  baseURL: activeBaseUrl,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -9,30 +15,91 @@ const api = axios.create({
   withCredentials: true, // For Laravel Sanctum CSRF cookie
 });
 
-// Request interceptor for adding auth token
+// Create explicit instances for direct port targeting (8000 / 8001)
+export const createPortInstance = (baseURL) => {
+  const instance = axios.create({
+    baseURL,
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    withCredentials: true,
+  });
+
+  instance.interceptors.request.use((config) => {
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  });
+
+  return instance;
+};
+
+export const api8000 = createPortInstance('http://localhost:8000/api');
+export const api8001 = createPortInstance('http://localhost:8001/api');
+
+// Request interceptor for main api instance
 api.interceptors.request.use(
   (config) => {
+    if (config.baseURL !== activeBaseUrl) {
+      config.baseURL = activeBaseUrl;
+    }
+
     const token = localStorage.getItem('auth_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Response interceptor for handling errors globally
+// Response interceptor with automatic dual-port (8000 <-> 8001) failover
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
+    const originalRequest = error.config;
+
+    // Handle 401 Unauthorized
     if (error.response?.status === 401) {
-      // Unauthorized - clear token and redirect to login
       localStorage.removeItem('auth_token');
       localStorage.removeItem('user');
-      window.location.href = '/login';
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
+      return Promise.reject(error);
     }
+
+    // Failover if network error OR if port 8000 returns 404 (e.g. another local app occupies 8000)
+    const isNetworkError = !error.response;
+    const isPort8000NotFound = error.response?.status === 404 && activeBaseUrl.includes(':8000');
+
+    if ((isNetworkError || isPort8000NotFound) && originalRequest && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      const currentUrl = activeBaseUrl;
+      const targetUrl = currentUrl.includes(':8000')
+        ? currentUrl.replace(':8000', ':8001')
+        : currentUrl.includes(':8001')
+        ? currentUrl.replace(':8001', ':8000')
+        : FALLBACK_URL;
+
+      if (targetUrl !== currentUrl) {
+        activeBaseUrl = targetUrl;
+        localStorage.setItem('active_api_url', activeBaseUrl);
+        api.defaults.baseURL = activeBaseUrl;
+        originalRequest.baseURL = activeBaseUrl;
+
+        try {
+          return await api(originalRequest);
+        } catch (retryError) {
+          return Promise.reject(retryError);
+        }
+      }
+    }
+
     return Promise.reject(error);
   }
 );

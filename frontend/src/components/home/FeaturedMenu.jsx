@@ -6,21 +6,21 @@ import { formatProductPrice } from '../../utils/currency';
 // TEMPORARY PRODUCT PHOTOGRAPHY FALLBACKS
 // Centralized presentation fallback for development until client photography is ready.
 // ============================================================================
-import croissant1 from '../../assets/cand_croissant1.jpg';
-import croissant2 from '../../assets/cand_croissant2.jpg';
+import artisanButterCroissant from '../../assets/artisan_butter_croissant.jpg';
+import almondPainAuChocolat from '../../assets/almond_pain_au_chocolat.jpg';
 import latteArt from '../../assets/cand_latte_art.jpg';
 import coffeeArt from '../../assets/cand_coffee_art.jpg';
-import toastImg from '../../assets/cand_pastry_coffee.jpg';
-import coldBrewImg from '../../assets/cand_table_coffee1.jpg';
+import sourdoughAvocadoToast from '../../assets/sourdough_avocado_toast.jpg';
+import artisanVanillaColdBrew from '../../assets/artisan_vanilla_cold_brew.jpg';
 import defaultFallback from '../../assets/cand_croissant_cup.jpg';
 
 const FALLBACK_IMAGES = {
-  'almond-chocolate-pain-au-chocolat': croissant1,
-  'butter-croissant': croissant2,
+  'almond-chocolate-pain-au-chocolat': almondPainAuChocolat,
+  'butter-croissant': artisanButterCroissant,
   'flat-white': coffeeArt,
   'loven-signature-latte': latteArt,
-  'sourdough-avocado-toast': toastImg,
-  'vanilla-cold-brew': coldBrewImg,
+  'sourdough-avocado-toast': sourdoughAvocadoToast,
+  'vanilla-cold-brew': artisanVanillaColdBrew,
 };
 
 const getProductImage = (product) => {

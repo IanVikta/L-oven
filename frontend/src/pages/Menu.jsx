@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { productService } from '../services/productService';
 import { useCart } from '../hooks/useCart';
 import Loading from '../components/common/Loading';
 import ProductModal from '../components/products/ProductModal';
+import PopularPicksCarousel from '../components/menu/PopularPicksCarousel';
 import BackToTop from '../components/common/BackToTop';
 import { formatProductPrice } from '../utils/currency';
 
@@ -11,19 +12,21 @@ import heroImage from '../assets/hero_coffee_croissant.jpg';
 import latteArt from '../assets/cand_latte_art.jpg';
 import coffeeArt from '../assets/cand_coffee_art.jpg';
 import coffeeBeansCup from '../assets/cand_coffee_beans_cup.jpg';
-import croissant1 from '../assets/cand_croissant1.jpg';
-import croissant2 from '../assets/cand_croissant2.jpg';
-import pastryCoffee from '../assets/cand_pastry_coffee.jpg';
+import artisanButterCroissant from '../assets/artisan_butter_croissant.jpg';
+import almondPainAuChocolat from '../assets/almond_pain_au_chocolat.jpg';
+import sourdoughAvocadoToast from '../assets/sourdough_avocado_toast.jpg';
+import artisanVanillaColdBrew from '../assets/artisan_vanilla_cold_brew.jpg';
+import bakeryBread from '../assets/cand_bakery.jpg';
 import tableCoffee from '../assets/cand_table_coffee1.jpg';
 import defaultFallback from '../assets/cand_croissant_cup.jpg';
 
 const FALLBACK_IMAGES = {
   'flat-white': coffeeArt,
   'loven-signature-latte': latteArt,
-  'vanilla-cold-brew': tableCoffee,
-  'butter-croissant': croissant2,
-  'almond-chocolate-pain-au-chocolat': croissant1,
-  'sourdough-avocado-toast': pastryCoffee,
+  'vanilla-cold-brew': artisanVanillaColdBrew,
+  'butter-croissant': artisanButterCroissant,
+  'almond-chocolate-pain-au-chocolat': almondPainAuChocolat,
+  'sourdough-avocado-toast': sourdoughAvocadoToast,
 };
 
 const categoryIcons = {
@@ -49,11 +52,12 @@ const getProductImage = (product) => {
   if (product?.slug && FALLBACK_IMAGES[product.slug]) return FALLBACK_IMAGES[product.slug];
 
   const slug = product?.category?.slug || '';
-  if (slug.includes('bakery') || slug.includes('pastr')) return croissant1;
+  if (slug.includes('sandwich') || slug.includes('toast')) return sourdoughAvocadoToast;
+  if (slug.includes('bakery') || slug.includes('pastr')) return artisanButterCroissant;
   if (slug.includes('tea') || slug.includes('matcha')) return latteArt;
-  if (slug.includes('cold') || slug.includes('drink')) return tableCoffee;
+  if (slug.includes('cold') || slug.includes('drink')) return artisanVanillaColdBrew;
   if (slug.includes('coffee') || slug.includes('espresso')) return coffeeArt;
-  if (slug.includes('treat') || slug.includes('cake')) return pastryCoffee;
+  if (slug.includes('treat') || slug.includes('cake')) return almondPainAuChocolat;
   if (slug.includes('merch')) return coffeeBeansCup;
   return defaultFallback;
 };
@@ -66,6 +70,64 @@ const normalizeCategory = (category) => {
   };
 };
 
+const CATEGORY_META = {
+  'espresso-coffee': {
+    index: '01',
+    subtitle: 'Morning classics & artisan roasts',
+    badgeText: 'HOUSE FAVORITE',
+    featuredSlug: 'loven-signature-latte',
+  },
+  'cold-brew-drinks': {
+    index: '02',
+    subtitle: 'Slow-steeped & refreshing chillers',
+    badgeText: 'SLOW STEEPED',
+    featuredSlug: 'vanilla-cold-brew',
+  },
+  'fresh-bakery': {
+    index: '03',
+    subtitle: 'Handcrafted daily & fresh from the oven',
+    badgeText: 'BAKED FRESH',
+    featuredSlug: 'butter-croissant',
+  },
+  'sandwiches-toast': {
+    index: '04',
+    subtitle: 'Wholesome, savory & made to order',
+    badgeText: "CHEF'S SELECTION",
+    featuredSlug: 'sourdough-avocado-toast',
+  },
+};
+
+const getCategoryMeta = (slug, index) => {
+  if (slug && CATEGORY_META[slug]) return CATEGORY_META[slug];
+  const num = String(index + 1).padStart(2, '0');
+  return {
+    index: num,
+    subtitle: 'Artisanal cafe selections',
+    badgeText: 'HOUSE SPECIALTY',
+    featuredSlug: null,
+  };
+};
+
+const isCustomizable = (product) => {
+  if (!product) return false;
+  if (product.variants && product.variants.length > 1) return true;
+  const categorySlug = (product.category?.slug || '').toLowerCase();
+  const productSlug = (product.slug || '').toLowerCase();
+  if (
+    categorySlug.includes('coffee') ||
+    categorySlug.includes('espresso') ||
+    categorySlug.includes('brew') ||
+    categorySlug.includes('drink') ||
+    categorySlug.includes('sandwich') ||
+    categorySlug.includes('toast') ||
+    productSlug.includes('sandwich') ||
+    productSlug.includes('toast')
+  ) {
+    return true;
+  }
+  return false;
+};
+
 const Menu = () => {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
@@ -75,6 +137,8 @@ const Menu = () => {
   const [error, setError] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [addedProductId, setAddedProductId] = useState(null);
+  const [toastMessage, setToastMessage] = useState(null);
 
   const { addToCart } = useCart();
   const shouldReduceMotion = useReducedMotion();
@@ -127,6 +191,14 @@ const Menu = () => {
       setIsModalOpen(true);
     }
   };
+
+  const handleAddToCart = useCallback((product) => {
+    addToCart(product);
+    setAddedProductId(product.id);
+    setToastMessage(`${product.name} added to cart`);
+    setTimeout(() => setAddedProductId(null), 1800);
+    setTimeout(() => setToastMessage(null), 2500);
+  }, [addToCart]);
 
   const groupedProducts = useMemo(() => {
     if (selectedCategory !== 'all') {
@@ -235,37 +307,48 @@ const Menu = () => {
         </div>
       </section>
 
-      {/* Menu content — warm editorial system shared with the home page. */}
-      <section className="bg-[#FFF4E6] py-16 sm:py-20 lg:py-24" aria-labelledby="menu-heading">
+      {/* ─── OUR MENU ─── */}
+      <section className="bg-[#FFF4E6] pt-20 pb-8 sm:pt-24 sm:pb-10 lg:pt-28 lg:pb-12" aria-labelledby="menu-heading">
+
+        {/* Section intro */}
         <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
           <motion.div
-            initial={fadeIn.initial}
-            whileInView={fadeIn.whileInView}
-            viewport={fadeIn.viewport}
-            transition={fadeIn.transition}
-            className="max-w-3xl"
+            initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="mb-4 block font-sans text-xs font-semibold uppercase tracking-[0.2em] text-[#F28C13] sm:text-[13px]">
-              OUR MENU
-            </span>
+            <div className="flex items-center gap-4 mb-5">
+              <motion.div
+                initial={shouldReduceMotion ? {} : { scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
+                className="h-[2px] w-10 origin-left bg-[#F28C13]"
+                aria-hidden="true"
+              />
+              <span className="font-sans text-[11px] font-bold uppercase tracking-[0.25em] text-[#F28C13] sm:text-xs">
+                Our Menu
+              </span>
+            </div>
             <h2
               id="menu-heading"
-              className="font-['Playfair_Display',Georgia,serif] text-4xl font-normal leading-[1.12] tracking-tight text-[#2B1B12] sm:text-5xl lg:text-[58px]"
+              className="font-['Playfair_Display',Georgia,serif] text-[36px] font-normal leading-[1.1] tracking-[-0.02em] text-[#2B1B12] sm:text-5xl lg:text-[56px]"
             >
               Made with love,<br className="hidden sm:block" /> served with care.
             </h2>
-            <p className="mt-5 max-w-2xl font-sans text-sm leading-relaxed text-[#2B1B12]/75 sm:text-base lg:text-lg">
-              Handcrafted drinks and freshly baked treats, prepared with the same care that defines the L'Oven experience. Select a product, add to Cart and order now
+            <p className="mt-5 max-w-xl font-sans text-[15px] leading-[1.7] text-[#2B1B12]/60 sm:text-base">
+              Handcrafted drinks and freshly baked treats, prepared with the same care that defines the L'Oven experience.
             </p>
           </motion.div>
 
           {/* Search */}
           <motion.div
-            initial={fadeIn.initial}
-            whileInView={fadeIn.whileInView}
-            viewport={fadeIn.viewport}
-            transition={{ ...fadeIn.transition, delay: shouldReduceMotion ? 0 : 0.1 }}
-            className="mt-8 max-w-xl sm:mt-10"
+            initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-10 max-w-md sm:mt-12"
           >
             <label className="sr-only" htmlFor="menu-search">Search the menu</label>
             <div className="relative">
@@ -275,424 +358,534 @@ const Menu = () => {
                 placeholder="Search coffee, pastry, cold brew..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-full border border-[#2B1B12]/10 bg-white py-3.5 pl-11 pr-11 font-sans text-sm text-[#2B1B12] shadow-[0_4px_20px_-12px_rgba(43,27,18,0.35)] transition-all duration-200 placeholder:text-[#2B1B12]/40 focus:border-[#F28C13] focus:outline-none focus:ring-2 focus:ring-[#F28C13]/15"
+                className="w-full rounded-lg border border-[#2B1B12]/10 bg-white py-3 pl-10 pr-10 font-sans text-sm text-[#2B1B12] shadow-[0_1px_3px_rgba(43,27,18,0.04)] transition-all duration-200 placeholder:text-[#2B1B12]/30 focus:border-[#F28C13] focus:outline-none focus:shadow-[0_0_0_3px_rgba(242,140,19,0.08)]"
               />
-              <svg className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#2B1B12]/45" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.7" d="m21 21-4.35-4.35m2.1-5.15a7.25 7.25 0 1 1-14.5 0 7.25 7.25 0 0 1 14.5 0Z" />
+              <svg className="pointer-events-none absolute left-3 top-1/2 h-[17px] w-[17px] -translate-y-1/2 text-[#2B1B12]/30" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="m21 21-4.35-4.35m2.1-5.15a7.25 7.25 0 1 1-14.5 0 7.25 7.25 0 0 1 14.5 0Z" />
               </svg>
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
                   aria-label="Clear search"
-                  className="absolute right-3 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-[#F4ECE1] font-sans text-xs text-[#2B1B12]/60 transition-colors hover:bg-[#2B1B12] hover:text-white"
+                  className="absolute right-3 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full text-[#2B1B12]/35 transition-colors hover:bg-[#2B1B12]/8 hover:text-[#2B1B12]"
                 >
-                  ×
+                  <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
               )}
             </div>
+            {searchQuery.trim() && !loading && !error && products.length > 0 && (
+              <p className="mt-2.5 font-sans text-[13px] text-[#2B1B12]/40">
+                {products.length} result{products.length !== 1 ? 's' : ''} for &ldquo;{searchQuery.trim()}&rdquo;
+              </p>
+            )}
           </motion.div>
+        </div>
 
-          {/* Category navigation */}
-          <motion.div
-            initial={fadeIn.initial}
-            whileInView={fadeIn.whileInView}
-            viewport={fadeIn.viewport}
-            transition={{ ...fadeIn.transition, delay: shouldReduceMotion ? 0 : 0.15 }}
-            className="mt-9 overflow-x-auto pb-2 sm:mt-10"
-            role="tablist"
-            aria-label="Menu categories"
-          >
-            <div className="flex min-w-max gap-2.5 sm:gap-3">
-              <button
-                type="button"
-                role="tab"
-                aria-selected={selectedCategory === 'all'}
-                onClick={() => setSelectedCategory('all')}
-                className={`inline-flex min-h-11 items-center rounded-lg border px-5 py-3 font-sans text-xs font-semibold uppercase tracking-[0.1em] transition-all duration-200 sm:px-6 ${selectedCategory === 'all' ? 'border-[#F28C13] bg-[#F28C13] text-white shadow-md shadow-[#F28C13]/15' : 'border-[#2B1B12]/10 bg-white text-[#2B1B12] hover:border-[#F28C13]/40 hover:bg-[#F4ECE1]'}`}
-              >
-                ALL ITEMS
-              </button>
+        {/* Category navigation — sticky below navbar */}
+        <div className="sticky top-20 z-30 mt-10 bg-[#FFF4E6] sm:mt-12">
+          <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
+            <nav
+              className="relative border-b border-[#2B1B12]/8"
+              role="tablist"
+              aria-label="Menu categories"
+            >
+              {/* Mobile scroll-fade indicators */}
+              <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-6 bg-gradient-to-r from-[#FFF4E6] to-transparent sm:hidden" aria-hidden="true" />
+              <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-6 bg-gradient-to-l from-[#FFF4E6] to-transparent sm:hidden" aria-hidden="true" />
 
-              {categories.map((cat) => (
+              <div className="scrollbar-hide -mb-px flex gap-0 overflow-x-auto">
+                {/* All Items */}
                 <button
                   type="button"
                   role="tab"
-                  aria-selected={selectedCategory === cat.slug}
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.slug)}
-                  className={`inline-flex min-h-11 items-center rounded-lg border px-5 py-3 font-sans text-xs font-semibold uppercase tracking-[0.1em] transition-all duration-200 sm:px-6 ${selectedCategory === cat.slug ? 'border-[#F28C13] bg-[#F28C13] text-white shadow-md shadow-[#F28C13]/15' : 'border-[#2B1B12]/10 bg-white text-[#2B1B12] hover:border-[#F28C13]/40 hover:bg-[#F4ECE1]'}`}
+                  aria-selected={selectedCategory === 'all'}
+                  onClick={() => setSelectedCategory('all')}
+                  className={`relative whitespace-nowrap px-4 py-3.5 font-sans text-[13px] tracking-[0.01em] transition-colors duration-200 sm:px-5 ${
+                    selectedCategory === 'all'
+                      ? 'font-semibold text-[#2B1B12]'
+                      : 'font-medium text-[#2B1B12]/40 hover:text-[#2B1B12]/70'
+                  }`}
                 >
-                  {cat.name.toUpperCase()}
+                  All Items
+                  {selectedCategory === 'all' && (
+                    <motion.div
+                      layoutId="activeCategory"
+                      className="absolute bottom-0 left-4 right-4 h-[2px] bg-[#F28C13] sm:left-5 sm:right-5"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
                 </button>
-              ))}
-            </div>
-          </motion.div>
 
-          {/* Menu products */}
-          <div className="mt-14 sm:mt-16 lg:mt-20">
+                {categories.map((cat) => (
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={selectedCategory === cat.slug}
+                    key={cat.id}
+                    onClick={() => setSelectedCategory(cat.slug)}
+                    className={`relative whitespace-nowrap px-4 py-3.5 font-sans text-[13px] tracking-[0.01em] transition-colors duration-200 sm:px-5 ${
+                      selectedCategory === cat.slug
+                        ? 'font-semibold text-[#2B1B12]'
+                        : 'font-medium text-[#2B1B12]/40 hover:text-[#2B1B12]/70'
+                    }`}
+                  >
+                    {cat.name}
+                    {selectedCategory === cat.slug && (
+                      <motion.div
+                        layoutId="activeCategory"
+                        className="absolute bottom-0 left-4 right-4 h-[2px] bg-[#F28C13] sm:left-5 sm:right-5"
+                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </nav>
+          </div>
+        </div>
+
+        {/* Products */}
+        <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
+          <div className="mt-12 sm:mt-14 lg:mt-16">
             {loading ? (
               <Loading />
             ) : error ? (
-              <div className="mx-auto max-w-md rounded-lg border border-[#2B1B12]/10 bg-white p-8 text-center shadow-sm sm:p-10">
-                <p className="font-['Playfair_Display',Georgia,serif] text-xl text-[#2B1B12]">{error}</p>
+              /* Error state */
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                className="py-20 text-center"
+              >
+                <svg className="mx-auto mb-4 h-10 w-10 text-[#F28C13]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" /></svg>
+                <p className="font-['Playfair_Display',Georgia,serif] text-lg text-[#2B1B12] sm:text-xl">{error}</p>
                 <button
                   type="button"
                   onClick={fetchProducts}
-                  className="mt-6 rounded bg-[#2B1B12] px-6 py-3 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-[#FFF4E6] transition-colors hover:bg-[#332017] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13]"
+                  className="mt-6 inline-flex items-center gap-2 rounded-md bg-[#2B1B12] px-5 py-2.5 font-sans text-xs font-semibold uppercase tracking-[0.1em] text-[#FFF4E6] transition-colors duration-200 hover:bg-[#3d2a1f] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13]"
                 >
-                  TRY AGAIN
+                  <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                  Try Again
                 </button>
-              </div>
+              </motion.div>
             ) : products.length === 0 ? (
-              <div className="mx-auto max-w-md rounded-lg border border-[#2B1B12]/10 bg-white p-8 text-center shadow-sm sm:p-10">
-                <div className="mb-4 text-3xl" aria-hidden="true">⌕</div>
-                <p className="font-['Playfair_Display',Georgia,serif] text-xl text-[#2B1B12]">No items found</p>
-                <p className="mt-2 font-sans text-sm leading-relaxed text-[#2B1B12]/70">
-                  Try clearing your search or selecting another category.
+              /* Empty state */
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                className="py-20 text-center"
+              >
+                <svg className="mx-auto mb-4 h-10 w-10 text-[#2B1B12]/20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
+                <p className="font-['Playfair_Display',Georgia,serif] text-lg text-[#2B1B12] sm:text-xl">
+                  {searchQuery.trim() ? <>No results for &ldquo;{searchQuery.trim()}&rdquo;</> : 'No items found'}
+                </p>
+                <p className="mt-2 font-sans text-sm text-[#2B1B12]/40">
+                  {searchQuery.trim()
+                    ? 'Try searching for latte, espresso, pastry, or sandwich.'
+                    : 'Try selecting another category or clearing your filters.'}
                 </p>
                 <button
                   type="button"
                   onClick={() => { setSelectedCategory('all'); setSearchQuery(''); }}
-                  className="mt-6 rounded bg-[#F28C13] px-6 py-3 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#d97706] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13]"
+                  className="mt-6 rounded-md bg-[#F28C13] px-5 py-2.5 font-sans text-xs font-semibold uppercase tracking-[0.1em] text-white transition-colors duration-200 hover:bg-[#d97706] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13]"
                 >
-                  RESET FILTERS
+                  Reset Filters
                 </button>
-              </div>
+              </motion.div>
             ) : (
-              <div className="space-y-16 sm:space-y-20 lg:space-y-24">
-                {groupedProducts.map((group) => (
-                  <motion.section
-                    key={group.key}
-                    initial={fadeIn.initial}
-                    whileInView={fadeIn.whileInView}
-                    viewport={fadeIn.viewport}
-                    transition={fadeIn.transition}
-                    aria-labelledby={`category-${group.key}`}
-                  >
-                    <div className="mb-7 flex items-center gap-4 sm:mb-8">
-                      <div className="flex items-center gap-2.5 whitespace-nowrap">
-                        <span className="text-lg text-[#F28C13]" aria-hidden="true">{group.icon}</span>
-                        <h3 id={`category-${group.key}`} className="font-['Playfair_Display',Georgia,serif] text-xl font-medium tracking-tight text-[#2B1B12] sm:text-2xl">
-                          {group.name}
-                        </h3>
-                      </div>
-                      <div className="h-px flex-1 border-t border-dashed border-[#F28C13]/45" aria-hidden="true" />
-                    </div>
+              /* Product groups — animate on category change */
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={selectedCategory + '|' + searchQuery}
+                  initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
+                  transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
+                  className="space-y-16 sm:space-y-20 lg:space-y-24"
+                >
+                  {groupedProducts.map((group, groupIndex) => {
+                    const meta = getCategoryMeta(group.key, groupIndex);
+                    const isSingle = group.products.length === 1;
+                    const isDouble = group.products.length === 2;
 
-                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                      {group.products.map((product, index) => (
-                        <motion.article
-                          key={product.id}
-                          initial={fadeIn.initial}
-                          whileInView={fadeIn.whileInView}
-                          viewport={fadeIn.viewport}
-                          transition={{ ...fadeIn.transition, delay: shouldReduceMotion ? 0 : Math.min(index * 0.05, 0.2) }}
-                          className="group overflow-hidden rounded-lg border border-[#2B1B12]/10 bg-white shadow-[0_5px_20px_-16px_rgba(43,27,18,0.45)] transition-all duration-300 hover:-translate-y-1 hover:border-[#F28C13]/30 hover:shadow-[0_18px_35px_-18px_rgba(242,140,19,0.28)]"
-                        >
-                          <button
-                            type="button"
-                            onClick={() => handleOpenProduct(product)}
-                            className="block w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#F28C13]"
-                            aria-label={`View ${product.name}`}
-                          >
-                            <div className="relative aspect-[4/3] overflow-hidden bg-[#F4ECE1]">
-                              <img
-                                src={getProductImage(product)}
-                                alt={`${product.name} at L'Oven`}
-                                loading="lazy"
-                                onError={(e) => {
-                                  e.currentTarget.onerror = null;
-                                  e.currentTarget.src = defaultFallback;
-                                }}
-                                className="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.035]"
-                              />
-                              {product.featured && (
-                                <span className="absolute left-3 top-3 rounded-full bg-[#2B1B12]/90 px-3 py-1.5 font-sans text-[10px] font-semibold uppercase tracking-[0.13em] text-[#FFF4E6] backdrop-blur-sm">
-                                  FAVOURITE
-                                </span>
-                              )}
-                            </div>
-                          </button>
-
-                          <div className="flex min-h-[178px] flex-col p-5 sm:p-5.5">
-                            <div className="flex-1">
-                              <h4 className="font-['Playfair_Display',Georgia,serif] text-xl font-medium tracking-tight text-[#2B1B12] transition-colors duration-200 group-hover:text-[#F28C13] sm:text-[22px]">
-                                {product.name}
-                              </h4>
-                              <p className="mt-2 line-clamp-2 font-sans text-xs leading-relaxed text-[#2B1B12]/70 sm:text-sm">
-                                {product.description || 'Carefully prepared with quality ingredients and served fresh.'}
-                              </p>
-                            </div>
-
-                            <div className="mt-5 flex items-center justify-between gap-3">
-                              <span className="font-sans text-base font-semibold text-[#2B1B12] sm:text-lg whitespace-nowrap">
-                                {formatProductPrice(product.price)}
+                    return (
+                      <motion.section
+                        key={group.key}
+                        initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: '-50px' }}
+                        transition={{ duration: shouldReduceMotion ? 0 : 0.5, delay: shouldReduceMotion ? 0 : Math.min(groupIndex * 0.05, 0.15), ease: [0.16, 1, 0.3, 1] }}
+                        aria-labelledby={`category-${group.key}`}
+                      >
+                        {/* Category header with editorial index & narrative subtitle */}
+                        <div className="mb-8 sm:mb-10">
+                          <div className="flex flex-wrap items-baseline justify-between gap-3 pb-3">
+                            <div className="flex items-baseline gap-3 sm:gap-4">
+                              <span className="font-sans text-xs sm:text-[13px] font-bold tracking-[0.2em] text-[#F28C13]" aria-hidden="true">
+                                {meta.index}
                               </span>
-                              <div className="flex items-center gap-2">
-                                <button
-                                  type="button"
-                                  onClick={() => handleOpenProduct(product)}
-                                  className="inline-flex rounded border border-[#F28C13] px-3 py-2 font-sans text-[10px] font-semibold uppercase tracking-[0.1em] text-[#F28C13] transition-colors hover:bg-[#F28C13] hover:text-white"
-                                >
-                                  CUSTOMIZE
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => addToCart(product)}
-                                  className="group/btn relative inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#F28C13] text-white font-sans text-xs font-semibold uppercase tracking-[0.1em] rounded transition-all duration-300 hover:bg-[#d97706] shadow-sm hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13] focus-visible:ring-offset-2 whitespace-nowrap overflow-hidden min-w-[120px]"
-                                >
-                                  {/* Cart icon and text - visible by default, hidden on hover */}
-                                  <span className="inline-flex items-center gap-2 transition-all duration-300 group-hover/btn:opacity-0 group-hover/btn:scale-75">
-                                    <svg className="h-4 w-4 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
-                                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.4 5M17 13l1.4 5M9 21a1 1 0 100-2 1 1 0 000 2zm8 0a1 1 0 100-2 1 1 0 000 2z" />
-                                    </svg>
-                                    <span>Add to cart</span>
-                                  </span>
-                                  
-                                  {/* Plus icon - hidden by default, visible on hover */}
-                                  <span className="absolute inset-0 flex items-center justify-center text-2xl font-light opacity-0 scale-150 transition-all duration-300 group-hover/btn:opacity-100 group-hover/btn:scale-100">
-                                    +
-                                  </span>
-                                </button>
-                              </div>
+                              <h3
+                                id={`category-${group.key}`}
+                                className="font-['Playfair_Display',Georgia,serif] text-xl sm:text-2xl font-medium tracking-[-0.01em] text-[#2B1B12]"
+                              >
+                                {group.name}
+                              </h3>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <span className="hidden sm:inline-block font-sans text-xs italic text-[#2B1B12]/45">
+                                {meta.subtitle}
+                              </span>
+                              <span className="font-sans text-[11px] font-semibold tracking-wider text-[#2B1B12]/45 uppercase bg-[#2B1B12]/5 px-2.5 py-0.5 rounded">
+                                {group.products.length} {group.products.length === 1 ? 'item' : 'items'}
+                              </span>
                             </div>
                           </div>
-                        </motion.article>
-                      ))}
-                    </div>
-                  </motion.section>
-                ))}
-              </div>
+                          <motion.div
+                            initial={shouldReduceMotion ? {} : { scaleX: 0 }}
+                            whileInView={{ scaleX: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, ease: 'easeOut' }}
+                            className="h-px w-full origin-left bg-[#2B1B12]/10"
+                            aria-hidden="true"
+                          />
+                        </div>
+
+                        {/* Dynamic Editorial Grid */}
+                        {isSingle ? (
+                          /* 1 Product: Editorial Spotlight Showcase */
+                          (() => {
+                            const product = group.products[0];
+                            const canCustomize = isCustomizable(product);
+                            return (
+                              <motion.article
+                                initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: '-30px' }}
+                                transition={{ duration: shouldReduceMotion ? 0 : 0.45, ease: [0.16, 1, 0.3, 1] }}
+                                className="group/card mx-auto max-w-4xl overflow-hidden rounded-lg bg-white transition-all duration-400 ease-out shadow-[0_1px_3px_rgba(43,27,18,0.04)] hover:shadow-[0_16px_36px_-10px_rgba(43,27,18,0.12)] hover:-translate-y-0.5 border border-[#2B1B12]/6 flex flex-col md:flex-row md:items-stretch"
+                              >
+                                {/* Photo Container (50% on desktop) */}
+                                <div className="relative md:w-1/2 overflow-hidden bg-[#F4ECE1] min-h-[240px] md:min-h-0">
+                                  <button
+                                    type="button"
+                                    onClick={() => handleOpenProduct(product)}
+                                    className="block absolute inset-0 h-full w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#F28C13]"
+                                    aria-label={`View ${product.name} details`}
+                                  >
+                                    <img
+                                      src={getProductImage(product)}
+                                      alt={product.name}
+                                      loading="lazy"
+                                      onError={(e) => {
+                                        e.currentTarget.onerror = null;
+                                        e.currentTarget.src = defaultFallback;
+                                      }}
+                                      className="h-full w-full object-cover object-center transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/card:scale-[1.035]"
+                                    />
+                                  </button>
+                                  <span className="absolute left-3.5 top-3.5 z-10 rounded bg-[#2B1B12]/85 px-3 py-1 font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-[#FFF4E6] backdrop-blur-sm">
+                                    {meta.badgeText || 'SIGNATURE SELECTION'}
+                                  </span>
+                                </div>
+
+                                {/* Information Container */}
+                                <div className="flex flex-1 flex-col justify-between p-6 sm:p-7 md:p-8 md:w-1/2">
+                                  <div>
+                                    <div className="mb-2 flex items-center justify-between">
+                                      <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.16em] text-[#F28C13]">
+                                        {product.category?.name || group.name}
+                                      </span>
+                                      {product.prep_time_mins && (
+                                        <span className="font-sans text-[11px] font-medium text-[#2B1B12]/45">
+                                          {product.prep_time_mins} min craft
+                                        </span>
+                                      )}
+                                    </div>
+
+                                    <h4
+                                      onClick={() => handleOpenProduct(product)}
+                                      className="cursor-pointer font-['Playfair_Display',Georgia,serif] text-2xl sm:text-[26px] font-medium leading-snug tracking-[-0.01em] text-[#2B1B12] transition-colors hover:text-[#F28C13]"
+                                    >
+                                      {product.name}
+                                    </h4>
+
+                                    <p className="mt-2.5 font-sans text-sm leading-relaxed text-[#2B1B12]/65">
+                                      {product.description || 'Carefully prepared with premium ingredients, crafted fresh for your enjoyment.'}
+                                    </p>
+
+                                    <div className="mt-4 flex items-baseline gap-3">
+                                      <span className="font-sans text-xl sm:text-2xl font-bold text-[#2B1B12]">
+                                        {formatProductPrice(product.price)}
+                                      </span>
+                                      <span className="font-sans text-xs text-[#2B1B12]/40">
+                                        Handcrafted to order
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                  {/* Actions */}
+                                  <div className="mt-6 flex items-center gap-3 pt-4" style={{ borderTop: '1px solid rgba(43,27,18,0.06)' }}>
+                                    {canCustomize && (
+                                      <button
+                                        type="button"
+                                        onClick={() => handleOpenProduct(product)}
+                                        className="inline-flex items-center justify-center rounded border border-[#2B1B12]/20 bg-white px-4 py-2.5 font-sans text-[12px] font-semibold uppercase tracking-[0.06em] text-[#2B1B12] transition-all duration-200 hover:border-[#F28C13] hover:bg-[#F28C13] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13] focus-visible:ring-offset-2 active:scale-[0.97]"
+                                      >
+                                        Customise
+                                      </button>
+                                    )}
+                                    <button
+                                      type="button"
+                                      onClick={() => handleAddToCart(product)}
+                                      disabled={addedProductId === product.id}
+                                      className={`group/btn relative ${canCustomize ? 'ml-auto' : 'w-full sm:w-auto ml-auto'} inline-flex items-center justify-center overflow-hidden rounded border border-transparent px-6 py-2.5 font-sans text-[12px] font-semibold uppercase tracking-[0.06em] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13] focus-visible:ring-offset-2 ${
+                                        addedProductId === product.id
+                                          ? 'bg-[#2B1B12] text-[#FFF4E6]'
+                                          : 'bg-[#2B1B12] text-white hover:border-[#F28C13] hover:bg-[#F28C13] active:scale-[0.97]'
+                                      }`}
+                                    >
+                                      {addedProductId === product.id ? (
+                                        <span className="inline-flex items-center gap-1.5">
+                                          <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                                          Added
+                                        </span>
+                                      ) : (
+                                        <>
+                                          <span className="transition-all duration-200 group-hover/btn:opacity-0 group-hover/btn:scale-75">
+                                            ADD TO CART
+                                          </span>
+                                          <span className="absolute inset-0 flex items-center justify-center opacity-0 scale-75 transition-all duration-200 group-hover/btn:opacity-100 group-hover/btn:scale-100 pointer-events-none">
+                                            <svg className="h-4 w-4 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
+                                              <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.4 5M17 13l1.4 5M9 21a1 1 0 100-2 1 1 0 000 2zm8 0a1 1 0 100-2 1 1 0 000 2z" />
+                                            </svg>
+                                          </span>
+                                        </>
+                                      )}
+                                    </button>
+                                  </div>
+                                </div>
+                              </motion.article>
+                            );
+                          })()
+                        ) : (
+                          /* 2, 3, or 4+ Products: Balanced & Editorial Responsive Grid */
+                          <div
+                            className={
+                              isDouble
+                                ? 'mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-7 sm:gap-8'
+                                : 'grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-7'
+                            }
+                          >
+                            {group.products.map((product, index) => {
+                              const canCustomize = isCustomizable(product);
+                              const isSignature = product.slug === meta.featuredSlug || product.is_featured;
+
+                              return (
+                                <motion.article
+                                  key={product.id}
+                                  initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
+                                  whileInView={{ opacity: 1, y: 0 }}
+                                  viewport={{ once: true, margin: '-30px' }}
+                                  transition={{
+                                    duration: shouldReduceMotion ? 0 : 0.4,
+                                    delay: shouldReduceMotion ? 0 : Math.min(index * 0.05, 0.2),
+                                    ease: [0.16, 1, 0.3, 1],
+                                  }}
+                                  className="group/card overflow-hidden rounded-lg bg-white transition-all duration-400 ease-out shadow-[0_1px_3px_rgba(43,27,18,0.04)] hover:shadow-[0_12px_28px_-8px_rgba(43,27,18,0.12)] hover:-translate-y-0.5 border border-[#2B1B12]/6 flex flex-col justify-between"
+                                >
+                                  {/* Food-first Image with Subtle Hover Zoom */}
+                                  <div>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleOpenProduct(product)}
+                                      className="block w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#F28C13]"
+                                      aria-label={`View ${product.name} details`}
+                                    >
+                                      <div className={`relative ${isDouble ? 'aspect-[16/11]' : 'aspect-[4/3]'} overflow-hidden bg-[#F4ECE1]`}>
+                                        <img
+                                          src={getProductImage(product)}
+                                          alt={product.name}
+                                          loading="lazy"
+                                          onError={(e) => {
+                                            e.currentTarget.onerror = null;
+                                            e.currentTarget.src = defaultFallback;
+                                          }}
+                                          className="h-full w-full object-cover object-center transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/card:scale-[1.035]"
+                                        />
+                                        {/* Refined signature badge */}
+                                        {isSignature && (
+                                          <span className="absolute left-3 top-3 rounded bg-[#2B1B12]/85 px-2.5 py-1 font-sans text-[10px] font-bold uppercase tracking-[0.12em] text-[#FFF4E6] backdrop-blur-sm">
+                                            {meta.badgeText || 'SIGNATURE'}
+                                          </span>
+                                        )}
+                                      </div>
+                                    </button>
+
+                                    {/* Card body */}
+                                    <div className="p-5 sm:p-6">
+                                      <div className="mb-1.5 flex items-center justify-between">
+                                        <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.14em] text-[#F28C13]">
+                                          {product.category?.name || group.name}
+                                        </span>
+                                        {product.prep_time_mins && (
+                                          <span className="font-sans text-[10px] font-medium text-[#2B1B12]/35">
+                                            {product.prep_time_mins}m
+                                          </span>
+                                        )}
+                                      </div>
+
+                                      <h4
+                                        onClick={() => handleOpenProduct(product)}
+                                        className="cursor-pointer font-['Playfair_Display',Georgia,serif] text-lg sm:text-[19px] font-medium leading-snug tracking-[-0.01em] text-[#2B1B12] transition-colors hover:text-[#F28C13]"
+                                      >
+                                        {product.name}
+                                      </h4>
+
+                                      <p className="mt-1.5 line-clamp-2 font-sans text-[13px] leading-relaxed text-[#2B1B12]/55">
+                                        {product.description || 'Carefully prepared with quality ingredients and served fresh.'}
+                                      </p>
+
+                                      <p className="mt-4 font-sans text-base font-bold text-[#2B1B12] sm:text-[17px]">
+                                        {formatProductPrice(product.price)}
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                  {/* Actions */}
+                                  <div className="px-5 pb-5 sm:px-6 sm:pb-6 pt-0">
+                                    <div className="flex items-center gap-3 pt-4" style={{ borderTop: '1px solid rgba(43,27,18,0.06)' }}>
+                                      {canCustomize ? (
+                                        <>
+                                          <button
+                                            type="button"
+                                            onClick={() => handleOpenProduct(product)}
+                                            className="inline-flex items-center justify-center rounded border border-[#2B1B12]/20 bg-white px-3.5 py-2 font-sans text-[12px] font-semibold uppercase tracking-[0.06em] text-[#2B1B12] transition-all duration-200 hover:border-[#F28C13] hover:bg-[#F28C13] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13] focus-visible:ring-offset-2 active:scale-[0.97]"
+                                          >
+                                            Customise
+                                          </button>
+                                          <button
+                                            type="button"
+                                            onClick={() => handleAddToCart(product)}
+                                            disabled={addedProductId === product.id}
+                                            className={`group/btn relative ml-auto inline-flex items-center justify-center overflow-hidden rounded border border-transparent px-4 py-2 font-sans text-[12px] font-semibold uppercase tracking-[0.06em] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13] focus-visible:ring-offset-2 ${
+                                              addedProductId === product.id
+                                                ? 'bg-[#2B1B12] text-[#FFF4E6]'
+                                                : 'bg-[#2B1B12] text-white hover:border-[#F28C13] hover:bg-[#F28C13] active:scale-[0.97]'
+                                            }`}
+                                          >
+                                            {addedProductId === product.id ? (
+                                              <span className="inline-flex items-center gap-1.5">
+                                                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                                                Added
+                                              </span>
+                                            ) : (
+                                              <>
+                                                <span className="transition-all duration-200 group-hover/btn:opacity-0 group-hover/btn:scale-75">
+                                                  ADD TO CART
+                                                </span>
+                                                <span className="absolute inset-0 flex items-center justify-center opacity-0 scale-75 transition-all duration-200 group-hover/btn:opacity-100 group-hover/btn:scale-100 pointer-events-none">
+                                                  <svg
+                                                    className="h-4 w-4 text-white"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    strokeWidth="2"
+                                                    viewBox="0 0 24 24"
+                                                    aria-hidden="true"
+                                                  >
+                                                    <path
+                                                      strokeLinecap="round"
+                                                      strokeLinejoin="round"
+                                                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.4 5M17 13l1.4 5M9 21a1 1 0 100-2 1 1 0 000 2zm8 0a1 1 0 100-2 1 1 0 000 2z"
+                                                    />
+                                                  </svg>
+                                                </span>
+                                              </>
+                                            )}
+                                          </button>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <span className="font-sans text-[11px] font-medium text-[#2B1B12]/40 italic">
+                                            Fresh from oven
+                                          </span>
+                                          <button
+                                            type="button"
+                                            onClick={() => handleAddToCart(product)}
+                                            disabled={addedProductId === product.id}
+                                            className={`group/btn relative ml-auto inline-flex items-center justify-center overflow-hidden rounded border border-transparent px-5 py-2 font-sans text-[12px] font-semibold uppercase tracking-[0.06em] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13] focus-visible:ring-offset-2 ${
+                                              addedProductId === product.id
+                                                ? 'bg-[#2B1B12] text-[#FFF4E6]'
+                                                : 'bg-[#2B1B12] text-white hover:border-[#F28C13] hover:bg-[#F28C13] active:scale-[0.97]'
+                                            }`}
+                                          >
+                                            {addedProductId === product.id ? (
+                                              <span className="inline-flex items-center gap-1.5">
+                                                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                                                Added
+                                              </span>
+                                            ) : (
+                                              <>
+                                                <span className="transition-all duration-200 group-hover/btn:opacity-0 group-hover/btn:scale-75">
+                                                  ADD TO CART
+                                                </span>
+                                                <span className="absolute inset-0 flex items-center justify-center opacity-0 scale-75 transition-all duration-200 group-hover/btn:opacity-100 group-hover/btn:scale-100 pointer-events-none">
+                                                  <svg
+                                                    className="h-4 w-4 text-white"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    strokeWidth="2"
+                                                    viewBox="0 0 24 24"
+                                                    aria-hidden="true"
+                                                  >
+                                                    <path
+                                                      strokeLinecap="round"
+                                                      strokeLinejoin="round"
+                                                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.4 5M17 13l1.4 5M9 21a1 1 0 100-2 1 1 0 000 2zm8 0a1 1 0 100-2 1 1 0 000 2z"
+                                                    />
+                                                  </svg>
+                                                </span>
+                                              </>
+                                            )}
+                                          </button>
+                                        </>
+                                      )}
+                                    </div>
+                                  </div>
+                                </motion.article>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </motion.section>
+                    );
+                  })}
+                </motion.div>
+              </AnimatePresence>
             )}
+          </div>
+        </div>
+
+        {/* Editorial Bridge to Popular Picks */}
+        <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 pt-16 sm:pt-20 pb-4">
+          <div className="flex items-center gap-4">
+            <div className="h-px flex-1 bg-[#2B1B12]/10" aria-hidden="true" />
+            <span className="font-sans text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.22em] text-[#2B1B12]/45 text-center">
+              EXPLORE EVERYTHING · THEN DISCOVER WHAT PEOPLE LOVE MOST
+            </span>
+            <div className="h-px flex-1 bg-[#2B1B12]/10" aria-hidden="true" />
           </div>
         </div>
       </section>
 
-      {/* Marquee Section - Product Cards with Parallax */}
-      <section className="relative py-12 sm:py-16 overflow-hidden group" aria-labelledby="popular-picks-heading">
-        {/* Parallax Background Banner */}
-        <motion.div
-          className="absolute inset-0 bg-[#2B1B12]"
-          style={{
-            backgroundImage: 'linear-gradient(135deg, #2B1B12 0%, #1a0f0a 50%, #2B1B12 100%)',
-          }}
-          initial={{ y: 0 }}
-          whileInView={{ y: -50 }}
-          viewport={{ once: false, amount: 0.5 }}
-          transition={{
-            duration: 0.8,
-            ease: [0.16, 1, 0.3, 1],
-          }}
-        />
-
-        {/* Decorative parallax pattern overlay */}
-        <motion.div
-          className="absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.828-1.415 1.415L51.8 0h2.827zM5.373 0l-.83.828L5.96 2.243 8.2 0H5.374zM48.97 0l3.657 3.657-1.414 1.414L46.143 0h2.828zM11.03 0L7.372 3.657 8.787 5.07 13.857 0H11.03zm32.284 0L49.8 6.485 48.384 7.9l-7.9-7.9h2.83zM16.686 0L10.2 6.485 11.616 7.9l7.9-7.9h-2.83zM22.344 0L13.858 8.485 15.272 9.9l9.9-9.9h-2.83zM27.03 0L15.272 11.757 16.686 13.17 30 0h-2.97zm5.657 0L17.888 14.8l1.414 1.414L34.828 0h-2.142zM41.314 0L23.03 18.284l1.414 1.414L43.8 0h-2.485zm5.657 0L27.687 19.284l1.414 1.414L47.8 0h-.83zM54.627 0L29.03 25.597l1.414 1.414L56.828 0h-2.2zM0 0l13.858 13.858 1.414-1.414L1.414 0H0zm11.03 0L0 11.03v2.828l13.857-13.858H11.03zM15.687 0L0 15.687v2.828L18.515 0h-2.828zM20.344 0L0 20.344v2.828L23.172 0h-2.828zM25 0L0 25v2.828L27.828 0H25zM29.657 0L0 29.657v2.828L32.485 0h-2.828zM34.315 0L0 34.315v2.827L37.143 0h-2.828zM38.97 0L0 38.97v2.83L41.8 0h-2.83zM43.627 0L0 43.627v2.83L46.455 0h-2.83zM48.284 0L0 48.284v2.83L51.113 0h-2.83zM52.942 0L0 52.942v2.83L55.77 0h-2.83zM57.6 0L0 57.6v2.83L60 0h-2.4z' fill='%23F28C13' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
-          }}
-          initial={{ y: 0 }}
-          whileInView={{ y: 30 }}
-          viewport={{ once: false, amount: 0.5 }}
-          transition={{
-            duration: 1,
-            ease: [0.16, 1, 0.3, 1],
-          }}
-        />
-
-        {/* Content wrapper */}
-        <div className="relative z-10">
-        {/* Section Heading */}
-        <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 mb-8 sm:mb-10">
-          <h2 
-            id="popular-picks-heading"
-            className="font-['Playfair_Display',Georgia,serif] text-3xl sm:text-4xl lg:text-5xl font-normal text-[#FFF4E6] tracking-tight"
-          >
-            Our Popular <span className="text-[#F28C13]">Picks</span>
-          </h2>
-        </div>
-
-        <div className="relative flex [&>*]:group-hover:pause">
-          {/* First set of items */}
-          <motion.div
-            className="flex gap-8 sm:gap-10 lg:gap-12 animate-marquee pr-8 sm:pr-10 lg:pr-12"
-            animate={{
-              x: [0, -2000],
-            }}
-            transition={{
-              x: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 40,
-                ease: "linear",
-              },
-            }}
-          >
-            {products.slice(0, 8).map((product, index) => (
-              <div
-                key={`marquee-1-${index}`}
-                className="flex-shrink-0 w-64 bg-white/95 backdrop-blur-sm rounded-lg overflow-hidden border border-[#F28C13]/20 hover:border-[#F28C13]/40 transition-all duration-300"
-              >
-                {/* Product Image */}
-                <div className="aspect-[4/3] overflow-hidden bg-[#F4ECE1]">
-                  <img
-                    src={getProductImage(product)}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-
-                {/* Product Info */}
-                <div className="p-4">
-                  <h3 className="font-['Playfair_Display',Georgia,serif] text-lg font-normal text-[#2B1B12] mb-1.5 line-clamp-1">
-                    {product.name}
-                  </h3>
-                  
-                  <p className="font-sans text-xs text-[#2B1B12]/70 leading-relaxed mb-3 line-clamp-2">
-                    {product.description || 'Crafted with care and quality ingredients.'}
-                  </p>
-
-                  <div className="flex items-center justify-between">
-                    <span className="font-sans text-base font-semibold text-[#2B1B12] whitespace-nowrap">{formatProductPrice(product.price)}
-                    </span>
-                    
-                    <button
-                      onClick={() => handleOpenProduct(product)}
-                      className="w-8 h-8 rounded-full bg-[#F28C13] text-white flex items-center justify-center hover:bg-[#d97706] transition-colors duration-200"
-                      aria-label={`View ${product.name}`}
-                    >
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-                        <path d="M12 5v14M5 12h14" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-          
-          {/* Second set of items (for seamless loop) */}
-          <motion.div
-            className="flex gap-8 sm:gap-10 lg:gap-12 animate-marquee pr-8 sm:pr-10 lg:pr-12"
-            animate={{
-              x: [0, -2000],
-            }}
-            transition={{
-              x: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 40,
-                ease: "linear",
-              },
-            }}
-          >
-            {products.slice(0, 8).map((product, index) => (
-              <div
-                key={`marquee-2-${index}`}
-                className="flex-shrink-0 w-64 bg-white/95 backdrop-blur-sm rounded-lg overflow-hidden border border-[#F28C13]/20 hover:border-[#F28C13]/40 transition-all duration-300"
-              >
-                {/* Product Image */}
-                <div className="aspect-[4/3] overflow-hidden bg-[#F4ECE1]">
-                  <img
-                    src={getProductImage(product)}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-
-                {/* Product Info */}
-                <div className="p-4">
-                  <h3 className="font-['Playfair_Display',Georgia,serif] text-lg font-normal text-[#2B1B12] mb-1.5 line-clamp-1">
-                    {product.name}
-                  </h3>
-                  
-                  <p className="font-sans text-xs text-[#2B1B12]/70 leading-relaxed mb-3 line-clamp-2">
-                    {product.description || 'Crafted with care and quality ingredients.'}
-                  </p>
-
-                  <div className="flex items-center justify-between">
-                    <span className="font-sans text-base font-semibold text-[#2B1B12] whitespace-nowrap">{formatProductPrice(product.price)}
-                    </span>
-                    
-                    <button
-                      onClick={() => handleOpenProduct(product)}
-                      className="w-8 h-8 rounded-full bg-[#F28C13] text-white flex items-center justify-center hover:bg-[#d97706] transition-colors duration-200"
-                      aria-label={`View ${product.name}`}
-                    >
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-                        <path d="M12 5v14M5 12h14" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* Third set for extra smoothness */}
-          <motion.div
-            className="flex gap-8 sm:gap-10 lg:gap-12 animate-marquee pr-8 sm:pr-10 lg:pr-12"
-            animate={{
-              x: [0, -2000],
-            }}
-            transition={{
-              x: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 40,
-                ease: "linear",
-              },
-            }}
-          >
-            {products.slice(0, 8).map((product, index) => (
-              <div
-                key={`marquee-3-${index}`}
-                className="flex-shrink-0 w-64 bg-white/95 backdrop-blur-sm rounded-lg overflow-hidden border border-[#F28C13]/20 hover:border-[#F28C13]/40 transition-all duration-300"
-              >
-                {/* Product Image */}
-                <div className="aspect-[4/3] overflow-hidden bg-[#F4ECE1]">
-                  <img
-                    src={getProductImage(product)}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-
-                {/* Product Info */}
-                <div className="p-4">
-                  <h3 className="font-['Playfair_Display',Georgia,serif] text-lg font-normal text-[#2B1B12] mb-1.5 line-clamp-1">
-                    {product.name}
-                  </h3>
-                  
-                  <p className="font-sans text-xs text-[#2B1B12]/70 leading-relaxed mb-3 line-clamp-2">
-                    {product.description || 'Crafted with care and quality ingredients.'}
-                  </p>
-
-                  <div className="flex items-center justify-between">
-                    <span className="font-sans text-base font-semibold text-[#2B1B12] whitespace-nowrap">{formatProductPrice(product.price)}
-                    </span>
-                    
-                    <button
-                      onClick={() => handleOpenProduct(product)}
-                      className="w-8 h-8 rounded-full bg-[#F28C13] text-white flex items-center justify-center hover:bg-[#d97706] transition-colors duration-200"
-                      aria-label={`View ${product.name}`}
-                    >
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-                        <path d="M12 5v14M5 12h14" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-        </div>
-      </section>
+      {/* Timed Product Carousel — Our Popular Picks */}
+      <PopularPicksCarousel
+        products={products}
+        onSelectProduct={handleOpenProduct}
+        onAddToCart={handleAddToCart}
+        getProductImage={getProductImage}
+      />
 
       {/* Call to Action Section */}
       <section className="bg-[#FFF4E6] py-20 sm:py-24 lg:py-28">
@@ -788,9 +981,29 @@ const Menu = () => {
 
       {/* Floating Back to Top Button */}
       <BackToTop />
+
+      {/* Cart toast notification */}
+      <AnimatePresence>
+        {toastMessage && (
+          <motion.div
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: shouldReduceMotion ? 0.15 : 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed bottom-6 left-4 right-4 z-50 mx-auto max-w-sm sm:left-auto sm:right-6"
+          >
+            <div className="flex items-center gap-3 rounded-lg bg-[#2B1B12] px-4 py-3 font-sans text-sm text-[#FFF4E6] shadow-[0_8px_24px_-6px_rgba(43,27,18,0.5)]">
+              <svg className="h-4 w-4 flex-shrink-0 text-[#F28C13]" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span className="flex-1 text-[13px]">{toastMessage}</span>
+              <a href="/cart" className="flex-shrink-0 text-[11px] font-semibold uppercase tracking-[0.1em] text-[#F28C13] transition-colors hover:text-white">
+                View Cart
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
 
 export default Menu;
-
