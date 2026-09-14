@@ -10,7 +10,7 @@ import croissant1 from '../../assets/cand_croissant1.jpg';
 import croissant2 from '../../assets/cand_croissant2.jpg';
 import latteArt from '../../assets/cand_latte_art.jpg';
 import coffeeArt from '../../assets/cand_coffee_art.jpg';
-import toastImg from '../../assets/cand_pastry_coffee.jpg';
+import toastImg from '../../assets/cand_c2.jpg';
 import coldBrewImg from '../../assets/cand_table_coffee1.jpg';
 import defaultFallback from '../../assets/cand_croissant_cup.jpg';
 
@@ -421,9 +421,10 @@ const FeaturedMenu = ({
             <div className="pt-8 sm:pt-12 text-center">
               <Link
                 to="/menu"
-                className="inline-flex items-center gap-2 text-xs sm:text-sm font-sans font-semibold tracking-[0.18em] uppercase text-[#2B1B12] hover:text-[#F28C13] transition-colors duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F28C13] py-2"
+                className="inline-flex items-center justify-center gap-3 px-8 py-3.5 bg-[#2B1B12] text-[#FFF4E6] hover:bg-[#F28C13] hover:text-white font-sans text-xs sm:text-sm font-bold tracking-[0.18em] uppercase rounded-sm transition-all duration-200 shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13] group"
               >
-                EXPLORE THE FULL MENU <span aria-hidden="true">→</span>
+                <span>EXPLORE THE FULL MENU</span>
+                <span className="transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span>
               </Link>
             </div>
           </div>

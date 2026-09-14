@@ -219,11 +219,11 @@ const Fulfilment = () => {
             <div className="hidden lg:block pt-8 sm:pt-10">
               <Link
                 to="/menu"
-                className="inline-flex items-center gap-3 font-sans text-xs sm:text-sm font-semibold tracking-[0.18em] text-[#2B1B12] hover:text-[#F28C13] transition-colors duration-150 group border-b border-[#2B1B12]/20 hover:border-[#F28C13] pb-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13]"
+                className="inline-flex items-center justify-center gap-3 px-8 py-3.5 bg-[#2B1B12] text-[#FFF4E6] hover:bg-[#F28C13] hover:text-white font-sans text-xs sm:text-sm font-bold tracking-[0.18em] uppercase rounded-sm transition-all duration-200 shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13] group"
               >
                 <span>ORDER NOW</span>
                 <span
-                  className="transition-transform duration-200 group-hover:translate-x-1.5 text-[#F28C13]"
+                  className="transition-transform duration-200 group-hover:translate-x-1"
                   aria-hidden="true"
                 >
                   →
@@ -268,11 +268,11 @@ const Fulfilment = () => {
             <div className="lg:hidden pt-8 text-center sm:text-left">
               <Link
                 to="/menu"
-                className="inline-flex items-center gap-3 font-sans text-xs sm:text-sm font-semibold tracking-[0.18em] text-[#2B1B12] hover:text-[#F28C13] transition-colors duration-150 group border-b border-[#2B1B12]/20 hover:border-[#F28C13] pb-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13]"
+                className="inline-flex items-center justify-center gap-3 px-8 py-3.5 bg-[#2B1B12] text-[#FFF4E6] hover:bg-[#F28C13] hover:text-white font-sans text-xs sm:text-sm font-bold tracking-[0.18em] uppercase rounded-sm transition-all duration-200 shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13] group"
               >
                 <span>ORDER NOW</span>
                 <span
-                  className="transition-transform duration-200 group-hover:translate-x-1.5 text-[#F28C13]"
+                  className="transition-transform duration-200 group-hover:translate-x-1"
                   aria-hidden="true"
                 >
                   →
