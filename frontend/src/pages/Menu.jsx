@@ -5,6 +5,7 @@ import { useCart } from '../hooks/useCart';
 import Loading from '../components/common/Loading';
 import ProductModal from '../components/products/ProductModal';
 import PopularPicksCarousel from '../components/menu/PopularPicksCarousel';
+import ComeBackForMore from '../components/menu/ComeBackForMore';
 import BackToTop from '../components/common/BackToTop';
 import { formatProductPrice } from '../utils/currency';
 
@@ -887,88 +888,8 @@ const Menu = () => {
         getProductImage={getProductImage}
       />
 
-      {/* Call to Action Section */}
-      <section className="bg-[#FFF4E6] py-20 sm:py-24 lg:py-28">
-        <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
-          <motion.div
-            initial={fadeIn.initial}
-            whileInView={fadeIn.whileInView}
-            viewport={fadeIn.viewport}
-            transition={fadeIn.transition}
-            className="max-w-4xl"
-          >
-            {/* Coffee icon */}
-            <div className="mb-6 sm:mb-8">
-              <i className="fa-brands fa-java text-5xl sm:text-6xl text-[#F28C13]"></i>
-            </div>
-
-            {/* Heading */}
-            <h2 className="font-['Playfair_Display',Georgia,serif] text-3xl sm:text-4xl lg:text-5xl font-normal text-[#2B1B12] mb-4 sm:mb-5 tracking-tight">
-              Come back for more
-            </h2>
-
-            {/* Description */}
-            <p className="font-sans text-base sm:text-lg text-[#2B1B12]/75 font-normal leading-relaxed mb-8 sm:mb-10 max-w-2xl">
-              Every visit is a new opportunity to discover your next favorite. From our signature blends to freshly baked pastries, we're here to make each moment special.
-            </p>
-
-            {/* Decorative line */}
-            <div className="w-16 h-0.5 bg-[#F28C13] mb-8 sm:mb-10" aria-hidden="true" />
-
-            {/* Benefits grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mb-10 sm:mb-12">
-              <div className="space-y-2">
-                <div className="text-3xl sm:text-4xl font-['Playfair_Display',Georgia,serif] text-[#F28C13]">
-                  Fresh
-                </div>
-                <p className="font-sans text-sm text-[#2B1B12]/70">
-                  Made daily with premium ingredients
-                </p>
-              </div>
-              
-              <div className="space-y-2">
-                <div className="text-3xl sm:text-4xl font-['Playfair_Display',Georgia,serif] text-[#F28C13]">
-                  Quality
-                </div>
-                <p className="font-sans text-sm text-[#2B1B12]/70">
-                  Handcrafted with care and expertise
-                </p>
-              </div>
-              
-              <div className="space-y-2">
-                <div className="text-3xl sm:text-4xl font-['Playfair_Display',Georgia,serif] text-[#F28C13]">
-                  Warmth
-                </div>
-                <p className="font-sans text-sm text-[#2B1B12]/70">
-                  A welcoming atmosphere every time
-                </p>
-              </div>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
-              <button
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="px-8 py-3.5 bg-[#F28C13] text-white font-sans text-xs sm:text-sm font-semibold uppercase tracking-[0.16em] rounded hover:bg-[#d97706] transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13] focus-visible:ring-offset-2"
-              >
-                Order Now
-              </button>
-              
-              <a
-                href="/about"
-                className="inline-flex items-center gap-2 font-sans text-xs sm:text-sm font-semibold uppercase tracking-[0.16em] text-[#2B1B12] hover:text-[#F28C13] transition-colors duration-150 py-2"
-              >
-                Learn Our Story <span aria-hidden="true">→</span>
-              </a>
-            </div>
-
-            {/* Trust message */}
-            <p className="mt-10 font-sans text-xs text-[#2B1B12]/60 italic">
-              Join our community of coffee lovers. Your next favorite is just an order away.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      {/* Redesigned Signature Closing Section — Come Back For More */}
+      <ComeBackForMore onOrderNow={() => window.scrollTo({ top: 0, behavior: 'smooth' })} />
 
       {/* Product Customization Modal */}
       {selectedProduct && (

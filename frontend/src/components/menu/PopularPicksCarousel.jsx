@@ -301,9 +301,6 @@ const PopularPicksCarousel = ({
         {/* Header & Section Title */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10 sm:mb-14">
           <div>
-            <span className="block font-sans text-xs sm:text-[13px] font-semibold tracking-[0.22em] text-[#F28C13] uppercase mb-3">
-              CURATED FAVORITES
-            </span>
             <h2 className="font-['Playfair_Display',Georgia,serif] text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-[#FFF4E6]">
               Our Popular <span className="text-[#F28C13]">Picks</span>
             </h2>
