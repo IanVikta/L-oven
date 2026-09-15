@@ -12,7 +12,7 @@ return [
     | When true: Official UGX menu pricing is live and verified, enabling order creation.
     |
     */
-    'pricing_finalized' => filter_var(env('LOVEN_PRICING_FINALIZED', false), FILTER_VALIDATE_BOOLEAN),
+    'pricing_finalized' => filter_var(env('LOVEN_PRICING_FINALIZED', true), FILTER_VALIDATE_BOOLEAN),
 
     /*
     |--------------------------------------------------------------------------

@@ -234,8 +234,8 @@ const Footer = () => {
                   VISIT US
                 </h4>
                 <p className="font-sans text-xs text-[#FFF4E6]/75 leading-relaxed">
-                  Plot 14 Acacia Avenue<br />
-                  Kololo, Kampala
+                  Entebbe Road<br />
+                  Kitende, Uganda
                 </p>
               </div>
             </div>
@@ -298,7 +298,9 @@ const Footer = () => {
                 </h4>
                 <p className="font-sans text-xs text-[#FFF4E6]/75 leading-relaxed">
                   +256 770 123 456<br />
-                  hello@loven.coffee
+                  <a href="mailto:lovencoffee2@gmail.com" className="hover:text-[#F28C13] transition-colors">
+                    lovencoffee2@gmail.com
+                  </a>
                 </p>
               </div>
             </div>

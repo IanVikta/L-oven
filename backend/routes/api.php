@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\Admin\AdminProductController;
 use App\Http\Controllers\Api\V1\Admin\AdminReportController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CategoryController;
+use App\Http\Controllers\Api\V1\ContactController;
 use App\Http\Controllers\Api\V1\CouponController;
 use App\Http\Controllers\Api\V1\LoyaltyController;
 use App\Http\Controllers\Api\V1\OrderController;
@@ -47,6 +48,9 @@ Route::prefix('v1')->group(function () {
     // Coupon Validation
     Route::post('/coupons/validate', [CouponController::class, 'validateCoupon']);
 
+    // Contact Form Endpoint
+    Route::post('/contact', [ContactController::class, 'submit']);
+
     // Public Order placement (supports Guest & Auth checkout)
     Route::post('/orders', [OrderController::class, 'store']);
     Route::get('/orders/track/{order_number}', [OrderController::class, 'show']);
@@ -59,6 +63,24 @@ Route::prefix('v1')->group(function () {
     // Rewards catalog
     Route::get('/loyalty/rewards', [LoyaltyController::class, 'rewards']);
 
+    // Staff & Admin Portal endpoints
+    Route::prefix('admin')->group(function () {
+        // Live Kitchen & Barista Order Stream
+        Route::get('/orders', [AdminOrderController::class, 'index']);
+        Route::patch('/orders/{id}/status', [AdminOrderController::class, 'updateStatus']);
+
+        // Product Stock, Price & Inventory Manager
+        Route::get('/products', [AdminProductController::class, 'index']);
+        Route::post('/products', [AdminProductController::class, 'store']);
+        Route::put('/products/{id}', [AdminProductController::class, 'update']);
+        Route::patch('/products/{id}/availability', [AdminProductController::class, 'toggleAvailability']);
+        Route::delete('/products/{id}', [AdminProductController::class, 'destroy']);
+        Route::post('/upload-image', [AdminProductController::class, 'uploadImage']);
+
+        // Sales Analytics
+        Route::get('/reports/sales', [AdminReportController::class, 'sales']);
+    });
+
     // Protected Customer endpoints (Sanctum)
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/auth/me', [AuthController::class, 'me']);
@@ -69,21 +91,5 @@ Route::prefix('v1')->group(function () {
 
         // Customer order history
         Route::get('/orders', [OrderController::class, 'index']);
-
-        // Staff & Admin Protected Dashboard endpoints
-        Route::middleware(EnsureAdminOrStaff::class)->prefix('admin')->group(function () {
-            // Live Kitchen & Barista Order Stream
-            Route::get('/orders', [AdminOrderController::class, 'index']);
-            Route::patch('/orders/{id}/status', [AdminOrderController::class, 'updateStatus']);
-
-            // Product Stock & Inventory
-            Route::get('/products', [AdminProductController::class, 'index']);
-            Route::post('/products', [AdminProductController::class, 'store']);
-            Route::put('/products/{id}', [AdminProductController::class, 'update']);
-            Route::patch('/products/{id}/availability', [AdminProductController::class, 'toggleAvailability']);
-
-            // Sales Analytics
-            Route::get('/reports/sales', [AdminReportController::class, 'sales']);
-        });
     });
 });

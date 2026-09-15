@@ -57,7 +57,7 @@ class AdminOrderController extends Controller
         OrderStatusHistory::create([
             'order_id' => $order->id,
             'status' => $validated['status'],
-            'changed_by' => $request->user()->id,
+            'changed_by' => $request->user()?->id,
             'notes' => $validated['notes'] ?? "Status updated to {$validated['status']}",
         ]);
 

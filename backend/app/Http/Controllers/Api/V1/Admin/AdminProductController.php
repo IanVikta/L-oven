@@ -97,4 +97,36 @@ class AdminProductController extends Controller
             'is_available' => $product->is_available,
         ]);
     }
+
+    /**
+     * Delete product item.
+     */
+    public function destroy(int $id): JsonResponse
+    {
+        $product = Product::findOrFail($id);
+        $product->delete();
+
+        return response()->json([
+            'message' => 'Product deleted successfully',
+        ]);
+    }
+
+    /**
+     * Upload an image file for a product.
+     */
+    public function uploadImage(Request $request): JsonResponse
+    {
+        $request->validate([
+            'image' => ['required', 'file', 'image', 'mimes:jpeg,jpg,png,gif,webp', 'max:5120'],
+        ]);
+
+        $path = $request->file('image')->store('products', 'public');
+        $url = asset('storage/' . $path);
+
+        return response()->json([
+            'message' => 'Image uploaded successfully',
+            'url' => $url,
+            'path' => $path,
+        ]);
+    }
 }
