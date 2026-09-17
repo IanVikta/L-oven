@@ -37,12 +37,12 @@ const Navbar = () => {
           <div className="flex-shrink-0">
             <Link
               to="/"
-              className="flex items-center focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F28C13] rounded-full group"
+              className="flex items-center focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F28C13] group"
             >
               <img
                 src={logo}
                 alt="Cafe L'Oven"
-                className="h-12 w-12 md:h-14 md:w-14 rounded-full object-contain transition-transform duration-200 group-hover:scale-105"
+                className="h-12 w-12 md:h-14 md:w-14 object-contain transition-transform duration-200 group-hover:scale-105"
               />
             </Link>
           </div>

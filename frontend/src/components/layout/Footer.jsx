@@ -45,12 +45,12 @@ const Footer = () => {
           <div className="lg:col-span-6 xl:col-span-5 text-left">
             <Link
               to="/"
-              className="inline-block focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F28C13] rounded-full mb-4 group"
+              className="inline-block focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F28C13] mb-4 group"
             >
               <img
                 src={logo}
                 alt="Cafe L'Oven"
-                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-contain shadow-lg border border-[#F28C13]/30 transition-transform duration-200 group-hover:scale-105"
+                className="w-20 h-20 sm:w-24 sm:h-24 object-contain transition-transform duration-200 group-hover:scale-105"
               />
             </Link>
 
