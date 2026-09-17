@@ -2,17 +2,16 @@ import { useState, useEffect } from 'react';
 import AOS from 'aos';
 import { sendContactMessage } from '../services/contactService';
 
-// High-End Coffee Assets
+// Authentic High-End Coffee Assets
 import goldenHourCoffee from '../assets/coffee high end/Golden Hour Magic_ a Perfect Shot of Coffee Art 🍫☕📸.jpg';
 import cozyCoffee from '../assets/coffee high end/Cozy Coffee Experience_ Specialty Coffee Beans  Warm Ambiance.jpg';
-import roasteryBeans from '../assets/coffee high end/130956301659872151.jpg';
 
 const INQUIRY_CATEGORIES = [
-  { id: 'general', label: 'General Inquiry', placeholder: 'Ask us anything about our roastery, café menu, or story...' },
-  { id: 'reservation', label: 'Table Booking', placeholder: 'Specify date, time, and number of guests for your table...' },
-  { id: 'catering', label: 'Event Catering', placeholder: 'Tell us about your event, headcount, and pastry preferences...' },
-  { id: 'wholesale', label: 'Wholesale Beans', placeholder: 'Inquire about bulk specialty beans for your cafe or office...' },
-  { id: 'feedback', label: 'Feedback', placeholder: 'Share your dining or delivery experience with our baristas...' },
+  { id: 'general', label: 'General Inquiry' },
+  { id: 'reservation', label: 'Table Booking' },
+  { id: 'catering', label: 'Event Catering' },
+  { id: 'wholesale', label: 'Wholesale Beans' },
+  { id: 'feedback', label: 'Guest Feedback' },
 ];
 
 const FAQS = [
@@ -22,7 +21,7 @@ const FAQS = [
   },
   {
     question: 'Can L\'Oven cater private corporate events or weddings?',
-    answer: 'Yes! We offer full-service mobile espresso bar catering and artisanal pastry spreads. Contact our events coordinator via the form above with your event date and estimated head count.'
+    answer: 'Yes! We offer full-service mobile espresso bar catering and artisanal pastry spreads. Contact our events coordinator via the form with your event date and estimated head count.'
   },
   {
     question: 'Are vegan and gluten-friendly options available?',
@@ -30,7 +29,7 @@ const FAQS = [
   },
   {
     question: 'Do you offer fresh coffee bean deliveries?',
-    answer: 'We roast micro-batches twice weekly. You can purchase whole beans or custom-ground bags directly at our Kitende café or order online for sameday delivery.'
+    answer: 'We roast micro-batches twice weekly. You can purchase whole beans or custom-ground bags directly at our Kitende café or order online for same-day delivery.'
   }
 ];
 
@@ -52,6 +51,12 @@ const Contact = () => {
   const [apiError, setApiError] = useState(null);
 
   useEffect(() => {
+    AOS.init({
+      duration: 800,
+      once: true,
+      easing: 'ease-out',
+    });
+
     const timer = setTimeout(() => {
       AOS.refreshHard();
     }, 100);
@@ -233,549 +238,527 @@ const Contact = () => {
   };
 
   return (
-    <div className="bg-cream-100 min-h-screen py-10 md:py-16 text-brown-900 overflow-x-hidden">
-      <div className="container mx-auto px-4 max-w-6xl space-y-16">
-
-        {/* Magazine Editorial Hero Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center pt-4 pb-4">
-
-          {/* Hero Left Text (7 cols) */}
-          <div className="lg:col-span-7 space-y-6 text-left" data-aos="fade-right" data-aos-duration="800">
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-orange-600 block">
-              Direct Inquiries &amp; Table Bookings
-            </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-brown-900 leading-[1.1] tracking-tight">
-              Where Every Conversation Begins with{' '}
-              <span className="italic font-serif text-orange-600 block sm:inline">
-                Artisanal Hospitality.
-              </span>
-            </h1>
-
-            <p className="text-sm md:text-base text-brown-700/90 max-w-xl font-light leading-relaxed">
-              Whether reserving a quiet corner in our sunlit gardens, arranging mobile barista catering for your event, or inquiring about our weekly Ethiopian micro-roasts—our front-of-house team is at your service.
-            </p>
-          </div>
-
-          {/* Hero Right Image Showcase (5 cols) */}
-          <div className="lg:col-span-5 relative" data-aos="fade-left" data-aos-duration="800">
-            <div className="absolute -top-8 -right-8 w-72 h-72 bg-amber-300/20 rounded-full filter blur-3xl pointer-events-none"></div>
-
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-amber-200/80 group aspect-[4/5] max-h-[460px]">
-              <img
-                src={goldenHourCoffee}
-                alt="Signature High-End Coffee Art"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ease-out"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-brown-950/40 via-transparent to-transparent pointer-events-none"></div>
-            </div>
-          </div>
-
+    <div className="bg-[#FAF5EE] text-[#2B1B12] min-h-screen overflow-x-clip">
+      
+      {/* 1. Hero Section - Editorial Human-Designed Aesthetic (Matches Our Story) */}
+      <section className="relative w-full bg-[#2B1B12] overflow-hidden">
+        {/* Full-width Photography Background */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <img 
+            src={goldenHourCoffee} 
+            alt="Artisanal Crafted Coffee at L'Oven" 
+            className="w-full h-full object-cover object-center"
+          />
+          {/* Deep espresso overlay matching About.jsx */}
+          <div className="absolute inset-0 bg-[#2B1B12] opacity-45 pointer-events-none"></div>
         </div>
 
-        {/* Main 2-Column Section with Atmospheric Coffee Background Container */}
-        <section aria-labelledby="contact-section-title" className="relative rounded-[24px] overflow-hidden border border-[#E8DFD5]/50 shadow-2xl">
-          {/* Atmospheric Background Image & Deep Espresso Warm Overlay */}
-          <div className="absolute inset-0 z-0 pointer-events-none">
-            <img
-              src={roasteryBeans}
-              alt="Artisanal Roastery Background"
-              className="w-full h-full object-cover object-center transform scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#17110D]/90 via-[#20140E]/85 to-[#17110D]/92 backdrop-blur-[1px]"></div>
+        {/* Content Container - Editorial Typography & Left Alignment */}
+        <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="min-h-[70vh] sm:min-h-[76vh] flex items-center py-16 sm:py-24 lg:py-28">
+            <div className="max-w-xl lg:max-w-2xl text-left" data-aos="fade-up" data-aos-duration="900">
+              
+              {/* Eyebrow Label with subtle horizontal accent */}
+              <div className="flex items-center gap-3 mb-4 sm:mb-6">
+                <p className="text-xs sm:text-sm font-semibold tracking-[0.25em] text-[#F28C13] uppercase">
+                  GET IN TOUCH
+                </p>
+                <div className="w-8 sm:w-10 h-[1px] bg-[#F28C13]"></div>
+              </div>
+
+              {/* Main Heading */}
+              <h1 className="font-['Lora',serif] text-[34px] xs:text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal leading-[1.08] tracking-tight text-[#FFF4E6] mb-5 sm:mb-8">
+                Start a<br />
+                Conversation.
+              </h1>
+
+              {/* Supporting Text */}
+              <p className="text-[15px] sm:text-lg text-[#FFF4E6]/85 font-light leading-relaxed max-w-xl mb-7 sm:mb-10">
+                Where every conversation begins with artisanal hospitality. Whether reserving a table, arranging event catering, or inquiring about our weekly micro-roasts—we are at your service.
+              </p>
+
+              {/* CTA Link */}
+              <div className="pt-1">
+                <a 
+                  href="#contact-section" 
+                  className="inline-flex items-center gap-2.5 py-1.5 text-xs sm:text-sm font-semibold tracking-[0.22em] text-[#F28C13] uppercase border-b border-[#F28C13] hover:text-[#f8a846] hover:border-[#f8a846] transition-colors duration-200"
+                >
+                  <span>CONNECT WITH US</span>
+                  <span aria-hidden="true" className="text-base leading-none">↓</span>
+                </a>
+              </div>
+
+            </div>
           </div>
+        </div>
+      </section>
 
-          <div className="relative z-10 p-4 sm:p-6 lg:p-10">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
+      {/* 2. Main Editorial Contact Section - Clean Two-Column Journal Layout */}
+      <section id="contact-section" className="bg-[#FAF5EE] text-[#2B1B12] py-16 sm:py-24 lg:py-32 scroll-mt-16">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8 lg:px-12">
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
-              {/* Left Column: Concierge Information & Hours (~40% on desktop) */}
-              <div 
-                className="lg:col-span-5 bg-[#FCFAF7] p-6 sm:p-8 rounded-2xl border border-[#E8DFD5] shadow-sm flex flex-col justify-between space-y-8" 
-                data-aos="fade-right" 
-                data-aos-duration="700"
-              >
-                {/* Header & Opening Hours */}
-                <div className="space-y-5">
-                  <div className="flex items-start justify-between gap-3 border-b border-[#E8DFD5]/70 pb-4">
-                    <div>
-                      <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C45D26] block mb-1">
-                        Est. 2021 • Kitende
-                      </span>
-                      <h2 className="text-xl sm:text-2xl font-display font-bold text-[#17110D]">
-                        Opening Hours
-                      </h2>
-                    </div>
-                    {/* Dynamic Status Badge */}
-                    <div 
-                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold shrink-0 transition-colors ${
-                        status.isOpen 
-                          ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' 
-                          : 'bg-[#F4ECE1] text-[#7A6050] border border-[#E0D4C5]'
-                      }`}
-                      aria-live="polite"
-                    >
-                      <span className={`w-2 h-2 rounded-full ${status.isOpen ? 'bg-emerald-500 animate-pulse' : 'bg-[#9C8270]'}`}></span>
-                      <span>{status.label}</span>
-                    </div>
+            {/* Left Column (lg:col-span-5): Concierge, Hours & Direct Lines */}
+            <div className="lg:col-span-5 space-y-10 text-left" data-aos="fade-up">
+              
+              {/* Section Header */}
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <p className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#C8681A] uppercase">
+                    HOSPITALITY DESK
+                  </p>
+                  <div className="w-8 h-[1px] bg-[#C8681A]"></div>
+                </div>
+                <h2 className="font-['Lora',serif] text-3xl sm:text-4xl lg:text-[42px] font-normal leading-[1.12] text-[#2B1B12] mb-4 tracking-tight">
+                  Artisan Hospitality,<br />Seven Days a Week.
+                </h2>
+                <p className="text-sm text-[#5A4538] font-light leading-relaxed max-w-md">
+                  Step into our sunlit roastery or connect directly with our front-of-house team. We take pride in responding promptly and warmly to every guest.
+                </p>
+              </div>
+
+              {/* Chapter 01 — Opening Hours */}
+              <div className="pt-2">
+                <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#2B1B12]/15">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-semibold text-[#C8681A] tracking-wider">01</span>
+                    <span className="text-[11px] sm:text-xs font-semibold tracking-[0.2em] text-[#C8681A] uppercase">
+                      OPENING HOURS
+                    </span>
                   </div>
 
-                  <p className="text-xs text-[#5C483A] font-medium flex items-center gap-1.5">
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#C45D26]"></span>
-                    {status.detail}
-                  </p>
-
-                  {/* Schedule Timetable */}
-                  <div className="bg-[#F7F2EB]/60 rounded-xl p-4 border border-[#E8DFD5]/80 space-y-2.5 text-xs">
-                    {/* Monday - Friday */}
-                    <div className={`flex justify-between items-center py-1.5 px-2 rounded-lg transition-colors ${
-                      status.currentDay >= 1 && status.currentDay <= 5 
-                        ? 'bg-[#FFFFFF] font-bold text-[#17110D] shadow-xs' 
-                        : 'text-[#5C483A]'
-                    }`}>
-                      <div className="flex items-center gap-2">
-                        <span>Monday – Friday</span>
-                        {status.currentDay >= 1 && status.currentDay <= 5 && (
-                          <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-[#C45D26]/10 text-[#C45D26]">
-                            Today
-                          </span>
-                        )}
-                      </div>
-                      <span className="text-[#17110D] font-semibold">6:30 AM – 9:00 PM</span>
-                    </div>
-
-                    {/* Saturday */}
-                    <div className={`flex justify-between items-center py-1.5 px-2 rounded-lg transition-colors ${
-                      status.currentDay === 6 
-                        ? 'bg-[#FFFFFF] font-bold text-[#17110D] shadow-xs' 
-                        : 'text-[#5C483A]'
-                    }`}>
-                      <div className="flex items-center gap-2">
-                        <span>Saturday</span>
-                        {status.currentDay === 6 && (
-                          <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-[#C45D26]/10 text-[#C45D26]">
-                            Today
-                          </span>
-                        )}
-                      </div>
-                      <span className="text-[#17110D] font-semibold">7:00 AM – 10:00 PM</span>
-                    </div>
-
-                    {/* Sunday */}
-                    <div className={`flex justify-between items-center py-1.5 px-2 rounded-lg transition-colors ${
-                      status.currentDay === 0 
-                        ? 'bg-[#FFFFFF] font-bold text-[#17110D] shadow-xs' 
-                        : 'text-[#5C483A]'
-                    }`}>
-                      <div className="flex items-center gap-2">
-                        <span>Sunday</span>
-                        {status.currentDay === 0 && (
-                          <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-[#C45D26]/10 text-[#C45D26]">
-                            Today
-                          </span>
-                        )}
-                      </div>
-                      <span className="text-[#17110D] font-semibold">7:30 AM – 8:00 PM</span>
-                    </div>
+                  {/* Dynamic Status Indicator */}
+                  <div 
+                    className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[11px] font-semibold tracking-wider uppercase ${
+                      status.isOpen 
+                        ? 'text-emerald-800 bg-emerald-50/80 border border-emerald-300/60' 
+                        : 'text-[#7A6050] bg-[#EFE8DD] border border-[#2B1B12]/15'
+                    }`}
+                    aria-live="polite"
+                  >
+                    <span className={`w-1.5 h-1.5 rounded-full ${status.isOpen ? 'bg-emerald-600 animate-pulse' : 'bg-[#9C8270]'}`}></span>
+                    <span>{status.label}</span>
                   </div>
                 </div>
 
-                {/* Subtle Divider */}
-                <div className="border-t border-[#E8DFD5]/80 my-2"></div>
+                <p className="text-xs text-[#7A695E] mb-3 font-light">
+                  {status.detail}
+                </p>
 
-                {/* Direct Contact Lines */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C45D26]">
-                      Direct Contact
+                {/* Scannable Schedule with Clean Hairlines */}
+                <div className="space-y-2 text-xs">
+                  <div className={`flex justify-between items-center py-1.5 px-2 border-b border-[#2B1B12]/10 ${
+                    status.currentDay >= 1 && status.currentDay <= 5 ? 'font-semibold text-[#2B1B12] bg-[#F7F2EA]' : 'text-[#5A4538]'
+                  }`}>
+                    <span className="flex items-center gap-2">
+                      Monday – Friday
+                      {status.currentDay >= 1 && status.currentDay <= 5 && (
+                        <span className="text-[9px] uppercase font-bold tracking-widest text-[#C8681A]">Today</span>
+                      )}
                     </span>
-                    <span className="text-[11px] text-[#8C7A6E]">Kitende Concierge</span>
+                    <span>6:30 AM – 9:00 PM</span>
                   </div>
 
-                  {/* Flagship Location */}
-                  <div className="group flex items-start gap-3.5 p-2.5 -mx-2.5 rounded-xl transition-colors hover:bg-[#F4ECE1]/40">
-                    <div className="w-9 h-9 rounded-xl bg-[#F4ECE1] text-[#17110D] flex items-center justify-center shrink-0 mt-0.5 border border-[#E8DFD5]">
-                      <svg className="w-4 h-4 text-[#17110D]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
+                  <div className={`flex justify-between items-center py-1.5 px-2 border-b border-[#2B1B12]/10 ${
+                    status.currentDay === 6 ? 'font-semibold text-[#2B1B12] bg-[#F7F2EA]' : 'text-[#5A4538]'
+                  }`}>
+                    <span className="flex items-center gap-2">
+                      Saturday
+                      {status.currentDay === 6 && (
+                        <span className="text-[9px] uppercase font-bold tracking-widest text-[#C8681A]">Today</span>
+                      )}
+                    </span>
+                    <span>7:00 AM – 10:00 PM</span>
+                  </div>
+
+                  <div className={`flex justify-between items-center py-1.5 px-2 border-b border-[#2B1B12]/10 ${
+                    status.currentDay === 0 ? 'font-semibold text-[#2B1B12] bg-[#F7F2EA]' : 'text-[#5A4538]'
+                  }`}>
+                    <span className="flex items-center gap-2">
+                      Sunday
+                      {status.currentDay === 0 && (
+                        <span className="text-[9px] uppercase font-bold tracking-widest text-[#C8681A]">Today</span>
+                      )}
+                    </span>
+                    <span>7:30 AM – 8:00 PM</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Chapter 02 — Direct Concierge Lines */}
+              <div>
+                <div className="flex items-center gap-3 mb-4 pb-2 border-b border-[#2B1B12]/15">
+                  <span className="text-xs font-semibold text-[#C8681A] tracking-wider">02</span>
+                  <span className="text-[11px] sm:text-xs font-semibold tracking-[0.2em] text-[#C8681A] uppercase">
+                    DIRECT CONTACT
+                  </span>
+                </div>
+
+                <div className="space-y-4">
+                  {/* Location */}
+                  <div className="flex items-start justify-between gap-4 py-2 border-b border-[#2B1B12]/10">
+                    <div>
+                      <span className="text-[10px] font-bold tracking-[0.2em] text-[#C8681A] uppercase block mb-0.5">
+                        FLAGSHIP CAFÉ
+                      </span>
+                      <p className="text-xs text-[#2B1B12] font-medium">Entebbe Road, Kitende, Uganda</p>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-baseline justify-between">
-                        <h3 className="text-xs font-bold text-[#17110D]">Flagship Café</h3>
-                        <a 
-                          href="https://maps.google.com/?q=Kitende,Uganda" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-[11px] font-semibold text-[#C45D26] hover:text-[#9E6438] transition-colors inline-flex items-center gap-0.5"
-                        >
-                          <span>Get Directions</span>
-                          <span>↗</span>
-                        </a>
-                      </div>
-                      <p className="text-xs text-[#5C483A] mt-0.5">Entebbe Road, Kitende</p>
-                      <p className="text-[11px] text-[#8C7A6E]">Uganda</p>
-                    </div>
+                    <a
+                      href="https://maps.google.com/?q=Kitende,Uganda"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[11px] font-semibold text-[#C8681A] hover:text-[#9E6438] underline underline-offset-4 transition-colors shrink-0"
+                    >
+                      Get Directions ↗
+                    </a>
                   </div>
 
                   {/* Phone & WhatsApp */}
-                  <div className="group flex items-start justify-between gap-3 p-2.5 -mx-2.5 rounded-xl transition-colors hover:bg-[#F4ECE1]/40">
-                    <div className="flex items-start gap-3.5 min-w-0">
-                      <div className="w-9 h-9 rounded-xl bg-[#F4ECE1] text-[#17110D] flex items-center justify-center shrink-0 mt-0.5 border border-[#E8DFD5]">
-                        <svg className="w-4 h-4 text-[#17110D]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                        </svg>
-                      </div>
-                      <div className="min-w-0">
-                        <h3 className="text-xs font-bold text-[#17110D]">Phone &amp; WhatsApp</h3>
-                        <div className="flex items-center gap-2 mt-0.5 flex-wrap">
-                          <a 
-                            href="tel:+256770123456" 
-                            className="text-xs font-semibold text-[#17110D] hover:text-[#C45D26] transition-colors"
-                          >
-                            +256 770 123 456
-                          </a>
-                          <span className="text-[#C45D26]/40">•</span>
-                          <a
-                            href="https://wa.me/256770123456?text=Hello%20L%27Oven%20Coffee%2C%20I%20have%20an%20inquiry"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[11px] font-semibold text-[#C45D26] hover:underline"
-                            title="Chat on WhatsApp"
-                          >
-                            WhatsApp Chat
-                          </a>
-                        </div>
+                  <div className="flex items-start justify-between gap-4 py-2 border-b border-[#2B1B12]/10">
+                    <div>
+                      <span className="text-[10px] font-bold tracking-[0.2em] text-[#C8681A] uppercase block mb-0.5">
+                        PHONE &amp; WHATSAPP
+                      </span>
+                      <div className="flex items-center gap-2 text-xs flex-wrap">
+                        <a 
+                          href="tel:+256770123456" 
+                          className="font-medium text-[#2B1B12] hover:text-[#C8681A] transition-colors"
+                        >
+                          +256 770 123 456
+                        </a>
+                        <span className="text-[#C8681A]/40">•</span>
+                        <a
+                          href="https://wa.me/256770123456?text=Hello%20L%27Oven%20Coffee%2C%20I%20have%20an%20inquiry"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#C8681A] font-semibold hover:underline"
+                        >
+                          WhatsApp Chat ↗
+                        </a>
                       </div>
                     </div>
                     <button
                       type="button"
                       onClick={() => handleCopy('+256770123456', 'phone')}
-                      className="text-[11px] font-semibold text-[#7A6050] hover:text-[#C45D26] px-2.5 py-1 rounded-md border border-[#E8DFD5] hover:border-[#C45D26] bg-[#FFFFFF] transition-all shrink-0 cursor-pointer"
-                      aria-label="Copy phone number"
+                      className="text-[11px] font-medium text-[#7A695E] hover:text-[#2B1B12] transition-colors shrink-0 cursor-pointer pt-0.5"
                     >
                       {copiedField === 'phone' ? 'Copied ✓' : 'Copy'}
                     </button>
                   </div>
 
                   {/* Email Concierge */}
-                  <div className="group flex items-start justify-between gap-3 p-2.5 -mx-2.5 rounded-xl transition-colors hover:bg-[#F4ECE1]/40">
-                    <div className="flex items-start gap-3.5 min-w-0">
-                      <div className="w-9 h-9 rounded-xl bg-[#F4ECE1] text-[#17110D] flex items-center justify-center shrink-0 mt-0.5 border border-[#E8DFD5]">
-                        <svg className="w-4 h-4 text-[#17110D]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                      </div>
-                      <div className="min-w-0">
-                        <h3 className="text-xs font-bold text-[#17110D]">Email Concierge</h3>
-                        <a 
-                          href="mailto:lovencoffee2@gmail.com" 
-                          className="text-xs font-semibold text-[#17110D] hover:text-[#C45D26] block mt-0.5 transition-colors truncate"
-                        >
-                          lovencoffee2@gmail.com
-                        </a>
-                      </div>
+                  <div className="flex items-start justify-between gap-4 py-2 border-b border-[#2B1B12]/10">
+                    <div>
+                      <span className="text-[10px] font-bold tracking-[0.2em] text-[#C8681A] uppercase block mb-0.5">
+                        EMAIL CONCIERGE
+                      </span>
+                      <a 
+                        href="mailto:lovencoffee2@gmail.com" 
+                        className="text-xs font-medium text-[#2B1B12] hover:text-[#C8681A] transition-colors block truncate"
+                      >
+                        lovencoffee2@gmail.com
+                      </a>
                     </div>
                     <button
                       type="button"
                       onClick={() => handleCopy('lovencoffee2@gmail.com', 'email')}
-                      className="text-[11px] font-semibold text-[#7A6050] hover:text-[#C45D26] px-2.5 py-1 rounded-md border border-[#E8DFD5] hover:border-[#C45D26] bg-[#FFFFFF] transition-all shrink-0 cursor-pointer"
-                      aria-label="Copy email address"
+                      className="text-[11px] font-medium text-[#7A695E] hover:text-[#2B1B12] transition-colors shrink-0 cursor-pointer pt-0.5"
                     >
                       {copiedField === 'email' ? 'Copied ✓' : 'Copy'}
                     </button>
                   </div>
                 </div>
+              </div>
 
-                {/* Response SLA assurance footnote */}
-                <div className="pt-2 text-[11px] text-[#8C7A6E] flex items-center gap-1.5 border-t border-[#E8DFD5]/70">
-                  <svg className="w-3.5 h-3.5 text-[#C45D26] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span>Typical response time: under 2 hours during roastery hours.</span>
+              {/* Editorial Quote & Signature at Bottom */}
+              <div className="pt-4 border-t border-[#2B1B12]/15">
+                <p className="font-['Lora',serif] italic text-base sm:text-lg text-[#2B1B12]/85 leading-snug mb-3">
+                  “Great coffee brings people together.”
+                </p>
+                <div className="flex items-center gap-3 select-none">
+                  <span className="font-['Lora',serif] text-sm font-medium tracking-wider text-[#C8681A]">
+                    L'OVEN
+                  </span>
+                  <div className="w-[1px] h-3 bg-[#C8681A]"></div>
+                  <span className="text-[10px] font-semibold tracking-[0.22em] text-[#7A695E] uppercase">
+                    SPECIALTY COFFEE &amp; MORE
+                  </span>
                 </div>
               </div>
 
-              {/* Right Column: Contact Form (~60% on desktop) */}
-              <div 
-                className="lg:col-span-7 bg-[#FFFFFF] p-6 sm:p-8 lg:p-10 rounded-2xl border border-[#E8DFD5] shadow-xl space-y-6"
-                data-aos="fade-left" 
-                data-aos-duration="700"
-              >
-                {/* Header */}
-                <div className="space-y-1.5">
-                  <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C45D26] block">
-                    Send a Note
-                  </span>
-                  <h2 id="contact-section-title" className="text-2xl sm:text-3xl font-display font-bold text-[#17110D] tracking-tight">
-                    How Can We Help You Today?
-                  </h2>
-                  <p className="text-xs sm:text-sm text-[#5C483A] leading-relaxed">
-                    Fill out the form below and our team will get back to you promptly.
+            </div>
+
+            {/* Right Column (lg:col-span-7): Clean Editorial Contact Form */}
+            <div className="lg:col-span-7 bg-[#FFFFFF] p-6 sm:p-10 lg:p-12 border border-[#2B1B12]/15 shadow-2xs text-left" data-aos="fade-up" data-aos-delay="100">
+              
+              {/* Header */}
+              <div className="mb-8">
+                <div className="flex items-center gap-3 mb-2">
+                  <p className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#C8681A] uppercase">
+                    SEND A NOTE
                   </p>
+                  <div className="w-8 h-[1px] bg-[#C8681A]"></div>
                 </div>
+                <h3 className="font-['Lora',serif] text-2xl sm:text-3xl lg:text-[34px] font-normal leading-[1.15] text-[#2B1B12] mb-3">
+                  How Can We Help You Today?
+                </h3>
+                <p className="text-xs sm:text-[13.5px] leading-[1.75] text-[#5A4538] font-normal">
+                  Fill out the form below and our team will get back to you promptly.
+                </p>
+              </div>
 
-                {/* Topic Pills */}
-                <div className="space-y-2">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#8C7A6E] block">
-                    Select a Topic
-                  </span>
-                  <div className="flex flex-wrap gap-2">
-                    {INQUIRY_CATEGORIES.map(cat => {
-                      const isSelected = activeCategory === cat.id;
-                      return (
-                        <button
-                          key={cat.id}
-                          type="button"
-                          onClick={() => handleCategorySelect(cat.id)}
-                          className={`text-xs px-3 py-1.5 rounded-full font-medium transition-all duration-200 cursor-pointer border ${
-                            isSelected
-                              ? 'bg-[#17110D] text-[#FCFAF7] border-[#17110D] shadow-xs'
-                              : 'bg-[#FCFAF7] text-[#4A3528] border-[#E8DFD5] hover:border-[#C45D26] hover:text-[#17110D]'
-                          }`}
-                        >
-                          {cat.label}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Interactive Form or Success State */}
-                {formStatus === 'success' ? (
-                  <div 
-                    className="bg-[#FCFAF7] border border-[#E8DFD5] p-8 sm:p-10 rounded-2xl text-center space-y-5 shadow-xs"
-                    role="status"
-                    aria-live="polite"
-                  >
-                    <div className="w-14 h-14 bg-[#17110D] text-[#FCFAF7] rounded-full flex items-center justify-center text-2xl mx-auto shadow-md">
-                      ✓
-                    </div>
-                    <div className="space-y-2">
-                      <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C45D26]">
-                        Hospitality Desk
-                      </span>
-                      <h3 className="text-2xl font-display font-bold text-[#17110D]">
-                        Message Sent Successfully
-                      </h3>
-                      <p className="text-xs sm:text-sm text-[#5C483A] max-w-md mx-auto leading-relaxed">
-                        Thank you for reaching out, <strong className="text-[#17110D]">{formData.name || 'Friend'}</strong>. Our team has received your note regarding <span className="text-[#17110D] font-semibold">{formData.subject || 'your inquiry'}</span> and will get back to you shortly via your preferred reply method.
-                      </p>
-                    </div>
-                    <div className="pt-2">
+              {/* Topic Pills */}
+              <div className="mb-6">
+                <span className="text-[10px] font-bold tracking-[0.2em] text-[#7A695E] uppercase block mb-2">
+                  SELECT A TOPIC
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {INQUIRY_CATEGORIES.map(cat => {
+                    const isSelected = activeCategory === cat.id;
+                    return (
                       <button
+                        key={cat.id}
                         type="button"
-                        onClick={handleResetForm}
-                        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider bg-[#17110D] text-[#FCFAF7] hover:bg-[#2C1B12] transition-colors cursor-pointer shadow-sm"
+                        onClick={() => handleCategorySelect(cat.id)}
+                        className={`text-xs px-3 py-1.5 transition-colors cursor-pointer border ${
+                          isSelected
+                            ? 'bg-[#2B1B12] text-[#FFF4E6] border-[#2B1B12]'
+                            : 'bg-[#FAF5EE] text-[#2B1B12] border-[#2B1B12]/20 hover:border-[#C8681A]'
+                        }`}
                       >
-                        <span>← Send Another Message</span>
+                        {cat.label}
                       </button>
-                    </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Form or Inline Confirmation */}
+              {formStatus === 'success' ? (
+                <div 
+                  className="bg-[#FAF5EE] border border-[#2B1B12]/15 p-8 sm:p-10 text-center space-y-4"
+                  role="status"
+                  aria-live="polite"
+                >
+                  <div className="w-12 h-12 rounded-full bg-[#2B1B12] text-[#FFF4E6] flex items-center justify-center text-xl mx-auto">
+                    ✓
                   </div>
-                ) : (
-                  <form onSubmit={handleSubmit} noValidate className="space-y-5">
-                    {/* Row 1: Full Name & Email Address */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label htmlFor="contact-name" className="block text-xs font-bold text-[#17110D] mb-1.5">
-                          Full Name <span className="text-[#C45D26]">*</span>
-                        </label>
-                        <input
-                          id="contact-name"
-                          name="name"
-                          type="text"
-                          required
-                          autoComplete="name"
-                          placeholder="e.g. Jane Austen"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          aria-invalid={!!errors.name}
-                          aria-describedby={errors.name ? 'contact-name-error' : undefined}
-                          className={`w-full text-xs py-3.5 px-4 rounded-[14px] bg-[#FCFAF7] border transition-all duration-200 text-[#17110D] placeholder:text-[#9C8270] focus:outline-none ${
-                            errors.name 
-                              ? 'border-rose-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/15' 
-                              : 'border-[#E8DFD5] focus:border-[#C45D26] focus:ring-2 focus:ring-[#C45D26]/15 focus:bg-white'
-                          }`}
-                        />
-                        {errors.name && (
-                          <span id="contact-name-error" role="alert" className="text-[11px] text-rose-600 font-medium mt-1 block">
-                            {errors.name}
-                          </span>
-                        )}
-                      </div>
-
-                      <div>
-                        <label htmlFor="contact-email" className="block text-xs font-bold text-[#17110D] mb-1.5">
-                          Email Address <span className="text-[#C45D26]">*</span>
-                        </label>
-                        <input
-                          id="contact-email"
-                          name="email"
-                          type="email"
-                          required
-                          autoComplete="email"
-                          placeholder="jane@example.com"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          aria-invalid={!!errors.email}
-                          aria-describedby={errors.email ? 'contact-email-error' : undefined}
-                          className={`w-full text-xs py-3.5 px-4 rounded-[14px] bg-[#FCFAF7] border transition-all duration-200 text-[#17110D] placeholder:text-[#9C8270] focus:outline-none ${
-                            errors.email 
-                              ? 'border-rose-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/15' 
-                              : 'border-[#E8DFD5] focus:border-[#C45D26] focus:ring-2 focus:ring-[#C45D26]/15 focus:bg-white'
-                          }`}
-                        />
-                        {errors.email && (
-                          <span id="contact-email-error" role="alert" className="text-[11px] text-rose-600 font-medium mt-1 block">
-                            {errors.email}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Row 2: Phone / WhatsApp & Preferred Reply Method */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label htmlFor="contact-phone" className="block text-xs font-bold text-[#17110D] mb-1.5">
-                          Phone / WhatsApp <span className="text-[#8C7A6E] font-normal">(Optional)</span>
-                        </label>
-                        <input
-                          id="contact-phone"
-                          name="phone"
-                          type="tel"
-                          autoComplete="tel"
-                          placeholder="+256 700 000 000"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          className="w-full text-xs py-3.5 px-4 rounded-[14px] bg-[#FCFAF7] border border-[#E8DFD5] transition-all duration-200 text-[#17110D] placeholder:text-[#9C8270] focus:outline-none focus:border-[#C45D26] focus:ring-2 focus:ring-[#C45D26]/15 focus:bg-white"
-                        />
-                      </div>
-
-                      <div>
-                        <span id="contact-reply-method-label" className="block text-xs font-bold text-[#17110D] mb-1.5">
-                          Preferred Reply Method
-                        </span>
-                        <div 
-                          role="radiogroup" 
-                          aria-labelledby="contact-reply-method-label"
-                          className="flex bg-[#FCFAF7] p-1 rounded-[14px] border border-[#E8DFD5]"
-                        >
-                          {[
-                            { id: 'email', label: 'Email', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
-                            { id: 'phone', label: 'Phone', icon: 'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z' },
-                            { id: 'whatsapp', label: 'WhatsApp', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z' }
-                          ].map(item => {
-                            const isSelected = preferredContact === item.id;
-                            return (
-                              <button
-                                key={item.id}
-                                type="button"
-                                role="radio"
-                                aria-checked={isSelected}
-                                onClick={() => setPreferredContact(item.id)}
-                                className={`flex-1 inline-flex items-center justify-center gap-1.5 text-[11px] font-semibold py-2.5 rounded-xl transition-all cursor-pointer ${
-                                  isSelected
-                                    ? 'bg-[#17110D] text-[#FCFAF7] shadow-xs'
-                                    : 'text-[#5C483A] hover:text-[#17110D]'
-                                }`}
-                              >
-                                <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                  <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
-                                </svg>
-                                <span>{item.label}</span>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Row 3: Subject / Topic */}
+                  <h4 className="font-['Lora',serif] text-2xl text-[#2B1B12] font-normal">
+                    Message Sent Successfully
+                  </h4>
+                  <p className="text-xs sm:text-sm text-[#5A4538] max-w-md mx-auto leading-relaxed">
+                    Thank you, <strong className="text-[#2B1B12]">{formData.name || 'Friend'}</strong>. Our hospitality desk has received your note regarding <span className="font-semibold text-[#2B1B12]">{formData.subject}</span> and will respond to <span className="font-semibold text-[#2B1B12]">{formData.email}</span> shortly.
+                  </p>
+                  <div className="pt-2">
+                    <button
+                      type="button"
+                      onClick={handleResetForm}
+                      className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.2em] text-[#C8681A] uppercase border-b border-[#C8681A] pb-0.5 hover:text-[#2B1B12] hover:border-[#2B1B12] transition-colors cursor-pointer"
+                    >
+                      <span>← SEND ANOTHER MESSAGE</span>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} noValidate className="space-y-5">
+                  {/* Row 1: Name & Email */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="contact-subject" className="block text-xs font-bold text-[#17110D] mb-1.5">
-                        Subject / Topic <span className="text-[#C45D26]">*</span>
+                      <label htmlFor="contact-name" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1.5">
+                        Full Name <span className="text-[#C8681A]">*</span>
                       </label>
                       <input
-                        id="contact-subject"
-                        name="subject"
+                        id="contact-name"
+                        name="name"
                         type="text"
                         required
-                        placeholder="e.g. Table reservation, wholesale inquiry, event catering..."
-                        value={formData.subject}
+                        autoComplete="name"
+                        placeholder="e.g. Jane Austen"
+                        value={formData.name}
                         onChange={handleInputChange}
-                        aria-invalid={!!errors.subject}
-                        aria-describedby={errors.subject ? 'contact-subject-error' : undefined}
-                        className={`w-full text-xs py-3.5 px-4 rounded-[14px] bg-[#FCFAF7] border transition-all duration-200 text-[#17110D] placeholder:text-[#9C8270] focus:outline-none ${
-                          errors.subject 
-                            ? 'border-rose-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/15' 
-                            : 'border-[#E8DFD5] focus:border-[#C45D26] focus:ring-2 focus:ring-[#C45D26]/15 focus:bg-white'
+                        aria-invalid={!!errors.name}
+                        aria-describedby={errors.name ? 'contact-name-error' : undefined}
+                        className={`w-full text-xs py-3 px-3.5 bg-[#FAF5EE] border text-[#2B1B12] placeholder:text-[#9C8270] focus:bg-white focus:outline-none transition-colors ${
+                          errors.name 
+                            ? 'border-rose-500' 
+                            : 'border-[#2B1B12]/20 focus:border-[#C8681A]'
                         }`}
                       />
-                      {errors.subject && (
-                        <span id="contact-subject-error" role="alert" className="text-[11px] text-rose-600 font-medium mt-1 block">
-                          {errors.subject}
+                      {errors.name && (
+                        <span id="contact-name-error" role="alert" className="text-[11px] text-rose-700 mt-1 block">
+                          {errors.name}
                         </span>
                       )}
                     </div>
 
-                    {/* Row 4: Your Message */}
                     <div>
-                      <label htmlFor="contact-message" className="block text-xs font-bold text-[#17110D] mb-1.5">
-                        Your Message <span className="text-[#C45D26]">*</span>
+                      <label htmlFor="contact-email" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1.5">
+                        Email Address <span className="text-[#C8681A]">*</span>
                       </label>
-                      <textarea
-                        id="contact-message"
-                        name="message"
+                      <input
+                        id="contact-email"
+                        name="email"
+                        type="email"
                         required
-                        rows={5}
-                        placeholder="Tell us how we can help..."
-                        value={formData.message}
+                        autoComplete="email"
+                        placeholder="jane@example.com"
+                        value={formData.email}
                         onChange={handleInputChange}
-                        aria-invalid={!!errors.message}
-                        aria-describedby={errors.message ? 'contact-message-error' : undefined}
-                        className={`w-full min-h-[140px] resize-y text-xs py-3.5 px-4 rounded-[14px] bg-[#FCFAF7] border transition-all duration-200 text-[#17110D] placeholder:text-[#9C8270] leading-relaxed focus:outline-none ${
-                          errors.message 
-                            ? 'border-rose-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/15' 
-                            : 'border-[#E8DFD5] focus:border-[#C45D26] focus:ring-2 focus:ring-[#C45D26]/15 focus:bg-white'
+                        aria-invalid={!!errors.email}
+                        aria-describedby={errors.email ? 'contact-email-error' : undefined}
+                        className={`w-full text-xs py-3 px-3.5 bg-[#FAF5EE] border text-[#2B1B12] placeholder:text-[#9C8270] focus:bg-white focus:outline-none transition-colors ${
+                          errors.email 
+                            ? 'border-rose-500' 
+                            : 'border-[#2B1B12]/20 focus:border-[#C8681A]'
                         }`}
                       />
-                      {errors.message && (
-                        <span id="contact-message-error" role="alert" className="text-[11px] text-rose-600 font-medium mt-1 block">
-                          {errors.message}
+                      {errors.email && (
+                        <span id="contact-email-error" role="alert" className="text-[11px] text-rose-700 mt-1 block">
+                          {errors.email}
                         </span>
                       )}
                     </div>
+                  </div>
 
-                    {/* Inline API Error Feedback */}
-                    {formStatus === 'error' && (
+                  {/* Row 2: Phone & Preferred Reply Method */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="contact-phone" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1.5">
+                        Phone / WhatsApp <span className="text-[#7A695E] font-normal lowercase">(optional)</span>
+                      </label>
+                      <input
+                        id="contact-phone"
+                        name="phone"
+                        type="tel"
+                        autoComplete="tel"
+                        placeholder="+256 700 000 000"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        className="w-full text-xs py-3 px-3.5 bg-[#FAF5EE] border border-[#2B1B12]/20 text-[#2B1B12] placeholder:text-[#9C8270] focus:bg-white focus:outline-none focus:border-[#C8681A] transition-colors"
+                      />
+                    </div>
+
+                    <div>
+                      <span id="contact-reply-label" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1.5">
+                        Preferred Reply
+                      </span>
                       <div 
-                        role="alert" 
-                        aria-live="assertive"
-                        className="p-4 bg-rose-50 border border-rose-200 text-rose-800 text-xs rounded-xl flex items-start gap-3"
+                        role="radiogroup" 
+                        aria-labelledby="contact-reply-label"
+                        className="flex border border-[#2B1B12]/20 p-0.5 bg-[#FAF5EE]"
                       >
-                        <svg className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                        </svg>
-                        <div className="space-y-0.5">
-                          <p className="font-bold">Message could not be delivered</p>
-                          <p className="text-[11px] text-rose-700">
-                            {apiError || 'Something went wrong while sending your message. Please try again or contact us directly.'}
-                          </p>
-                        </div>
+                        {[
+                          { id: 'email', label: 'Email' },
+                          { id: 'phone', label: 'Phone' },
+                          { id: 'whatsapp', label: 'WhatsApp' }
+                        ].map(item => {
+                          const isSelected = preferredContact === item.id;
+                          return (
+                            <button
+                              key={item.id}
+                              type="button"
+                              role="radio"
+                              aria-checked={isSelected}
+                              onClick={() => setPreferredContact(item.id)}
+                              className={`flex-1 text-[11px] font-medium py-2 transition-colors cursor-pointer ${
+                                isSelected
+                                  ? 'bg-[#2B1B12] text-[#FFF4E6]'
+                                  : 'text-[#5A4538] hover:text-[#2B1B12]'
+                              }`}
+                            >
+                              {item.label}
+                            </button>
+                          );
+                        })}
                       </div>
-                    )}
+                    </div>
+                  </div>
 
-                    {/* Submit Button */}
+                  {/* Row 3: Subject */}
+                  <div>
+                    <label htmlFor="contact-subject" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1.5">
+                      Subject / Topic <span className="text-[#C8681A]">*</span>
+                    </label>
+                    <input
+                      id="contact-subject"
+                      name="subject"
+                      type="text"
+                      required
+                      placeholder="e.g. Table reservation for 4, Wholesale pricing inquiry..."
+                      value={formData.subject}
+                      onChange={handleInputChange}
+                      aria-invalid={!!errors.subject}
+                      aria-describedby={errors.subject ? 'contact-subject-error' : undefined}
+                      className={`w-full text-xs py-3 px-3.5 bg-[#FAF5EE] border text-[#2B1B12] placeholder:text-[#9C8270] focus:bg-white focus:outline-none transition-colors ${
+                        errors.subject 
+                          ? 'border-rose-500' 
+                          : 'border-[#2B1B12]/20 focus:border-[#C8681A]'
+                      }`}
+                    />
+                    {errors.subject && (
+                      <span id="contact-subject-error" role="alert" className="text-[11px] text-rose-700 mt-1 block">
+                        {errors.subject}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Row 4: Message */}
+                  <div>
+                    <label htmlFor="contact-message" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1.5">
+                      Your Message <span className="text-[#C8681A]">*</span>
+                    </label>
+                    <textarea
+                      id="contact-message"
+                      name="message"
+                      required
+                      rows={5}
+                      placeholder="Tell us how we can help..."
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      aria-invalid={!!errors.message}
+                      aria-describedby={errors.message ? 'contact-message-error' : undefined}
+                      className={`w-full min-h-[140px] resize-y text-xs py-3 px-3.5 bg-[#FAF5EE] border text-[#2B1B12] placeholder:text-[#9C8270] leading-relaxed focus:bg-white focus:outline-none transition-colors ${
+                        errors.message 
+                          ? 'border-rose-500' 
+                          : 'border-[#2B1B12]/20 focus:border-[#C8681A]'
+                      }`}
+                    />
+                    {errors.message && (
+                      <span id="contact-message-error" role="alert" className="text-[11px] text-rose-700 mt-1 block">
+                        {errors.message}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Inline API Error Alert */}
+                  {formStatus === 'error' && (
+                    <div 
+                      role="alert" 
+                      aria-live="assertive"
+                      className="p-3.5 bg-rose-50 border border-rose-300 text-rose-900 text-xs"
+                    >
+                      <p className="font-semibold mb-0.5">Unable to deliver message</p>
+                      <p className="text-[11px] text-rose-800">
+                        {apiError || 'Something went wrong while sending your message. Please try again or contact us directly.'}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Submit Button */}
+                  <div className="pt-2">
                     <button
                       type="submit"
                       disabled={formStatus === 'submitting'}
-                      className="group w-full py-4 px-6 text-xs sm:text-sm font-bold uppercase tracking-wider bg-[#17110D] hover:bg-[#2C1B12] active:bg-[#0F0A07] disabled:bg-[#8C7A6E] text-[#FCFAF7] rounded-[14px] transition-all duration-300 shadow-md cursor-pointer disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      className="group w-full py-4 px-6 text-xs font-bold uppercase tracking-[0.22em] bg-[#2B1B12] hover:bg-[#C8681A] disabled:bg-[#7A695E] text-[#FFF4E6] transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
                       {formStatus === 'submitting' ? (
                         <>
-                          <svg className="animate-spin h-4 w-4 text-[#FCFAF7]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <svg className="animate-spin h-4 w-4 text-[#FFF4E6]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                           </svg>
-                          <span>Sending...</span>
+                          <span>SENDING...</span>
                         </>
                       ) : (
                         <>
@@ -786,38 +769,42 @@ const Contact = () => {
                         </>
                       )}
                     </button>
+                  </div>
 
-                    {/* Privacy Reassurance Note */}
-                    <div className="flex items-center justify-center gap-1.5 pt-1 text-center text-[11px] text-[#7D6859]">
-                      <svg className="w-3.5 h-3.5 text-[#C45D26] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                      </svg>
-                      <span>We respect your privacy. Your details are kept strictly confidential.</span>
-                    </div>
-                  </form>
-                )}
-              </div>
+                  <p className="text-[11px] text-[#7A695E] text-center font-light pt-1">
+                    We respect your privacy. Your details are kept strictly confidential.
+                  </p>
+                </form>
+              )}
 
             </div>
+
           </div>
-        </section>
 
-        {/* Secondary Visual Strip: Roastery Craft & Coffee Wallpaper */}
-        <div className="bg-white rounded-3xl p-8 sm:p-10 lg:p-12 shadow-xl border border-amber-200/60 relative overflow-hidden" data-aos="fade-up" data-aos-duration="800">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        </div>
+      </section>
 
-            {/* Left Content Column */}
-            <div className="lg:col-span-7 space-y-4">
-              <p className="text-xs font-bold uppercase tracking-widest text-orange-600">
-                The Flagship Experience
-              </p>
+      {/* 3. The Flagship Experience Section - Editorial Narrative & Photography (Matches Our Story Chapter 03 / Section 1) */}
+      <section className="bg-[#F7F2EA] text-[#2B1B12] py-16 sm:py-24 lg:py-28 border-t border-[#2B1B12]/15">
+        <div className="max-w-[1160px] mx-auto px-5 sm:px-10 lg:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16 items-center">
+            
+            {/* Left: Narrative */}
+            <div className="lg:col-span-6 space-y-4 text-left" data-aos="fade-up">
+              <div className="flex items-center gap-3">
+                <span className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#C8681A] uppercase">
+                  THE FLAGSHIP ROASTERY
+                </span>
+                <div className="w-8 h-[1px] bg-[#C8681A]"></div>
+              </div>
 
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-brown-900 leading-snug tracking-tight">
-                Visit Us in Person for Freshly Baked Croissants &amp; Espresso
+              <h2 className="font-['Lora',serif] text-3xl sm:text-4xl lg:text-[46px] font-normal leading-[1.12] text-[#2B1B12] tracking-tight">
+                Visit Us in Person for<br />
+                Artisan Bakes &amp; Espresso.
               </h2>
 
-              <p className="text-sm sm:text-base text-brown-700/90 leading-relaxed font-light">
-                Step into a warm ambiance filled with the rich aroma of micro-roasted Ethiopian coffee beans and classic butter pastries. Complimentary high-speed Wi-Fi and quiet nooks make L'Oven your perfect remote workspace or morning rendezvous spot.
+              <p className="text-sm sm:text-base text-[#5A4538] font-light leading-relaxed">
+                Step into a warm ambiance filled with the aroma of micro-roasted Ethiopian coffee beans and classic butter pastries. Complimentary high-speed Wi-Fi and quiet garden corners make L'Oven your morning rendezvous spot or remote workspace.
               </p>
 
               <div className="pt-2">
@@ -825,61 +812,73 @@ const Contact = () => {
                   href="https://maps.google.com/?q=Kitende,Uganda"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-brown-900 text-white hover:bg-orange-600 text-xs font-bold uppercase tracking-wider px-6 py-3.5 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg"
+                  className="group inline-flex items-center gap-2.5 py-1 text-xs sm:text-sm font-bold tracking-[0.22em] text-[#C8681A] uppercase transition-colors duration-200 hover:text-[#2B1B12]"
                 >
-                  <span>Get Directions</span>
-                  <span className="text-sm">→</span>
+                  <span>GET DIRECTIONS ON GOOGLE MAPS</span>
+                  <span className="text-base transform group-hover:translate-x-1.5 transition-transform duration-200">→</span>
                 </a>
+                <div className="w-56 h-[1px] bg-[#C8681A]/60 mt-0.5"></div>
               </div>
             </div>
 
-            {/* Right Photo Column */}
-            <div className="lg:col-span-5 relative h-[260px] sm:h-[300px] rounded-2xl overflow-hidden shadow-lg border border-amber-100 shrink-0">
-              <img
-                src={cozyCoffee}
-                alt="Warm Coffee Ambiance"
-                className="w-full h-full object-cover"
-              />
+            {/* Right: Authentic Photograph Frame */}
+            <div className="lg:col-span-6" data-aos="fade-up" data-aos-delay="100">
+              <div className="w-full h-[260px] sm:h-[340px] md:h-[400px] overflow-hidden bg-[#EFE8DD] shadow-sm">
+                <img
+                  src={cozyCoffee}
+                  alt="L'Oven warm café atmosphere in Kitende"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
             </div>
 
           </div>
         </div>
+      </section>
 
-        {/* Interactive FAQ Accordion Section */}
-        <div className="space-y-8" data-aos="fade-up" data-aos-duration="800">
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-xs font-bold uppercase tracking-widest text-orange-600">Quick Answers</span>
-            <h2 className="text-3xl font-display font-bold text-brown-900">
+      {/* 4. Minimalist FAQ Section - Hairline Editorial Accordion (Matches Our Story Manifesto) */}
+      <section className="bg-[#FAF5EE] text-[#2B1B12] py-16 sm:py-24 lg:py-28 border-t border-[#2B1B12]/15">
+        <div className="max-w-[1040px] mx-auto px-5 sm:px-8 lg:px-12 text-left">
+          
+          <div className="max-w-xl mb-10 sm:mb-14" data-aos="fade-up">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#C8681A] uppercase">
+                QUICK ANSWERS
+              </span>
+              <div className="w-8 h-[1px] bg-[#C8681A]"></div>
+            </div>
+            <h2 className="font-['Lora',serif] text-3xl sm:text-4xl lg:text-[42px] font-normal leading-tight text-[#2B1B12] mb-3 tracking-tight">
               Frequently Asked Questions
             </h2>
-            <p className="text-xs text-brown-600">
-              Got a quick question about reservations, catering, or bean roasting? Here is what guests ask us most often.
+            <p className="text-xs sm:text-sm text-[#5A4538] font-light leading-relaxed">
+              Everything you need to know about reservations, catering, and our roasting schedules.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl mx-auto">
+          {/* Clean Hairline Accordion List */}
+          <div className="border-t border-[#2B1B12]/15" data-aos="fade-up">
             {FAQS.map((faq, idx) => {
               const isOpen = openFaq === idx;
               return (
                 <div
                   key={idx}
-                  className={`bg-white rounded-2xl border transition-all duration-300 overflow-hidden shadow-xs ${isOpen ? 'border-orange-400 ring-2 ring-orange-500/10' : 'border-amber-100 hover:border-amber-200'
-                    }`}
+                  className="border-b border-[#2B1B12]/15 transition-colors"
                 >
                   <button
                     type="button"
                     onClick={() => setOpenFaq(isOpen ? null : idx)}
-                    className="w-full text-left p-5 flex items-center justify-between gap-4 cursor-pointer"
+                    className="w-full text-left py-5 sm:py-6 flex items-center justify-between gap-6 cursor-pointer focus:outline-none"
                   >
-                    <span className="text-xs sm:text-sm font-bold text-brown-900">
+                    <span className="font-['Lora',serif] text-base sm:text-lg font-medium text-[#2B1B12]">
                       {faq.question}
                     </span>
-                    <span className={`w-7 h-7 rounded-full bg-amber-50 text-orange-600 flex items-center justify-center font-bold text-sm shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 bg-orange-600 text-white' : ''}`}>
-                      ↓
+                    <span className="text-sm font-light text-[#C8681A] transition-transform duration-200">
+                      {isOpen ? '—' : '+'}
                     </span>
                   </button>
                   {isOpen && (
-                    <div className="px-5 pb-5 pt-1 text-xs text-brown-700 leading-relaxed border-t border-amber-50">
+                    <div className="pb-6 text-xs sm:text-[13.5px] leading-[1.75] text-[#5A4538] font-normal max-w-2xl">
                       {faq.answer}
                     </div>
                   )}
@@ -887,9 +886,10 @@ const Contact = () => {
               );
             })}
           </div>
-        </div>
 
-      </div>
+        </div>
+      </section>
+
     </div>
   );
 };

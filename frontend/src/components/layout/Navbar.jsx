@@ -34,15 +34,15 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex items-center justify-between h-20">
           {/* Brand / Logo */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 relative z-20">
             <Link
               to="/"
-              className="flex items-center focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F28C13] group"
+              className="flex items-center focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F28C13] group translate-y-0.5 md:translate-y-1 transition-transform duration-200"
             >
               <img
                 src={logo}
                 alt="Cafe L'Oven"
-                className="h-12 w-12 md:h-14 md:w-14 object-contain transition-transform duration-200 group-hover:scale-105"
+                className="h-[64px] w-[64px] md:h-[70px] md:w-[70px] max-w-none object-contain transition-transform duration-200 group-hover:scale-105"
               />
             </Link>
           </div>
