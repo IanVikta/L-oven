@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 // Authentic café photography from project assets
 import darkCafeBg from '../../assets/cand_dark_coffee.jpg';
+import logo from '../../assets/logo.png';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
@@ -42,15 +43,24 @@ const Footer = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start mb-16 sm:mb-20">
           {/* Brand Identity Area (~45%) */}
           <div className="lg:col-span-6 xl:col-span-5 text-left">
-            <span className="block font-sans text-xs sm:text-sm font-semibold tracking-[0.25em] text-[#F28C13] uppercase mb-3">
+            <Link
+              to="/"
+              className="inline-block focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F28C13] rounded-full mb-4 group"
+            >
+              <img
+                src={logo}
+                alt="Cafe L'Oven"
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-contain shadow-lg border border-[#F28C13]/30 transition-transform duration-200 group-hover:scale-105"
+              />
+            </Link>
+
+            <h2 className="sr-only">L'Oven Coffee &amp; Bakery</h2>
+
+            <span className="block font-sans text-xs sm:text-sm font-semibold tracking-[0.25em] text-[#F28C13] uppercase mb-2">
               COFFEE &amp; BAKERY
             </span>
 
-            <h2 className="font-\['Cormorant_Garamond',Georgia,serif\] text-5xl sm:text-6xl lg:text-7xl text-[#FFF4E6] font-normal tracking-tight leading-none mb-3">
-              L'OVEN
-            </h2>
-
-            <p className="font-\['Cormorant_Garamond',Georgia,serif\] text-xl sm:text-2xl text-[#FFF4E6]/90 italic font-normal tracking-wide mb-5">
+            <p className="font-['Cormorant_Garamond',Georgia,serif] text-xl sm:text-2xl text-[#FFF4E6]/90 italic font-normal tracking-wide mb-5">
               Made fresh. Served with care.
             </p>
 

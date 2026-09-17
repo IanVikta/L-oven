@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useCart } from '../../hooks/useCart';
+import logo from '../../assets/logo.png';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,9 +37,13 @@ const Navbar = () => {
           <div className="flex-shrink-0">
             <Link
               to="/"
-              className="text-2xl md:text-[26px] font-\['Cormorant_Garamond',Georgia,serif\] font-medium tracking-[0.18em] text-[#FFF4E6] hover:text-[#FFFFFF] transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F28C13]"
+              className="flex items-center focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F28C13] rounded-full group"
             >
-              L'OVEN
+              <img
+                src={logo}
+                alt="Cafe L'Oven"
+                className="h-12 w-12 md:h-14 md:w-14 rounded-full object-contain transition-transform duration-200 group-hover:scale-105"
+              />
             </Link>
           </div>
 
