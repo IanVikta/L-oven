@@ -1,18 +1,18 @@
-import croissant1 from '../assets/cand_croissant1.jpg';
-import croissant2 from '../assets/cand_croissant2.jpg';
-import latteArt from '../assets/cand_latte_art.jpg';
-import coffeeArt from '../assets/cand_coffee_art.jpg';
-import toastImg from '../assets/cand_pastry_coffee.jpg';
-import coldBrewImg from '../assets/cand_table_coffee1.jpg';
+import croissantDisplay from '../assets/candidate1.jpg';
+import croissantItem from '../assets/cand_croissant2.jpg';
+import signatureLatteImg from '../assets/coffee high end/254171972718602478.jpg';
+import flatWhiteImg from '../assets/coffee high end/Coffe.jpg';
+import coffeeTripleImg from '../assets/coffee high end/COFFEE.jpg';
+import avocadoToastImg from '../assets/cand_c2.jpg';
 import defaultFallback from '../assets/cand_croissant_cup.jpg';
 
 const FALLBACK_BY_SLUG = {
-  'almond-chocolate-pain-au-chocolat': croissant1,
-  'butter-croissant': croissant2,
-  'flat-white': coffeeArt,
-  'loven-signature-latte': latteArt,
-  'sourdough-avocado-toast': toastImg,
-  'vanilla-cold-brew': coldBrewImg,
+  'almond-chocolate-pain-au-chocolat': croissantDisplay,
+  'butter-croissant': croissantItem,
+  'flat-white': flatWhiteImg,
+  'loven-signature-latte': signatureLatteImg,
+  'sourdough-avocado-toast': avocadoToastImg,
+  'vanilla-cold-brew': coffeeTripleImg,
 };
 
 /**
@@ -30,10 +30,12 @@ export const getProductImage = (product) => {
     return FALLBACK_BY_SLUG[product.slug];
   }
   const catSlug = product?.category?.slug || '';
-  if (catSlug.includes('bakery') || catSlug.includes('pastr')) return croissant1;
-  if (catSlug.includes('espresso') || catSlug.includes('coffee')) return latteArt;
-  if (catSlug.includes('cold') || catSlug.includes('drink')) return coldBrewImg;
+  if (catSlug.includes('bakery') || catSlug.includes('pastr')) return croissantDisplay;
+  if (catSlug.includes('cold') || catSlug.includes('drink')) return coffeeTripleImg;
+  if (catSlug.includes('espresso') || catSlug.includes('coffee')) return signatureLatteImg;
+  if (catSlug.includes('sandwich') || catSlug.includes('toast')) return avocadoToastImg;
   return defaultFallback;
 };
 
 export default getProductImage;
+

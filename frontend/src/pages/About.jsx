@@ -20,6 +20,15 @@ import coffeeRoasting from '../assets/coffee beans roasting machine.jpg';
 import baristaPulling from '../assets/barista pulling espresso shot.jpg';
 import latteArt from '../assets/cand_latte_art.jpg';
 import coffeeTable from '../assets/cand_table_coffee1.jpg';
+import todayCoffeeBanner from '../assets/story/today_coffee_banner.jpg';
+
+// Human Side / Our People Assets
+import farmerPortrait from '../assets/people/farmer_portrait.jpg';
+import coffeeGrowerWoman from '../assets/people/coffee_grower_woman.jpg';
+import baristaCraft from '../assets/people/barista_craft.jpg';
+import farmingCommunity from '../assets/people/farming_community.jpg';
+import handsCherries from '../assets/people/hands_cherries.jpg';
+import ctaEditorialCup from '../assets/story/cta_editorial_cup.jpg';
 
 const About = () => {
   useEffect(() => {
@@ -36,770 +45,958 @@ const About = () => {
   }, []);
 
   return (
-    <div className="bg-cream-100 min-h-screen">
-      {/* Hero Section - Cinematic Design */}
-      <section className="relative bg-brown-900 text-cream-100 overflow-hidden">
-        {/* Cinematic Background Image */}
-        <div className="absolute inset-0">
+    <div className="bg-cream-100 min-h-screen overflow-x-clip">
+      {/* Hero Section - Editorial Human-Designed Aesthetic */}
+      <section className="relative w-full bg-[#2B1B12] overflow-hidden">
+        {/* Full-width Real Photography Background */}
+        <div className="absolute inset-0 z-0">
           <img 
-            src={africanPlantation} 
-            alt="African Coffee Plantation on Mountain" 
-            className="w-full h-full object-cover object-center"
+            src={coffeeArt} 
+            alt="Artisanal Crafted Coffee" 
+            className="w-full h-full object-cover object-right sm:object-center"
           />
-          {/* Layered Gradient Overlays for Depth */}
-          <div className="absolute inset-0 bg-gradient-to-r from-brown-900/95 via-brown-900/70 to-brown-900/40"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-brown-900/80 via-transparent to-brown-900/30"></div>
+          {/* Solid deep espresso brown overlay - subtle, no gradients */}
+          <div className="absolute inset-0 bg-[#2B1B12] opacity-40 pointer-events-none"></div>
         </div>
 
-        {/* Animated Decorative Elements */}
-        <div className="absolute top-20 right-10 w-72 h-72 bg-orange-600/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 left-10 w-96 h-96 bg-orange-600/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        
-        <div className="relative max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 z-10">
-          <div className="min-h-[85vh] lg:min-h-[90vh] flex items-center py-20 sm:py-24 lg:py-32">
-            <div className="max-w-4xl" data-aos="fade-up" data-aos-duration="1200">
+        {/* Content Container - Left Aligned, Editorial Spacing */}
+        <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="min-h-[80vh] sm:min-h-[85vh] lg:min-h-[90vh] flex items-center py-16 sm:py-24 lg:py-32">
+            <div className="max-w-xl lg:max-w-2xl text-left" data-aos="fade-up" data-aos-duration="900">
               
-              {/* Tagline Badge */}
-              <div className="inline-flex items-center gap-3 px-5 py-3 bg-orange-600/20 backdrop-blur-sm border border-orange-400/30 rounded-full mb-8" data-aos="fade-up" data-aos-delay="200">
-                <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
-                <span className="text-xs sm:text-sm font-bold tracking-widest text-orange-300 uppercase">
-                  Our Story
-                </span>
-              </div>
+              {/* Eyebrow Label */}
+              <p className="text-xs sm:text-sm font-semibold tracking-[0.25em] text-[#F28C13] uppercase mb-4 sm:mb-6">
+                OUR STORY
+              </p>
 
               {/* Main Heading */}
-              <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold leading-[0.95] tracking-tight text-cream-100 mb-8" data-aos="fade-up" data-aos-delay="300">
+              <h1 className="font-['Lora',serif] text-[34px] xs:text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal leading-[1.1] sm:leading-[1.04] tracking-tight text-[#FFF4E6] mb-5 sm:mb-8">
                 From Kilimanjaro<br />
-                to Your <span className="italic text-orange-400">Cup.</span>
+                to Your Cup.
               </h1>
 
-              {/* Accent Line */}
-              <div className="flex items-center gap-4 mb-8" data-aos="fade-up" data-aos-delay="400">
-                <div className="w-24 h-1 bg-gradient-to-r from-orange-600 to-orange-400 rounded-full"></div>
-                <div className="w-12 h-1 bg-gradient-to-r from-orange-400 to-transparent rounded-full"></div>
-              </div>
-
-              {/* Description */}
-              <p className="text-lg sm:text-xl md:text-2xl text-cream-100/90 font-light leading-relaxed max-w-2xl mb-12" data-aos="fade-up" data-aos-delay="500">
+              {/* Supporting Text */}
+              <p className="text-[15px] sm:text-lg md:text-xl text-[#FFF4E6]/85 font-light leading-relaxed max-w-xl mb-7 sm:mb-10">
                 Where East African altitude meets Italian attitude. A journey of passion from volcanic slopes to perfectly crafted espresso.
               </p>
 
-              {/* CTA Buttons */}
-              <div className="flex flex-wrap gap-4 sm:gap-6" data-aos="fade-up" data-aos-delay="600">
+              {/* CTA Link */}
+              <div className="pt-1">
                 <a 
                   href="#our-story" 
-                  className="group inline-flex items-center gap-3 px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  className="inline-flex items-center gap-2.5 py-1.5 text-xs sm:text-sm font-semibold tracking-[0.22em] text-[#F28C13] uppercase border-b border-[#F28C13] hover:text-[#f8a846] hover:border-[#f8a846] transition-colors duration-200"
                 >
-                  <span>Discover Our Journey</span>
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path d="m9 18 6-6-6-6" />
-                  </svg>
-                </a>
-                <a 
-                  href="#bean-to-cup" 
-                  className="inline-flex items-center gap-3 px-8 py-4 bg-cream-100/10 hover:bg-cream-100/20 backdrop-blur-sm text-cream-100 font-bold rounded-full border-2 border-cream-100/30 hover:border-cream-100/50 transition-all duration-300"
-                >
-                  <span>Our Process</span>
+                  <span>DISCOVER OUR JOURNEY</span>
+                  <span aria-hidden="true" className="text-base leading-none">→</span>
                 </a>
               </div>
 
-              {/* Stats Row */}
-              <div className="mt-16 sm:mt-20 flex flex-wrap gap-8 sm:gap-12 lg:gap-16" data-aos="fade-up" data-aos-delay="700">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-orange-600/20 backdrop-blur-sm border border-orange-400/30 flex items-center justify-center">
-                    <svg className="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="text-xl sm:text-2xl font-display font-bold text-cream-100">Kilimanjaro</div>
-                    <div className="text-xs sm:text-sm text-cream-100/70">Origin</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-orange-600/20 backdrop-blur-sm border border-orange-400/30 flex items-center justify-center">
-                    <svg className="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="text-xl sm:text-2xl font-display font-bold text-cream-100">Italian</div>
-                    <div className="text-xs sm:text-sm text-cream-100/70">Roasting</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-orange-600/20 backdrop-blur-sm border border-orange-400/30 flex items-center justify-center">
-                    <svg className="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="text-xl sm:text-2xl font-display font-bold text-cream-100">100%</div>
-                    <div className="text-xs sm:text-sm text-cream-100/70">Arabica</div>
-                  </div>
-                </div>
-              </div>
-
             </div>
-          </div>
-
-          {/* Scroll Indicator */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce" data-aos="fade-up" data-aos-delay="1000">
-            <svg className="w-6 h-6 text-cream-100/60" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path d="m19 9-7 7-7-7" />
-            </svg>
           </div>
         </div>
       </section>
 
-      {/* Our Story - Redesigned with rich content and visual split layout */}
-      <section id="our-story" className="relative bg-white text-brown-900 py-20 sm:py-28 lg:py-36 overflow-hidden scroll-mt-20">
-        {/* Decorative background element */}
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-orange-50/30 to-transparent pointer-events-none"></div>
-        
-        <div className="container mx-auto px-6 sm:px-8 lg:px-12 max-w-7xl relative z-10">
-          <div className="text-center mb-16" data-aos="fade-up">
-            <span className="block text-xs sm:text-sm font-bold tracking-widest text-orange-600 uppercase mb-4">
-              Our Story
-            </span>
-            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-brown-900 font-bold leading-tight mb-6">
-              From Altitude to<br />
-              <span className="italic text-orange-600">Attitude</span>
+      {/* Main Storytelling Section - Editorial Coffee Journal */}
+      <section id="our-story" className="bg-[#F7F2EA] text-[#24160E] scroll-mt-20">
+        <div className="max-w-5xl mx-auto px-5 sm:px-10 lg:px-12 pt-14 sm:pt-24 pb-10 sm:pb-14">
+          
+          {/* Section Introduction */}
+          <div className="max-w-xl text-left mb-12 sm:mb-24">
+            <p className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#C8681A] uppercase mb-3 sm:mb-4">
+              OUR STORY
+            </p>
+            <h2 className="font-['Lora',serif] text-3xl sm:text-5xl lg:text-[54px] font-normal leading-[1.1] sm:leading-[1.08] text-[#24160E] mb-4 sm:mb-6">
+              Every Cup Has<br />a Beginning.
             </h2>
-            <p className="text-base sm:text-lg text-brown-700 leading-relaxed max-w-3xl mx-auto">
-              A journey of passion that bridges the volcanic slopes of Mount Kilimanjaro 
-              with the timeless craft of Italian espresso culture.
+            <p className="text-xs sm:text-[14px] leading-[1.7] text-[#4A3B32] font-normal max-w-lg">
+              From the volcanic slopes of Kilimanjaro to the precision of Italian craft, our journey is one of people, place and an unwavering commitment to exceptional coffee.
             </p>
           </div>
 
-          {/* Timeline Layout with Images */}
-          <div className="space-y-12 sm:space-y-16 lg:space-y-24">
-            {/* The Roots - Kilimanjaro */}
-            <div className="grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
-              <div className="lg:col-span-7" data-aos="fade-right">
-                <div className="relative">
-                  <div className="absolute -left-2 sm:-left-4 top-0 w-0.5 sm:w-1 h-full bg-gradient-to-b from-orange-600 to-transparent"></div>
-                  <div className="pl-4 sm:pl-8">
-                    <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-                      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-orange-600 to-orange-700 text-white flex items-center justify-center shadow-lg">
-                        <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                          <path d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5" />
-                        </svg>
-                      </div>
-                      <span className="text-[10px] sm:text-xs font-bold tracking-widest text-orange-600 uppercase">The Roots</span>
-                    </div>
-                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-brown-900 mb-3 sm:mb-4">
-                      Born on the Slopes of Kilimanjaro
-                    </h3>
-                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed mb-3 sm:mb-4">
-                      Great coffee isn't just made; it is grown, nurtured, and carefully chosen. Our journey begins high 
-                      on the volcanic slopes of Mount Kilimanjaro, where the rich, mineral-dense soil and high-altitude 
-                      climate produce some of the most vibrant coffee cherries in the world.
-                    </p>
-                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed mb-3 sm:mb-4">
-                      We partner directly with <span className="font-bold text-orange-600">generational farmers</span> who 
-                      possess an intuitive understanding of the land, hand-picking only the most perfect, sun-ripened cherries 
-                      to ensure a foundation of unparalleled flavor and aromatic complexity.
-                    </p>
-                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed">
-                      From the misty mountain air to the meticulous sun-drying process, every bean we source is a testament 
-                      to our profound love for authentic, high-quality coffee.
-                    </p>
-                  </div>
-                </div>
+          {/* Chapter 01 — The Roots */}
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 lg:gap-14 items-center mb-14 sm:mb-24">
+            <div>
+              <div className="flex items-center gap-3 mb-3 sm:mb-4">
+                <span className="text-xs font-semibold text-[#C8681A] tracking-wider">01</span>
+                <span className="text-[11px] sm:text-xs font-semibold tracking-[0.2em] text-[#C8681A] uppercase">THE ROOTS</span>
               </div>
-              <div className="lg:col-span-5" data-aos="fade-left" data-aos-delay="100">
-                <div className="relative h-[280px] sm:h-[350px] lg:h-[400px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
-                  <img src={kilimanjaroCoffee} alt="Mount Kilimanjaro coffee beans" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brown-900/40 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <p className="text-xs sm:text-sm font-bold">Mount Kilimanjaro</p>
-                    <p className="text-[10px] sm:text-xs opacity-90">High-Altitude Arabica Excellence</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* The Spark - Italian Epiphany */}
-            <div className="grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
-              <div className="lg:col-span-5 order-2 lg:order-1" data-aos="fade-right">
-                <div className="relative h-[280px] sm:h-[350px] lg:h-[400px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
-                  <img src={baristaItaly} alt="Italian espresso culture" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brown-900/40 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <p className="text-xs sm:text-sm font-bold">Rome, Italy</p>
-                    <p className="text-[10px] sm:text-xs opacity-90">Where Passion Ignited</p>
-                  </div>
-                </div>
-              </div>
-              <div className="lg:col-span-7 order-1 lg:order-2" data-aos="fade-left" data-aos-delay="100">
-                <div className="relative">
-                  <div className="absolute -left-2 sm:-left-4 top-0 w-0.5 sm:w-1 h-full bg-gradient-to-b from-orange-600 to-transparent"></div>
-                  <div className="pl-4 sm:pl-8">
-                    <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-                      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-orange-600 to-orange-700 text-white flex items-center justify-center shadow-lg">
-                        <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                          <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
-                        </svg>
-                      </div>
-                      <span className="text-[10px] sm:text-xs font-bold tracking-widest text-orange-600 uppercase">The Spark</span>
-                    </div>
-                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-brown-900 mb-3 sm:mb-4">
-                      An Italian Epiphany
-                    </h3>
-                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed mb-3 sm:mb-4">
-                      The soul of our shop was forged in Italy. Our Founder and CEO always appreciated a good cup of coffee, 
-                      but it wasn't until a trip to a small, bustling café in Rome that the true passion was ignited.
-                    </p>
-                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed mb-3 sm:mb-4">
-                      Tasting a perfectly pulled espresso there was a <span className="font-bold text-orange-600">revelation</span>—it 
-                      wasn't just a drink; it was an experience, a moment of pure connection. It was an immersion into a culture 
-                      built on a deep-rooted respect for the art of extraction.
-                    </p>
-                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed">
-                      Armed with that inspiration and a newfound obsession with the art of roasting, the vision became crystal 
-                      clear: combine the world-class beans of East Africa with the timeless, meticulous craft of Italian roasting.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* The Craft - Beyond the Bean */}
-            <div className="grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
-              <div className="lg:col-span-7" data-aos="fade-right">
-                <div className="relative">
-                  <div className="absolute -left-2 sm:-left-4 top-0 w-0.5 sm:w-1 h-full bg-gradient-to-b from-orange-600 to-transparent"></div>
-                  <div className="pl-4 sm:pl-8">
-                    <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-                      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-orange-600 to-orange-700 text-white flex items-center justify-center shadow-lg">
-                        <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                          <path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z" />
-                        </svg>
-                      </div>
-                      <span className="text-[10px] sm:text-xs font-bold tracking-widest text-orange-600 uppercase">The Craft</span>
-                    </div>
-                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-brown-900 mb-3 sm:mb-4">
-                      Beyond the Bean
-                    </h3>
-                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed mb-3 sm:mb-4">
-                      Today, that intense passion translates into every beverage we pour. While our heart beats for our 
-                      signature roasts, our menu is a playground of flavor and innovation.
-                    </p>
-                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed mb-3 sm:mb-4">
-                      Whether you are craving the <span className="font-bold text-orange-600">deep, velvety micro-foam</span> of 
-                      our classic cappuccinos, the smooth, comforting warmth of our artisanal lattes, or looking to shake things 
-                      up with our vibrant, handcrafted coffee-infused mocktails, every glass is poured with precision and passion.
-                    </p>
-                    <p className="text-sm sm:text-base text-brown-700 leading-relaxed">
-                      We are not just serving drinks; we are pouring our devotion into every single glass, honoring both the 
-                      bean and the brew.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="lg:col-span-5" data-aos="fade-left" data-aos-delay="100">
-                <div className="relative h-[280px] sm:h-[350px] lg:h-[400px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
-                  <img src={cappuccinoCloseUp} alt="Artisanal coffee craft" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brown-900/40 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <p className="text-xs sm:text-sm font-bold">Handcrafted Excellence</p>
-                    <p className="text-[10px] sm:text-xs opacity-90">From Classic to Creative</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Today - Our Impact */}
-            <div className="bg-gradient-to-br from-brown-900 to-brown-800 text-cream-100 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 xl:p-16 shadow-2xl" data-aos="fade-up">
-              <div className="text-center max-w-3xl mx-auto">
-                <div className="inline-flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-orange-600 text-white flex items-center justify-center shadow-lg">
-                    <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                    </svg>
-                  </div>
-                  <span className="text-[10px] sm:text-xs font-bold tracking-widest text-orange-400 uppercase">Today</span>
-                </div>
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-cream-100 mb-4 sm:mb-6">
-                  A Sanctuary Where <span className="text-orange-400">Passion Meets Perfection</span>
-                </h3>
-                <p className="text-sm sm:text-base lg:text-lg text-cream-100/90 leading-relaxed mb-6 sm:mb-8">
-                  We've created more than a café—we've built a sanctuary where the profound love for coffee can be shared, 
-                  bridging the gap between East African terroir and Italian mastery. Every cup served is a celebration of 
-                  this extraordinary journey.
+              <h3 className="font-['Lora',serif] text-2xl sm:text-3xl lg:text-[34px] font-normal leading-[1.15] text-[#24160E] mb-4 sm:mb-5">
+                Born on the Slopes<br />of Kilimanjaro.
+              </h3>
+              <div className="space-y-4 text-xs sm:text-[13.5px] leading-[1.75] text-[#4A3B32] font-normal">
+                <p>
+                  High in the fertile volcanic soils of Mount Kilimanjaro, coffee thrives in perfect harmony with nature. The rich mineral-dense soil, cool mountain air and high altitude create beans of extraordinary character — vibrant, complex and full of life.
                 </p>
-                <div className="grid grid-cols-3 gap-2 sm:gap-3 lg:gap-4 max-w-2xl mx-auto">
-                  <div className="bg-orange-600/20 backdrop-blur-sm p-2 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl border border-orange-400/30">
-                    <div className="text-lg sm:text-xl lg:text-2xl font-display font-bold text-orange-400 mb-1 whitespace-nowrap">100%</div>
-                    <p className="text-[8px] sm:text-[9px] lg:text-[10px] text-cream-100/80 leading-tight">Arabica</p>
-                  </div>
-                  <div className="bg-orange-600/20 backdrop-blur-sm p-2 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl border border-orange-400/30">
-                    <div className="text-lg sm:text-xl lg:text-2xl font-display font-bold text-orange-400 mb-1 whitespace-nowrap">Italian</div>
-                    <p className="text-[8px] sm:text-[9px] lg:text-[10px] text-cream-100/80 leading-tight">Roasting</p>
-                  </div>
-                  <div className="bg-orange-600/20 backdrop-blur-sm p-2 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl border border-orange-400/30">
-                    <div className="text-lg sm:text-xl lg:text-2xl font-display font-bold text-orange-400 mb-1 whitespace-nowrap">Direct</div>
-                    <p className="text-[8px] sm:text-[9px] lg:text-[10px] text-cream-100/80 leading-tight">Trade</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats - Updated */}
-      <section className="bg-brown-900 text-cream-100 py-16 sm:py-20 lg:py-24">
-        <div className="container mx-auto px-6 sm:px-8 lg:px-12 max-w-6xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 lg:gap-12">
-            {[
-              { number: 'Kilimanjaro', label: 'Origin', short: 'Kili' },
-              { number: 'Italian', label: 'Roasting', short: 'IT' },
-              { number: '100%', label: 'Arabica', short: '100%' },
-              { number: 'Direct', label: 'Trade', short: 'Direct' }
-            ].map((stat, index) => (
-              <div
-                key={index}
-                data-aos="fade-up"
-                data-aos-duration="800"
-                data-aos-delay={index * 100}
-                className="text-center"
-              >
-                <div className="font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-orange-600 mb-2 sm:mb-3 whitespace-nowrap overflow-hidden text-ellipsis px-2">
-                  {stat.number}
-                </div>
-                <div className="text-[10px] sm:text-xs font-bold tracking-widest text-cream-100/80 uppercase">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Mission & Vision - Updated content */}
-      <section className="bg-cream-100 text-brown-900 py-20 sm:py-28 lg:py-36">
-        <div className="container mx-auto px-6 sm:px-8 lg:px-12 max-w-7xl">
-          <div className="text-center mb-16" data-aos="fade-up">
-            <span className="block text-xs sm:text-sm font-bold tracking-widest text-orange-600 uppercase mb-4">
-              Purpose &amp; Direction
-            </span>
-            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-brown-900 font-bold leading-tight">
-              Our Mission &amp; Vision
-            </h2>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
-            {/* Mission */}
-            <div data-aos="fade-right" data-aos-duration="800" className="relative">
-              <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-orange-600 to-orange-400 rounded-full"></div>
-              <div className="pl-8">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-600 to-orange-700 text-white flex items-center justify-center shadow-lg">
-                    <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-2xl font-display font-bold text-brown-900">Our Mission</h3>
-                </div>
-                <p className="text-base sm:text-lg text-brown-700 leading-relaxed mb-6">
-                  To meticulously source, roast, and brew the finest East African coffee, merging authentic Italian 
-                  craftsmanship with local community spirit to deliver an unforgettable sensory experience in every cup.
-                </p>
-                <div className="space-y-3">
-                  <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-orange-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path d="m5 12 5 5L20 7" />
-                    </svg>
-                    <span className="text-sm text-brown-700">Bridge Kilimanjaro beans with Italian craft</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-orange-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path d="m5 12 5 5L20 7" />
-                    </svg>
-                    <span className="text-sm text-brown-700">Inspire connection and joy in every cup</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-orange-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path d="m5 12 5 5L20 7" />
-                    </svg>
-                    <span className="text-sm text-brown-700">Foster community through exceptional coffee</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Vision */}
-            <div data-aos="fade-left" data-aos-duration="800" data-aos-delay="100" className="relative">
-              <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-orange-600 to-orange-400 rounded-full"></div>
-              <div className="pl-8">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-600 to-orange-700 text-white flex items-center justify-center shadow-lg">
-                    <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                      <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-2xl font-display font-bold text-brown-900">Our Vision</h3>
-                </div>
-                <p className="text-base sm:text-lg text-brown-700 leading-relaxed mb-6">
-                  To redefine the local café culture by becoming the ultimate destination for coffee enthusiasts and 
-                  casual lovers alike, recognized globally for our uncompromising quality, innovative menu, and warm, 
-                  inviting atmosphere.
-                </p>
-                <div className="space-y-3">
-                  <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-orange-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path d="m5 12 5 5L20 7" />
-                    </svg>
-                    <span className="text-sm text-brown-700">Become the most beloved community hub</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-orange-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path d="m5 12 5 5L20 7" />
-                    </svg>
-                    <span className="text-sm text-brown-700">Set the standard for coffee excellence</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-orange-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path d="m5 12 5 5L20 7" />
-                    </svg>
-                    <span className="text-sm text-brown-700">Create lasting memorable experiences</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Core Values */}
-          <div className="mt-12 sm:mt-16 lg:mt-20 grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8" data-aos="fade-up" data-aos-delay="200">
-            {[
-              { icon: 'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5', title: 'Artisanal Excellence', desc: 'Precision roasting & brewing' },
-              { icon: 'M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10zM2 12h20', title: 'Sustainable Partnerships', desc: 'Empowering Kilimanjaro farmers' },
-              { icon: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75', title: 'Community Connection', desc: 'A gathering place for all' },
-              { icon: 'M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z', title: 'Authenticity', desc: 'Real beans, real stories' }
-            ].map((value, i) => (
-              <div key={i} className="text-center p-4 sm:p-6 bg-white rounded-xl sm:rounded-2xl border border-brown-100 hover:border-orange-200 hover:shadow-md transition-all duration-300">
-                <svg className="w-8 h-8 sm:w-10 sm:h-10 mx-auto text-orange-600 mb-3 sm:mb-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                  <path d={value.icon} />
-                </svg>
-                <h4 className="text-xs sm:text-sm font-bold text-brown-900 mb-1">{value.title}</h4>
-                <p className="text-[10px] sm:text-xs text-brown-600">{value.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Bean to Cup Process - Redesigned with visual storytelling */}
-      <section id="bean-to-cup" className="relative bg-gradient-to-b from-white via-cream-50 to-white text-brown-900 py-20 sm:py-28 lg:py-36 overflow-hidden scroll-mt-20">
-        {/* Decorative Elements */}
-        <div className="absolute top-20 right-0 w-64 h-64 bg-orange-100 rounded-full blur-3xl opacity-30"></div>
-        <div className="absolute bottom-20 left-0 w-64 h-64 bg-brown-100 rounded-full blur-3xl opacity-30"></div>
-
-        <div className="container mx-auto px-6 sm:px-8 lg:px-12 max-w-7xl relative z-10">
-          {/* Section Header */}
-          <div className="text-center mb-16 sm:mb-20 lg:mb-24" data-aos="fade-up">
-            <span className="inline-block px-4 py-2 bg-orange-100 text-orange-700 text-xs sm:text-sm font-bold tracking-widest uppercase rounded-full mb-6">
-              Our Process
-            </span>
-            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl text-brown-900 font-bold leading-tight mb-6">
-              The Bean to Cup <br className="hidden sm:block" />
-              <span className="italic text-orange-600">Journey</span>
-            </h2>
-            <p className="text-base sm:text-lg lg:text-xl text-brown-700 max-w-3xl mx-auto leading-relaxed">
-              From the volcanic soils of Kilimanjaro to the perfect crema in your cup, every step is crafted with precision and passion.
-            </p>
-          </div>
-
-          {/* Process Steps with Alternating Layout */}
-          <div className="space-y-16 sm:space-y-20 lg:space-y-28">
-            
-            {/* Step 1: Selective Harvesting */}
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-              <div className="order-2 lg:order-1" data-aos="fade-right" data-aos-duration="1000">
-                <div className="relative group">
-                  <div className="absolute -inset-1 bg-gradient-to-br from-orange-600 to-orange-400 rounded-3xl blur-xl opacity-20 group-hover:opacity-30 transition duration-500"></div>
-                  <div className="relative h-[300px] sm:h-[400px] lg:h-[480px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl">
-                    <img src={coffeeCherries} alt="Selective coffee harvesting" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-brown-900/60 via-brown-900/20 to-transparent"></div>
-                    {/* Step Badge */}
-                    <div className="absolute top-6 left-6 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-orange-600 text-white flex items-center justify-center text-2xl sm:text-3xl font-display font-bold shadow-xl">
-                      01
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="order-1 lg:order-2" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
-                <div className="lg:pl-8">
-                  <div className="inline-flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                      </svg>
-                    </div>
-                    <span className="text-xs sm:text-sm font-bold tracking-widest text-orange-600 uppercase">Step One</span>
-                  </div>
-                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-brown-900 mb-6 leading-tight">
-                    Selective <br className="hidden sm:block" />Harvesting
-                  </h3>
-                  <p className="text-base sm:text-lg text-brown-700 leading-relaxed mb-6">
-                    Only the ripest cherries from our high-altitude Kilimanjaro partner farms are chosen to guarantee a vibrant, complex flavor profile. Our farmers use generations of expertise to identify peak ripeness.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-4 py-2 bg-orange-50 text-orange-700 text-xs sm:text-sm font-semibold rounded-full border border-orange-200">Hand-Picked</span>
-                    <span className="px-4 py-2 bg-orange-50 text-orange-700 text-xs sm:text-sm font-semibold rounded-full border border-orange-200">High-Altitude</span>
-                    <span className="px-4 py-2 bg-orange-50 text-orange-700 text-xs sm:text-sm font-semibold rounded-full border border-orange-200">Peak Ripeness</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Step 2: Precision Roasting */}
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-              <div className="order-2" data-aos="fade-left" data-aos-duration="1000">
-                <div className="relative group">
-                  <div className="absolute -inset-1 bg-gradient-to-br from-orange-600 to-orange-400 rounded-3xl blur-xl opacity-20 group-hover:opacity-30 transition duration-500"></div>
-                  <div className="relative h-[300px] sm:h-[400px] lg:h-[480px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl">
-                    <img src={coffeeRoasting} alt="Precision coffee roasting" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-brown-900/60 via-brown-900/20 to-transparent"></div>
-                    {/* Step Badge */}
-                    <div className="absolute top-6 right-6 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-orange-600 text-white flex items-center justify-center text-2xl sm:text-3xl font-display font-bold shadow-xl">
-                      02
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="order-1" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">
-                <div className="lg:pr-8">
-                  <div className="inline-flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
-                      </svg>
-                    </div>
-                    <span className="text-xs sm:text-sm font-bold tracking-widest text-orange-600 uppercase">Step Two</span>
-                  </div>
-                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-brown-900 mb-6 leading-tight">
-                    Precision <br className="hidden sm:block" />Roasting
-                  </h3>
-                  <p className="text-base sm:text-lg text-brown-700 leading-relaxed mb-6">
-                    We small-batch roast our beans using authentic Italian techniques, carefully manipulating temperature and airflow to unlock hidden caramelized sugars and distinct regional tasting notes unique to Kilimanjaro.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-4 py-2 bg-orange-50 text-orange-700 text-xs sm:text-sm font-semibold rounded-full border border-orange-200">Small-Batch</span>
-                    <span className="px-4 py-2 bg-orange-50 text-orange-700 text-xs sm:text-sm font-semibold rounded-full border border-orange-200">Italian Method</span>
-                    <span className="px-4 py-2 bg-orange-50 text-orange-700 text-xs sm:text-sm font-semibold rounded-full border border-orange-200">Temperature Control</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Step 3: Expert Extraction */}
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-              <div className="order-2 lg:order-1" data-aos="fade-right" data-aos-duration="1000">
-                <div className="relative group">
-                  <div className="absolute -inset-1 bg-gradient-to-br from-orange-600 to-orange-400 rounded-3xl blur-xl opacity-20 group-hover:opacity-30 transition duration-500"></div>
-                  <div className="relative h-[300px] sm:h-[400px] lg:h-[480px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl">
-                    <img src={baristaPulling} alt="Expert coffee extraction" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-brown-900/60 via-brown-900/20 to-transparent"></div>
-                    {/* Step Badge */}
-                    <div className="absolute top-6 left-6 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-orange-600 text-white flex items-center justify-center text-2xl sm:text-3xl font-display font-bold shadow-xl">
-                      03
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="order-1 lg:order-2" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
-                <div className="lg:pl-8">
-                  <div className="inline-flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10zM2 12h20" />
-                      </svg>
-                    </div>
-                    <span className="text-xs sm:text-sm font-bold tracking-widest text-orange-600 uppercase">Step Three</span>
-                  </div>
-                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-brown-900 mb-6 leading-tight">
-                    Expert <br className="hidden sm:block" />Extraction
-                  </h3>
-                  <p className="text-base sm:text-lg text-brown-700 leading-relaxed mb-6">
-                    Our baristas are trained in the rigorous Italian tradition, meticulously calibrating the grind, tamping pressure, and water temperature to pull a flawless, crema-rich shot every single time.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-4 py-2 bg-orange-50 text-orange-700 text-xs sm:text-sm font-semibold rounded-full border border-orange-200">Italian Trained</span>
-                    <span className="px-4 py-2 bg-orange-50 text-orange-700 text-xs sm:text-sm font-semibold rounded-full border border-orange-200">Perfect Crema</span>
-                    <span className="px-4 py-2 bg-orange-50 text-orange-700 text-xs sm:text-sm font-semibold rounded-full border border-orange-200">Precision Calibrated</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Step 4: Creative Formulation */}
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-              <div className="order-2" data-aos="fade-left" data-aos-duration="1000">
-                <div className="relative group">
-                  <div className="absolute -inset-1 bg-gradient-to-br from-orange-600 to-orange-400 rounded-3xl blur-xl opacity-20 group-hover:opacity-30 transition duration-500"></div>
-                  <div className="relative h-[300px] sm:h-[400px] lg:h-[480px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl">
-                    <img src={latteArt} alt="Creative coffee formulation" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-brown-900/60 via-brown-900/20 to-transparent"></div>
-                    {/* Step Badge */}
-                    <div className="absolute top-6 right-6 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-orange-600 text-white flex items-center justify-center text-2xl sm:text-3xl font-display font-bold shadow-xl">
-                      04
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="order-1" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">
-                <div className="lg:pr-8">
-                  <div className="inline-flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z" />
-                      </svg>
-                    </div>
-                    <span className="text-xs sm:text-sm font-bold tracking-widest text-orange-600 uppercase">Step Four</span>
-                  </div>
-                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-brown-900 mb-6 leading-tight">
-                    Creative <br className="hidden sm:block" />Formulation
-                  </h3>
-                  <p className="text-base sm:text-lg text-brown-700 leading-relaxed mb-6">
-                    Beyond classic espresso, we continuously innovate by pairing our roasts with botanical syrups and fresh ingredients to craft our highly sought-after signature mocktails and specialty beverages.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-4 py-2 bg-orange-50 text-orange-700 text-xs sm:text-sm font-semibold rounded-full border border-orange-200">Signature Mocktails</span>
-                    <span className="px-4 py-2 bg-orange-50 text-orange-700 text-xs sm:text-sm font-semibold rounded-full border border-orange-200">Botanical Infusions</span>
-                    <span className="px-4 py-2 bg-orange-50 text-orange-700 text-xs sm:text-sm font-semibold rounded-full border border-orange-200">Innovation</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          {/* End Result Showcase */}
-          <div className="mt-16 sm:mt-20 lg:mt-28" data-aos="fade-up" data-aos-duration="1000">
-            <div className="relative bg-gradient-to-br from-brown-900 via-brown-800 to-brown-900 text-cream-100 rounded-3xl sm:rounded-[2.5rem] p-8 sm:p-12 lg:p-16 xl:p-20 overflow-hidden shadow-2xl">
-              {/* Background Pattern */}
-              <div className="absolute inset-0 opacity-5">
-                <div className="absolute top-10 left-10 w-32 h-32 border-2 border-cream-100 rounded-full"></div>
-                <div className="absolute bottom-10 right-10 w-40 h-40 border-2 border-cream-100 rounded-full"></div>
-              </div>
-              
-              <div className="relative z-10 text-center max-w-4xl mx-auto">
-                <div className="inline-block p-3 bg-orange-600/20 rounded-2xl mb-6">
-                  <svg className="w-10 h-10 sm:w-12 sm:h-12 text-orange-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mb-6">
-                  The Result? <span className="text-orange-400">Perfection in Every Cup</span>
-                </h3>
-                <p className="text-base sm:text-lg lg:text-xl text-cream-100/90 leading-relaxed">
-                  This meticulous four-step journey ensures that every beverage we serve honors the farmers, the craft, and most importantly—you.
+                <p>
+                  Here, generational farmers tend to their land with care, passing down a deep respect for the earth and its bounty.
                 </p>
               </div>
             </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* Philosophy - Redesigned with magazine-style layout */}
-      <section className="relative py-16 sm:py-20 lg:py-28 xl:py-36 overflow-hidden">
-        {/* Split background - hidden on mobile, shown on lg+ */}
-        <div className="absolute inset-0 hidden lg:block">
-          <div className="absolute inset-0 left-0 w-1/2 bg-brown-900"></div>
-          <div className="absolute inset-0 right-0 w-1/2 bg-cream-100"></div>
-        </div>
-        {/* Solid background for mobile */}
-        <div className="absolute inset-0 lg:hidden bg-brown-900"></div>
-
-        <div className="container mx-auto px-6 sm:px-8 lg:px-12 max-w-7xl relative z-10">
-          <div className="grid lg:grid-cols-2 gap-0 items-stretch">
-            {/* Left side - Dark */}
-            <div className="bg-brown-900 text-cream-100 p-6 sm:p-8 lg:p-12 xl:p-16 flex flex-col justify-center" data-aos="fade-right">
-              <span className="block text-[10px] sm:text-xs lg:text-sm font-bold tracking-widest text-orange-400 uppercase mb-4 sm:mb-6">
-                Our Philosophy
-              </span>
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight mb-6 sm:mb-8">
-                More than just<br />
-                <span className="italic text-orange-400">coffee.</span>
-              </h2>
-              <p className="text-sm sm:text-base lg:text-lg text-cream-100/90 leading-relaxed mb-6 sm:mb-8">
-                Every cup tells a story. A story of farmers waking before dawn, carefully selecting ripe cherries. 
-                A story of communities coming together, building futures. A story of you, taking a moment in your busy day.
-              </p>
-              <div className="space-y-3 sm:space-y-4">
-                <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white/10 rounded-lg sm:rounded-xl backdrop-blur-sm">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-orange-600 flex items-center justify-center flex-shrink-0">
-                    <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="text-sm sm:text-base font-bold text-cream-100 mb-0.5 sm:mb-1">Crafted with Care</h4>
-                    <p className="text-xs sm:text-sm text-cream-100/70">Every bean, every brew, every moment matters</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white/10 rounded-lg sm:rounded-xl backdrop-blur-sm">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-orange-600 flex items-center justify-center flex-shrink-0">
-                    <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                      <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="text-sm sm:text-base font-bold text-cream-100 mb-0.5 sm:mb-1">Built on Values</h4>
-                    <p className="text-xs sm:text-sm text-cream-100/70">Fairness, quality, and community in every decision</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right side - Light with image */}
-            <div className="relative h-[350px] sm:h-[400px] lg:h-auto" data-aos="fade-left" data-aos-delay="100">
+            <div className="w-full aspect-[4/3] overflow-hidden">
               <img 
-                src={coffeeSimple} 
-                alt="Coffee philosophy" 
-                className="w-full h-full object-cover"
+                src={kilimanjaroCoffee} 
+                alt="Born on the Slopes of Kilimanjaro" 
+                className="w-full h-full object-cover object-center rounded-none block" 
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-brown-900/60 to-transparent"></div>
-              <div className="absolute bottom-6 sm:bottom-8 left-6 sm:left-8 right-6 sm:right-8 text-white">
-                <p className="text-base sm:text-lg font-light italic leading-relaxed">
-                  "Coffee is a bridge between cultures, a catalyst for conversations, and a daily reminder 
-                  that the best things in life are worth waiting for."
-                </p>
-                <p className="mt-3 sm:mt-4 text-xs sm:text-sm font-bold tracking-wide">— L'Oven Coffee</p>
+            </div>
+          </div>
+
+          {/* Photographic Breathing Moment */}
+          <div className="w-full h-[190px] sm:h-[300px] md:h-[380px] overflow-hidden mb-14 sm:mb-24">
+            <img 
+              src={africanPlantation} 
+              alt="Mount Kilimanjaro Coffee Landscape" 
+              className="w-full h-full object-cover object-center rounded-none block" 
+            />
+          </div>
+
+          {/* Chapter 02 — The Spark */}
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 lg:gap-14 items-center mb-14 sm:mb-24">
+            <div className="order-2 md:order-1 w-full aspect-[4/3] overflow-hidden">
+              <img 
+                src={baristaItaly} 
+                alt="An Italian Epiphany" 
+                className="w-full h-full object-cover object-center rounded-none block" 
+              />
+            </div>
+            <div className="order-1 md:order-2">
+              <div className="flex items-center gap-3 mb-3 sm:mb-4">
+                <span className="text-xs font-semibold text-[#C8681A] tracking-wider">02</span>
+                <span className="text-[11px] sm:text-xs font-semibold tracking-[0.2em] text-[#C8681A] uppercase">THE SPARK</span>
               </div>
+              <h3 className="font-['Lora',serif] text-2xl sm:text-3xl lg:text-[34px] font-normal leading-[1.15] text-[#24160E] mb-4 sm:mb-5">
+                An Italian Epiphany.
+              </h3>
+              <div className="space-y-4 text-xs sm:text-[13.5px] leading-[1.75] text-[#4A3B32] font-normal">
+                <p>
+                  The soul of our shop was forged in Italy. Our Founder and CEO always appreciated a good cup of coffee, but it wasn't until a trip to a small, bustling cafe in Italy that he truly understood its power.
+                </p>
+                <p>
+                  That moment of discovery — the rich aroma, the perfect balance, the sense of connection — became the spark behind L'OVEN.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Chapter 03 — The Craft */}
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-14 items-center">
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-xs font-semibold text-[#C8681A] tracking-wider">03</span>
+                <span className="text-[11px] sm:text-xs font-semibold tracking-[0.2em] text-[#C8681A] uppercase">THE CRAFT</span>
+              </div>
+              <h3 className="font-['Lora',serif] text-2xl sm:text-3xl lg:text-[34px] font-normal leading-[1.15] text-[#24160E] mb-5">
+                Beyond the Bean.
+              </h3>
+              <div className="space-y-4 text-xs sm:text-[13.5px] leading-[1.75] text-[#4A3B32] font-normal">
+                <p>
+                  Today, that same passion drives everything we do. We work with skilled roasters, master the art of extraction and craft every cup with intention — blending East African beans with Italian expertise to create a coffee experience that's both bold and refined.
+                </p>
+                <p>
+                  It's not just coffee. It's a craft.
+                </p>
+              </div>
+            </div>
+            <div className="w-full aspect-[4/3] overflow-hidden">
+              <img 
+                src={coffeeRoasting} 
+                alt="Beyond the Bean - Roasting Craft" 
+                className="w-full h-full object-cover object-center rounded-none block" 
+              />
+            </div>
+          </div>
+
+        </div>
+
+        {/* Final Conclusion Section — Today (Integrated full-bleed banner with background image) */}
+        <div className="relative w-full bg-[#1E120B] text-[#FFF4E6] overflow-hidden">
+          {/* Coffee cup background image anchored to the right */}
+          <div 
+            className="absolute inset-y-0 right-0 w-full sm:w-3/5 lg:w-1/2 bg-no-repeat bg-cover bg-center sm:bg-right pointer-events-none"
+            style={{ backgroundImage: `url(${todayCoffeeBanner})` }}
+          >
+            {/* Seamless gradient overlay blending image left edge into #1E120B background */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1E120B] via-[#1E120B]/80 sm:via-[#1E120B]/40 to-transparent sm:bg-gradient-to-r"></div>
+          </div>
+
+          <div className="relative z-10 max-w-5xl mx-auto px-5 sm:px-10 lg:px-12 py-12 sm:py-18 lg:py-20">
+            <div className="max-w-md sm:max-w-lg">
+              <p className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#C8681A] uppercase mb-3 sm:mb-4">
+                TODAY
+              </p>
+              <h3 className="font-['Lora',serif] text-2xl sm:text-3xl lg:text-[34px] font-normal leading-snug sm:leading-[1.2] text-[#FFF4E6] mb-3 sm:mb-5">
+                A Sanctuary Where<br />
+                Passion Meets Perfection.
+              </h3>
+              <p className="text-xs sm:text-[13.5px] leading-[1.75] text-[#FFF4E6]/85 font-normal max-w-md">
+                From our roots in East Africa to our home in Italy, L'OVEN is more than a coffee brand — it's a celebration of culture, craftsmanship and the people who make it possible.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Simplified CTA - More elegant and minimal */}
-      <section className="bg-orange-600 text-white py-16 sm:py-20">
-        <div className="container mx-auto px-6 text-center max-w-3xl">
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-6" data-aos="fade-up">
-            Experience the difference.
-          </h2>
-          <p className="text-lg sm:text-xl text-white/90 mb-8" data-aos="fade-up" data-aos-delay="100">
-            Visit our café, explore our menu, or learn more about our farmer partnerships.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="200">
-            <Link
-              to="/menu"
-              className="px-10 py-4 bg-white text-orange-600 font-bold text-sm tracking-wider uppercase rounded-xl hover:bg-cream-100 transition-colors shadow-lg hover:shadow-xl"
-            >
-              View Menu
-            </Link>
-            <Link
-              to="/contact"
-              className="px-10 py-4 bg-transparent border-2 border-white text-white font-bold text-sm tracking-wider uppercase rounded-xl hover:bg-white hover:text-orange-600 transition-colors"
-            >
-              Visit Us
-            </Link>
+      {/* Brand Manifesto: Purpose, Mission, Vision & Values - Editorial Manifesto */}
+      <section className="bg-[#FAF5EE] text-[#2B1B12] py-16 sm:py-24 lg:py-32 scroll-mt-20">
+        <div className="max-w-[1160px] mx-auto px-5 sm:px-10 lg:px-12">
+          
+          {/* ========================================================================= */}
+          {/* SECTION 1 — PURPOSE                                                       */}
+          {/* ========================================================================= */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 items-center mb-16 sm:mb-24 lg:mb-32">
+            
+            {/* Left: Purpose Copy */}
+            <div className="lg:col-span-6" data-aos="fade-up">
+              <span className="block text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#F28C13] uppercase mb-3 sm:mb-4">
+                OUR PURPOSE
+              </span>
+              <h2 className="font-['Lora',serif] text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-normal leading-[1.1] sm:leading-[1.08] text-[#2B1B12] mb-4 sm:mb-6 tracking-tight">
+                More Than a Cup.
+              </h2>
+              <p className="text-sm sm:text-base text-[#5A4538] font-light leading-relaxed max-w-md">
+                We exist to create meaningful coffee experiences that connect people, culture and place — from the volcanic slopes of Kilimanjaro to your everyday ritual.
+              </p>
+            </div>
+
+            {/* Right: Authentic Origin Photography */}
+            <div className="lg:col-span-6" data-aos="fade-up" data-aos-delay="100">
+              <div className="w-full h-[240px] sm:h-[320px] lg:h-[380px] overflow-hidden bg-[#EFE8DD]">
+                <img 
+                  src={coffeeCherries} 
+                  alt="Hands holding freshly harvested coffee cherries at origin" 
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+          </div>
+
+
+          {/* ========================================================================= */}
+          {/* SECTION 2 — MISSION AND VISION                                            */}
+          {/* ========================================================================= */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-0 mb-16 sm:mb-24 lg:mb-32">
+            
+            {/* Left: Mission */}
+            <div className="pb-8 lg:pb-0 border-b border-[#2B1B12]/15 lg:border-b-0 lg:pr-12 xl:pr-16 lg:border-r lg:border-[#2B1B12]/15" data-aos="fade-up">
+              <span className="block text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#F28C13] uppercase mb-3 sm:mb-4">
+                MISSION
+              </span>
+              <h3 className="font-['Lora',serif] text-[22px] sm:text-2xl md:text-3xl lg:text-[32px] font-normal leading-snug sm:leading-[1.2] text-[#2B1B12] mb-4 sm:mb-5 tracking-tight">
+                To meticulously source, roast and brew the finest East African coffee.
+              </h3>
+              <p className="text-sm sm:text-base text-[#5A4538] font-light leading-relaxed max-w-lg">
+                We bring together authentic Italian craftsmanship and local community spirit to create something worth returning to — in every cup.
+              </p>
+            </div>
+
+            {/* Right: Vision */}
+            <div className="lg:pl-12 xl:pl-16" data-aos="fade-up" data-aos-delay="100">
+              <span className="block text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#F28C13] uppercase mb-3 sm:mb-4">
+                VISION
+              </span>
+              <h3 className="font-['Lora',serif] text-[22px] sm:text-2xl md:text-3xl lg:text-[32px] font-normal leading-snug sm:leading-[1.2] text-[#2B1B12] mb-4 sm:mb-5 tracking-tight">
+                To redefine the local café culture by becoming the ultimate destination for coffee enthusiasts and casual lovers alike.
+              </h3>
+              <p className="text-sm sm:text-base text-[#5A4538] font-light leading-relaxed max-w-lg">
+                We aim to be a global benchmark for quality, community and innovation in coffee — a place where great coffee brings people together.
+              </p>
+            </div>
+
+          </div>
+
+
+          {/* ========================================================================= */}
+          {/* SECTION 3 — WHAT WE BELIEVE IN                                            */}
+          {/* ========================================================================= */}
+          <div className="border-t border-[#2B1B12]/15 pt-12 sm:pt-16 lg:pt-20" data-aos="fade-up">
+            <span className="block text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#F28C13] uppercase mb-8 sm:mb-12">
+              WHAT WE BELIEVE IN
+            </span>
+
+            {/* 2x2 Editorial Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              
+              {/* Value 01 */}
+              <div className="pb-6 sm:pb-8 md:pb-12 md:pr-10 lg:pr-14 border-b md:border-r border-[#2B1B12]/15">
+                <div className="flex items-start gap-4">
+                  <span className="text-xs sm:text-sm font-bold tracking-widest text-[#F28C13] select-none pt-0.5">
+                    01
+                  </span>
+                  <div>
+                    <h4 className="font-['Lora',serif] text-base sm:text-lg font-medium tracking-wide text-[#2B1B12] uppercase mb-2">
+                      ARTISANAL EXCELLENCE
+                    </h4>
+                    <p className="text-sm text-[#5A4538] font-light leading-relaxed">
+                      Precision in every roast.<br />
+                      Intention in every cup.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Value 02 */}
+              <div className="py-6 sm:py-8 md:py-0 md:pb-12 md:pl-10 lg:pl-14 border-b border-[#2B1B12]/15">
+                <div className="flex items-start gap-4">
+                  <span className="text-xs sm:text-sm font-bold tracking-widest text-[#F28C13] select-none pt-0.5">
+                    02
+                  </span>
+                  <div>
+                    <h4 className="font-['Lora',serif] text-base sm:text-lg font-medium tracking-wide text-[#2B1B12] uppercase mb-2">
+                      SUSTAINABLE PARTNERSHIPS
+                    </h4>
+                    <p className="text-sm text-[#5A4538] font-light leading-relaxed">
+                      Growing alongside the people<br />
+                      who grow our coffee.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Value 03 */}
+              <div className="py-6 sm:py-8 md:py-0 md:pt-10 md:pb-0 md:pr-10 lg:pr-14 border-b md:border-b-0 md:border-r border-[#2B1B12]/15">
+                <div className="flex items-start gap-4">
+                  <span className="text-xs sm:text-sm font-bold tracking-widest text-[#F28C13] select-none pt-0.5">
+                    03
+                  </span>
+                  <div>
+                    <h4 className="font-['Lora',serif] text-base sm:text-lg font-medium tracking-wide text-[#2B1B12] uppercase mb-2">
+                      COMMUNITY CONNECTION
+                    </h4>
+                    <p className="text-sm text-[#5A4538] font-light leading-relaxed">
+                      Coffee is better when<br />
+                      it's shared.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Value 04 */}
+              <div className="pt-6 sm:pt-8 md:pt-10 md:pl-10 lg:pl-14">
+                <div className="flex items-start gap-4">
+                  <span className="text-xs sm:text-sm font-bold tracking-widest text-[#F28C13] select-none pt-0.5">
+                    04
+                  </span>
+                  <div>
+                    <h4 className="font-['Lora',serif] text-base sm:text-lg font-medium tracking-wide text-[#2B1B12] uppercase mb-2">
+                      AUTHENTICITY
+                    </h4>
+                    <p className="text-sm text-[#5A4538] font-light leading-relaxed">
+                      Real beans.<br />
+                      Real people.<br />
+                      Real stories.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Our Process / The Journey of Great Coffee - Single Art-Directed Editorial Collage */}
+      <section id="bean-to-cup" className="bg-[#FAF5EE] text-[#2B1B12] py-16 sm:py-28 lg:py-36 scroll-mt-20 overflow-hidden">
+        <div className="max-w-[1160px] mx-auto px-5 sm:px-10 lg:px-12">
+
+          {/* ========================================================================= */}
+          {/* ROW 1: HEADER & STAGE 01 (SELECTIVE HARVESTING)                           */}
+          {/* ========================================================================= */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-start mb-16 sm:mb-28 lg:mb-32">
+            
+            {/* Left Column: Section Header & Stage 01 Story */}
+            <div className="lg:col-span-6 flex flex-col justify-between" data-aos="fade-up">
+              {/* Header Intro */}
+              <div className="mb-8 sm:mb-16">
+                <p className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#C8681A] uppercase mb-3 sm:mb-4">
+                  OUR PROCESS
+                </p>
+                <h2 className="font-['Lora',serif] text-3xl sm:text-5xl lg:text-[54px] font-normal leading-[1.08] text-[#2B1B12] mb-4 sm:mb-6 tracking-tight">
+                  The Journey<br />
+                  of Great Coffee.
+                </h2>
+                <p className="text-sm sm:text-base text-[#5A4538] font-light leading-relaxed max-w-md">
+                  Four stages. One philosophy. From the volcanic slopes of Kilimanjaro to your cup, every step is a commitment to quality, people and place.
+                </p>
+              </div>
+
+              {/* Stage 01: Selective Harvesting */}
+              <div className="relative">
+                <div className="flex items-start gap-4">
+                  <span className="font-['Lora',serif] text-4xl sm:text-5xl font-normal text-[#C8681A] leading-none select-none">
+                    01
+                  </span>
+                  <div className="pt-0.5 border-l border-[#C8681A]/40 pl-4">
+                    <span className="block text-[11px] font-bold tracking-[0.22em] text-[#C8681A] uppercase mb-1.5">
+                      HARVEST
+                    </span>
+                    <h3 className="font-['Lora',serif] text-xl sm:text-[28px] font-medium text-[#2B1B12] leading-tight mb-2.5 sm:mb-3">
+                      Selective Harvesting
+                    </h3>
+                    <p className="text-sm text-[#5A4538] font-light leading-relaxed max-w-sm">
+                      Only the ripest cherries are hand-picked from the volcanic slopes of Kilimanjaro, ensuring exceptional flavour and quality from the very beginning.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Top Phrase + Stage 01 Photo Collage */}
+            <div className="lg:col-span-6 flex flex-col items-end" data-aos="fade-up" data-aos-delay="100">
+              {/* Subtle top-right editorial print phrase */}
+              <div className="text-right mb-4 sm:mb-8 pr-2">
+                <p className="text-[11px] sm:text-xs text-[#7A695E] leading-relaxed font-sans tracking-wider">
+                  Same land.<br />
+                  Same care.<br />
+                  A better cup.
+                </p>
+              </div>
+
+              {/* Photo Collage: Tall portrait harvesting + overlapping tilted branch photo */}
+              <div className="relative w-full max-w-[420px] self-center lg:self-end">
+                {/* Connecting subtle curved vector line across behind image */}
+                <svg className="hidden md:block absolute -left-20 top-1/3 w-28 h-32 text-[#C8681A]/30 pointer-events-none z-0" viewBox="0 0 100 120" fill="none">
+                  <path d="M5 110 C 20 60, 60 40, 95 10" stroke="currentColor" strokeWidth="1" />
+                </svg>
+
+                {/* Primary Tall Portrait Image: Hands picking cherries over basket */}
+                <div className="relative z-10 w-full sm:w-[340px] md:w-[360px] h-[320px] xs:h-[380px] sm:h-[460px] overflow-hidden shadow-sm bg-[#EFE8DD]">
+                  <img 
+                    src={coffeeCherries} 
+                    alt="Selective coffee harvesting by hand" 
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+
+                {/* Overlapping Angled Photo (White photo frame / print aesthetic) */}
+                <div className="absolute -bottom-4 sm:-bottom-6 right-0 sm:-right-6 w-[135px] xs:w-[160px] sm:w-[210px] h-[155px] xs:h-[180px] sm:h-[230px] p-1.5 sm:p-2 bg-white shadow-xl rotate-2 sm:rotate-6 z-20">
+                  <div className="w-full h-full overflow-hidden bg-[#EFE8DD]">
+                    <img 
+                      src={kilimanjaroCoffee} 
+                      alt="Kilimanjaro ripe coffee cherries on branch" 
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+          {/* ========================================================================= */}
+          {/* ROW 2: STAGE 02 (PRECISION ROASTING)                                      */}
+          {/* ========================================================================= */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-16 sm:mb-32 lg:mb-36">
+            
+            {/* Left/Center: Large Wide Roasting Anchor Photograph */}
+            <div className="lg:col-span-7" data-aos="fade-up">
+              <div className="w-full h-[220px] sm:h-[340px] md:h-[380px] overflow-hidden shadow-sm bg-[#EFE8DD]">
+                <img 
+                  src={coffeeRoasting} 
+                  alt="Precision coffee roasting machine cooling drum" 
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+            {/* Right: Stage 02 Roasting Story */}
+            <div className="lg:col-span-5 lg:pl-4" data-aos="fade-up" data-aos-delay="100">
+              <div className="flex items-start gap-4">
+                <span className="font-['Lora',serif] text-4xl sm:text-5xl font-normal text-[#C8681A] leading-none select-none">
+                  02
+                </span>
+                <div className="pt-0.5 border-l border-[#C8681A]/40 pl-4">
+                  <span className="block text-[11px] font-bold tracking-[0.22em] text-[#C8681A] uppercase mb-1.5">
+                    ROASTING
+                  </span>
+                  <h3 className="font-['Lora',serif] text-xl sm:text-[28px] font-medium text-[#2B1B12] leading-tight mb-2.5 sm:mb-3">
+                    Precision Roasting
+                  </h3>
+                  <p className="text-sm text-[#5A4538] font-light leading-relaxed max-w-sm">
+                    We roast our beans in small batches using authentic Italian techniques, unlocking their full aroma, balance and depth. Temperature, time and experience come together in perfect harmony.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+          {/* ========================================================================= */}
+          {/* ROW 3: STAGE 03 (EXPERT EXTRACTION)                                       */}
+          {/* ========================================================================= */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-center mb-16 sm:mb-32 lg:mb-36">
+            
+            {/* Left: Stage 03 Extraction Story */}
+            <div className="lg:col-span-5 order-2 lg:order-1" data-aos="fade-up">
+              <div className="flex items-start gap-4">
+                <span className="font-['Lora',serif] text-4xl sm:text-5xl font-normal text-[#C8681A] leading-none select-none">
+                  03
+                </span>
+                <div className="pt-0.5 border-l border-[#C8681A]/40 pl-4">
+                  <span className="block text-[11px] font-bold tracking-[0.22em] text-[#C8681A] uppercase mb-1.5">
+                    EXTRACTION
+                  </span>
+                  <h3 className="font-['Lora',serif] text-xl sm:text-[28px] font-medium text-[#2B1B12] leading-tight mb-2.5 sm:mb-3">
+                    Expert Extraction
+                  </h3>
+                  <p className="text-sm text-[#5A4538] font-light leading-relaxed max-w-sm">
+                    Our baristas are trained in the rigorous Italian tradition, meticulously calibrating the grind, tamping pressure and water temperature to pull a flawless, crema-rich shot every single time.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Close-up Extraction Photo + Overlapping Latte Art Photo */}
+            <div className="lg:col-span-7 order-1 lg:order-2" data-aos="fade-up" data-aos-delay="100">
+              <div className="relative w-full max-w-[480px] mx-auto lg:ml-auto">
+                {/* Main Extraction Image: Portafilter streaming espresso */}
+                <div className="relative z-10 w-full sm:w-[360px] md:w-[400px] h-[220px] xs:h-[260px] sm:h-[300px] overflow-hidden shadow-sm bg-[#EFE8DD]">
+                  <img 
+                    src={baristaItaly} 
+                    alt="Espresso extraction from bottomless portafilter" 
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+
+                {/* Overlapping Angled Photo (Cup of Latte Art) */}
+                <div className="absolute -bottom-5 sm:-bottom-8 right-0 sm:-right-4 w-[130px] xs:w-[150px] sm:w-[200px] h-[130px] xs:h-[150px] sm:h-[200px] p-1.5 sm:p-2 bg-white shadow-xl -rotate-2 sm:-rotate-3 z-20">
+                  <div className="w-full h-full overflow-hidden bg-[#EFE8DD]">
+                    <img 
+                      src={latteArt} 
+                      alt="Artisanal Latte Art" 
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+          {/* ========================================================================= */}
+          {/* ROW 4: STAGE 04 (CREATIVE FORMULATION)                                    */}
+          {/* ========================================================================= */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            {/* Left: Beautiful Coffee Beverage Photo */}
+            <div className="lg:col-span-6" data-aos="fade-up">
+              <div className="w-full max-w-[460px] h-[220px] sm:h-[320px] overflow-hidden shadow-sm bg-[#EFE8DD]">
+                <img 
+                  src={coffeeTable} 
+                  alt="Crafted signature coffee beverage on rustic wood" 
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+            {/* Right: Stage 04 Story + Editorial Handwritten Script Sign-off */}
+            <div className="lg:col-span-6 lg:pl-4" data-aos="fade-up" data-aos-delay="100">
+              <div className="flex items-start gap-4 mb-8 sm:mb-12">
+                <span className="font-['Lora',serif] text-4xl sm:text-5xl font-normal text-[#C8681A] leading-none select-none">
+                  04
+                </span>
+                <div className="pt-0.5 border-l border-[#C8681A]/40 pl-4">
+                  <span className="block text-[11px] font-bold tracking-[0.22em] text-[#C8681A] uppercase mb-1.5">
+                    CREATIVE FORMULATION
+                  </span>
+                  <h3 className="font-['Lora',serif] text-xl sm:text-[28px] font-medium text-[#2B1B12] leading-tight mb-2.5 sm:mb-3">
+                    More Than Just Coffee.
+                  </h3>
+                  <p className="text-sm text-[#5A4538] font-light leading-relaxed max-w-md">
+                    We craft distinctive blends and seasonal beverages that bring out the best in every bean. From classic espressos to innovative creations, our drinks are designed to inspire, surprise and bring people together.
+                  </p>
+                </div>
+              </div>
+
+              {/* Handwritten signature accent in bottom-right */}
+              <div className="text-right pr-2 sm:pr-8">
+                <div className="inline-block transform -rotate-3 sm:-rotate-4 text-right select-none">
+                  <p className="font-['Caveat',cursive] text-2xl sm:text-3xl text-[#5A4538] leading-tight">
+                    Good coffee<br />
+                    brings people<br />
+                    together.
+                  </p>
+                  <svg className="w-24 sm:w-28 h-2 text-[#C8681A] ml-auto mt-1 opacity-70" viewBox="0 0 100 8" fill="none">
+                    <path d="M2 5C28 2 72 2 98 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* Our People / The Human Side - Editorial Composition (Option C + Option B Design Language) */}
+      <section id="our-people" className="bg-[#FAF5EE] text-[#2B1B12] py-16 sm:py-28 lg:py-32 scroll-mt-20 overflow-hidden">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8 lg:px-10">
+
+          {/* ========================================================================= */}
+          {/* DESKTOP VIEW: ASYMMETRICAL ART-DIRECTED EDITORIAL POSTER SPREAD           */}
+          {/* ========================================================================= */}
+          <div className="hidden lg:block">
+            <div className="grid grid-cols-12 gap-8 xl:gap-10 items-start">
+              
+              {/* Left Column (3 cols): Vertical Slogan + Farmer Portrait + L'OVEN Signature */}
+              <div className="col-span-3 flex flex-col justify-between" style={{ minHeight: '530px' }} data-aos="fade-up">
+                <div className="flex items-start gap-3.5">
+                  {/* Stacked Vertical Accent Slogan */}
+                  <div className="text-[10px] font-bold tracking-[0.24em] text-[#C8681A] uppercase space-y-1.5 select-none pt-4 flex-shrink-0 leading-tight">
+                    <div>REAL</div>
+                    <div>PEOPLE.</div>
+                    <div>GREATER</div>
+                    <div>IMPACT.</div>
+                  </div>
+
+                  {/* Large Vertical Farmer Portrait */}
+                  <div className="w-full h-[450px] overflow-hidden bg-[#EFE8DD] shadow-sm">
+                    <img 
+                      src={farmerPortrait} 
+                      alt="Coffee farmer with basket of harvested cherries" 
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+
+                {/* Bottom Left Signature Detail */}
+                <div className="pt-6">
+                  <span className="text-[10px] font-semibold tracking-[0.22em] text-[#7A695E] uppercase select-none">
+                    L'OVEN — SPECIALTY COFFEE &amp; MORE
+                  </span>
+                </div>
+              </div>
+
+              {/* Right Area (9 cols): Asymmetrical Two-Row Editorial Composition */}
+              <div className="col-span-9 flex flex-col justify-between" style={{ minHeight: '530px' }} data-aos="fade-up" data-aos-delay="100">
+                
+                {/* Top Row: Heading/Intro | Woman Grower | Barista | Statement 01 */}
+                <div className="grid grid-cols-12 gap-6 items-start">
+                  
+                  {/* Section Heading & Introductory Narrative */}
+                  <div className="col-span-4 pr-3">
+                    <p className="text-[11px] font-semibold tracking-[0.25em] text-[#C8681A] uppercase mb-3">
+                      OUR PEOPLE
+                    </p>
+                    <h2 className="font-['Lora',serif] text-3xl xl:text-4xl font-normal leading-[1.12] text-[#2B1B12] mb-4 tracking-tight">
+                      Real People.<br />
+                      Greater Impact.
+                    </h2>
+                    <p className="text-xs xl:text-sm text-[#5A4538] font-light leading-relaxed">
+                      From the farmers who grow our beans to the baristas who craft your cup, we're united by a shared passion for better coffee and brighter futures.
+                    </p>
+                  </div>
+
+                  {/* Medium Landscape Image: Woman Coffee Grower */}
+                  <div className="col-span-3">
+                    <div className="w-full h-[180px] overflow-hidden bg-[#EFE8DD] shadow-sm">
+                      <img 
+                        src={coffeeGrowerWoman} 
+                        alt="Coffee grower carefully picking ripe cherries" 
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Medium Landscape Image: Craft Barista in L'OVEN Apron */}
+                  <div className="col-span-3">
+                    <div className="w-full h-[180px] overflow-hidden bg-[#EFE8DD] shadow-sm">
+                      <img 
+                        src={baristaCraft} 
+                        alt="Barista pouring artisanal latte art" 
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Text Statement 01: Stronger Communities */}
+                  <div className="col-span-2 pl-1">
+                    <span className="block text-[10px] font-bold tracking-[0.2em] text-[#C8681A] uppercase mb-1.5 leading-tight">
+                      STRONGER<br />COMMUNITIES
+                    </span>
+                    <div className="w-7 h-[1px] bg-[#C8681A] mb-2.5"></div>
+                    <p className="text-[11px] text-[#5A4538] font-light leading-relaxed">
+                      We work directly with farming communities, supporting fair trade, sustainable practices and long-term growth.
+                    </p>
+                  </div>
+
+                </div>
+
+                {/* Bottom Row: Editorial Quote | Community Landscape | Hands Detail | Statement 02 */}
+                <div className="grid grid-cols-12 gap-6 items-center pt-8">
+                  
+                  {/* Subtle Editorial Quote under Heading */}
+                  <div className="col-span-4 pr-4">
+                    <p className="font-['Lora',serif] italic text-base xl:text-lg text-[#2B1B12]/85 leading-snug">
+                      “Great coffee<br />
+                      brings people<br />
+                      together.”
+                    </p>
+                  </div>
+
+                  {/* Wide Landscape Image: Farming Community in Mountain Valley */}
+                  <div className="col-span-4">
+                    <div className="w-full h-[160px] overflow-hidden bg-[#EFE8DD] shadow-sm">
+                      <img 
+                        src={farmingCommunity} 
+                        alt="Coffee farming community looking across mountain plantation" 
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Detail Photo: Weathered Hands with Fresh Cherries */}
+                  <div className="col-span-2">
+                    <div className="w-full h-[160px] overflow-hidden bg-[#EFE8DD] shadow-sm">
+                      <img 
+                        src={handsCherries} 
+                        alt="Hands cupping freshly harvested coffee cherries" 
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Text Statement 02: A Brighter Tomorrow */}
+                  <div className="col-span-2 pl-1">
+                    <span className="block text-[10px] font-bold tracking-[0.2em] text-[#C8681A] uppercase mb-1.5 leading-tight">
+                      A BRIGHTER<br />TOMORROW
+                    </span>
+                    <div className="w-7 h-[1px] bg-[#C8681A] mb-2.5"></div>
+                    <p className="text-[11px] text-[#5A4538] font-light leading-relaxed">
+                      Better livelihoods. Healthier communities. A more sustainable coffee future.
+                    </p>
+                  </div>
+
+                </div>
+
+                {/* Bottom Footer Detail: Connecting Hairline + Sign-off */}
+                <div className="pt-8 flex justify-end items-center">
+                  <div className="w-32 xl:w-44 h-[1px] bg-[#7A695E]/30 mr-4"></div>
+                  <span className="text-[10px] font-semibold tracking-[0.22em] text-[#7A695E] uppercase select-none">
+                    GOOD COFFEE. GREATER TOGETHER.
+                  </span>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+
+          {/* ========================================================================= */}
+          {/* MOBILE / TABLET VIEW: NATURAL EDITORIAL DOCUMENTARY SEQUENCE              */}
+          {/* ========================================================================= */}
+          <div className="lg:hidden space-y-8 sm:space-y-10">
+            
+            {/* 1. OUR PEOPLE Label & 2. Main Heading & 3. Supporting Copy */}
+            <div data-aos="fade-up">
+              <p className="text-[11px] font-semibold tracking-[0.25em] text-[#C8681A] uppercase mb-2.5 sm:mb-3">
+                OUR PEOPLE
+              </p>
+              <h2 className="font-['Lora',serif] text-3xl sm:text-4xl font-normal leading-[1.12] text-[#2B1B12] mb-3 sm:mb-4 tracking-tight">
+                Real People.<br />
+                Greater Impact.
+              </h2>
+              <p className="text-sm text-[#5A4538] font-light leading-relaxed max-w-lg">
+                From the farmers who grow our beans to the baristas who craft your cup, we're united by a shared passion for better coffee and brighter futures.
+              </p>
+            </div>
+
+            {/* 4. Large Farmer Image with Stacked Accent */}
+            <div className="relative" data-aos="fade-up">
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-[10px] font-bold tracking-[0.2em] text-[#C8681A] uppercase">
+                  REAL PEOPLE. GREATER IMPACT.
+                </span>
+                <div className="flex-1 h-[1px] bg-[#C8681A]/30"></div>
+              </div>
+              <div className="w-full h-[280px] xs:h-[340px] sm:h-[420px] overflow-hidden bg-[#EFE8DD] shadow-sm">
+                <img 
+                  src={farmerPortrait} 
+                  alt="Coffee farmer with basket of harvested cherries" 
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+            {/* 5. Community Statement (STRONGER COMMUNITIES) */}
+            <div className="max-w-md" data-aos="fade-up">
+              <span className="block text-[11px] font-bold tracking-[0.2em] text-[#C8681A] uppercase mb-1.5">
+                STRONGER COMMUNITIES
+              </span>
+              <div className="w-8 h-[1px] bg-[#C8681A] mb-2.5 sm:mb-3"></div>
+              <p className="text-sm text-[#5A4538] font-light leading-relaxed">
+                We work directly with farming communities, supporting fair trade, sustainable practices and long-term growth.
+              </p>
+            </div>
+
+            {/* 6. Coffee Harvesting Image (Woman Grower) & 7. Barista Image */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6" data-aos="fade-up">
+              <div className="w-full h-[200px] sm:h-[240px] overflow-hidden bg-[#EFE8DD] shadow-sm">
+                <img 
+                  src={coffeeGrowerWoman} 
+                  alt="Coffee grower picking ripe cherries" 
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div className="w-full h-[200px] sm:h-[240px] overflow-hidden bg-[#EFE8DD] shadow-sm">
+                <img 
+                  src={baristaCraft} 
+                  alt="Barista pouring artisanal latte art" 
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+            {/* 8. Editorial Quote */}
+            <div className="text-center py-2 sm:py-4" data-aos="fade-up">
+              <p className="font-['Lora',serif] italic text-lg sm:text-2xl text-[#2B1B12] leading-snug">
+                “Great coffee brings people together.”
+              </p>
+            </div>
+
+            {/* 9. Community/Farm Landscape */}
+            <div className="w-full h-[200px] sm:h-[260px] overflow-hidden bg-[#EFE8DD] shadow-sm" data-aos="fade-up">
+              <img 
+                src={farmingCommunity} 
+                alt="Coffee farming community looking across mountain plantation" 
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
+
+            {/* 10. Brighter Tomorrow Statement & 11. Hands Holding Coffee Cherries */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 items-center" data-aos="fade-up">
+              <div>
+                <span className="block text-[11px] font-bold tracking-[0.2em] text-[#C8681A] uppercase mb-1.5">
+                  A BRIGHTER TOMORROW
+                </span>
+                <div className="w-8 h-[1px] bg-[#C8681A] mb-2.5 sm:mb-3"></div>
+                <p className="text-sm text-[#5A4538] font-light leading-relaxed">
+                  Better livelihoods. Healthier communities. A more sustainable coffee future.
+                </p>
+              </div>
+              <div className="w-full h-[170px] sm:h-[200px] overflow-hidden bg-[#EFE8DD] shadow-sm">
+                <img 
+                  src={handsCherries} 
+                  alt="Hands cupping freshly harvested coffee cherries" 
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+            {/* 12. L'OVEN Signature & Footer Details */}
+            <div className="pt-6 border-t border-[#7A695E]/20 flex flex-col sm:flex-row justify-between items-center gap-3 text-center sm:text-left" data-aos="fade-up">
+              <span className="text-[10px] font-semibold tracking-[0.22em] text-[#7A695E] uppercase">
+                L'OVEN — SPECIALTY COFFEE &amp; MORE
+              </span>
+              <span className="text-[10px] font-semibold tracking-[0.22em] text-[#7A695E] uppercase">
+                GOOD COFFEE. GREATER TOGETHER.
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* The Editorial Invitation - Option A Final CTA */}
+      <section className="bg-[#FAF5EE] text-[#2B1B12] py-16 sm:py-28 lg:py-36 border-t border-[#2B1B12]/10 overflow-hidden">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-10 lg:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-16 items-center">
+            
+            {/* Left Side: Typography & Actions (~40%) */}
+            <div className="lg:col-span-5 flex flex-col justify-between" data-aos="fade-up">
+              
+              {/* Eyebrow Label with subtle horizontal line */}
+              <div className="flex items-center gap-3 mb-5 sm:mb-8">
+                <span className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#F28C13] uppercase">
+                  YOUR NEXT CUP
+                </span>
+                <div className="w-8 sm:w-10 h-[1px] bg-[#F28C13]"></div>
+              </div>
+
+              {/* Main Heading: Two lines, prominent editorial scale */}
+              <h2 className="font-['Lora',serif] text-4xl xs:text-5xl sm:text-6xl lg:text-[72px] font-normal leading-[1.04] text-[#2B1B12] mb-5 sm:mb-8 tracking-tight">
+                Starts<br />
+                Here.
+              </h2>
+
+              {/* Supporting Copy */}
+              <div className="text-sm sm:text-base text-[#5A4538] font-light leading-relaxed mb-7 sm:mb-10 max-w-sm">
+                <p className="mb-2">The story continues at L'OVEN.</p>
+                <p>Come in. Take your time.<br />Experience coffee differently.</p>
+              </div>
+
+              {/* Primary Action: Editorial Text Link */}
+              <div className="mb-5">
+                <Link 
+                  to="/menu" 
+                  className="group inline-flex items-center gap-2.5 py-1 text-xs sm:text-sm font-bold tracking-[0.22em] text-[#F28C13] uppercase transition-colors duration-200 hover:text-[#d35400]"
+                >
+                  <span>EXPLORE OUR MENU</span>
+                  <span className="text-base transform group-hover:translate-x-1.5 transition-transform duration-200">→</span>
+                </Link>
+                <div className="w-44 h-[1px] bg-[#F28C13]/60 mt-0.5"></div>
+              </div>
+
+              {/* Secondary Action: Subtle Editorial Text Link */}
+              <div className="mb-10 sm:mb-16 lg:mb-20">
+                <Link 
+                  to="/contact" 
+                  className="group inline-flex items-center gap-2 py-1 text-[11px] sm:text-xs font-semibold tracking-[0.2em] text-[#2B1B12] uppercase transition-colors duration-200 hover:text-[#F28C13]"
+                >
+                  <span>FIND US</span>
+                  <span className="text-sm transform group-hover:translate-x-1 transition-transform duration-200">→</span>
+                </Link>
+                <div className="w-20 h-[1px] bg-[#2B1B12]/25 mt-0.5"></div>
+              </div>
+
+              {/* Brand Signature at Bottom-Left */}
+              <div className="flex items-center gap-3 select-none pt-2">
+                <span className="font-['Lora',serif] text-base sm:text-lg font-medium tracking-wider text-[#F28C13]">
+                  L'OVEN
+                </span>
+                <div className="w-[1px] h-3.5 bg-[#F28C13]"></div>
+                <span className="text-[10px] sm:text-[11px] font-semibold tracking-[0.22em] text-[#2B1B12] uppercase">
+                  SPECIALTY COFFEE &amp; MORE
+                </span>
+              </div>
+
+            </div>
+
+            {/* Right Side: Immersive Coffee Photography (~60%) */}
+            <div className="lg:col-span-7" data-aos="fade-up" data-aos-delay="100">
+              <div className="w-full h-[260px] xs:h-[320px] sm:h-[460px] lg:h-[540px] overflow-hidden bg-[#EFE8DD] shadow-sm">
+                <img 
+                  src={ctaEditorialCup} 
+                  alt="L'OVEN specialty coffee with latte art on rustic wood" 
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
