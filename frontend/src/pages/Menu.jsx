@@ -191,32 +191,46 @@ const Menu = () => {
               data-aos="fade-left"
               data-aos-duration="800"
             >
-              {/* Soft Ambient Background Glow */}
-              <div className="absolute -top-8 -right-8 w-72 h-72 bg-amber-300/20 rounded-full filter blur-3xl pointer-events-none" />
+              {/* Architectural Offset Frame (Zero curves, gallery depth) */}
+              <div className="absolute -bottom-3 -right-3 w-full h-full border border-[#C8681A]/40 pointer-events-none hidden sm:block rounded-none" />
 
-              {/* Clean Architectural Photo Frame */}
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-amber-200/80 group aspect-[4/5] max-h-[440px] bg-[#2B1B12]/5">
-                <img
-                  src={italianCoffee}
-                  alt="L'Oven Artisanal Coffee Preparation"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ease-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#2B1B12]/50 via-transparent to-transparent pointer-events-none" />
+              {/* Main Architectural Card Container */}
+              <div className="relative bg-white border border-[#2B1B12]/20 p-2.5 sm:p-3 shadow-[8px_8px_0px_0px_rgba(43,27,18,0.06)] rounded-none group transition-all duration-300 hover:shadow-[10px_10px_0px_0px_rgba(200,104,26,0.15)]">
+                
+                {/* Photo Viewport */}
+                <div className="relative aspect-[4/5] max-h-[460px] overflow-hidden bg-[#2B1B12]/5 rounded-none">
+                  <img
+                    src={italianCoffee}
+                    alt="L'Oven Artisanal Coffee Preparation"
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#2B1B12]/75 via-transparent to-[#2B1B12]/15 pointer-events-none" />
 
-                {/* Floating Architectural Badge */}
-                <div className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-md rounded-2xl p-3.5 border border-amber-200/80 shadow-lg flex items-center justify-between">
-                  <div>
-                    <p className="font-['Lora',Georgia,serif] text-sm font-medium text-[#2B1B12]">
-                      Signature Extraction
-                    </p>
-                    <p className="font-sans text-[11px] text-[#2B1B12]/60">
-                      Crafted daily by our master baristas
-                    </p>
+
+                  {/* Sleek Bottom Information Plaque (Completely Curve-Free) */}
+                  <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 bg-white/95 backdrop-blur-md p-3.5 sm:p-4 border border-[#2B1B12]/15 shadow-sm rounded-none flex items-center justify-between gap-3">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="w-2.5 h-[2px] bg-[#C8681A]"></span>
+                        <span className="text-[9px] font-bold tracking-[0.25em] text-[#C8681A] uppercase">
+                          BARISTA DISCIPLINE
+                        </span>
+                      </div>
+                      <h4 className="font-['Lora',Georgia,serif] text-sm sm:text-base font-medium text-[#2B1B12] tracking-tight">
+                        Signature Extraction
+                      </h4>
+                      <p className="font-sans text-[11px] text-[#5A4538] font-light leading-snug">
+                        Small-batch 1:2 ratio pulled fresh at 9 bars daily
+                      </p>
+                    </div>
+
+                    <div className="border border-[#C8681A] bg-[#2B1B12] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#FFF4E6] shrink-0 rounded-none shadow-xs">
+                      FRESH DAILY
+                    </div>
                   </div>
-                  <span className="text-[11px] font-bold text-[#F28C13] uppercase tracking-wider bg-[#F28C13]/10 px-2.5 py-1 rounded-full">
-                    Fresh Daily
-                  </span>
+
                 </div>
+
               </div>
             </div>
 
@@ -314,14 +328,14 @@ const Menu = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search coffee, pastry, toast..."
-                  className="w-full bg-white/95 border border-[#2B1B12]/15 rounded py-2 sm:py-2.5 pl-10 pr-9 font-sans text-xs sm:text-sm text-[#2B1B12] placeholder:text-[#2B1B12]/45 transition-colors focus:border-[#F28C13] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#F28C13] shadow-sm"
+                  className="w-full bg-white/95 border border-[#2B1B12]/15 rounded-none py-2 sm:py-2.5 pl-10 pr-9 font-sans text-xs sm:text-sm text-[#2B1B12] placeholder:text-[#2B1B12]/45 transition-colors focus:border-[#F28C13] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#F28C13] shadow-sm"
                 />
                 {searchQuery && (
                   <button
                     type="button"
                     onClick={() => setSearchQuery('')}
                     aria-label="Clear search query"
-                    className="absolute right-2.5 flex h-7 w-7 items-center justify-center rounded-full text-[#2B1B12]/50 hover:text-[#2B1B12] hover:bg-[#2B1B12]/10 transition-colors text-sm"
+                    className="absolute right-2.5 flex h-7 w-7 items-center justify-center rounded-none text-[#2B1B12]/50 hover:text-[#2B1B12] hover:bg-[#2B1B12]/10 transition-colors text-sm"
                   >
                     ×
                   </button>
@@ -341,7 +355,7 @@ const Menu = () => {
           </div>
         ) : error ? (
           <div
-            className="mx-auto max-w-md border border-[#2B1B12]/15 bg-white p-8 text-center sm:p-10 rounded shadow-sm"
+            className="mx-auto max-w-md border border-[#2B1B12]/15 bg-white p-8 text-center sm:p-10 rounded-none shadow-sm"
             data-aos="fade-up"
             data-aos-duration="600"
           >
@@ -349,14 +363,14 @@ const Menu = () => {
             <button
               type="button"
               onClick={fetchProducts}
-              className="mt-6 inline-flex items-center justify-center rounded bg-[#2B1B12] px-6 py-3 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-[#FFF4E6] transition-colors hover:bg-[#F28C13] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13]"
+              className="mt-6 inline-flex items-center justify-center rounded-none bg-[#2B1B12] px-6 py-3 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-[#FFF4E6] transition-colors hover:bg-[#F28C13] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13]"
             >
               TRY AGAIN
             </button>
           </div>
         ) : products.length === 0 ? (
           <div
-            className="mx-auto max-w-md border border-[#2B1B12]/15 bg-white p-8 text-center sm:p-10 rounded shadow-sm"
+            className="mx-auto max-w-md border border-[#2B1B12]/15 bg-white p-8 text-center sm:p-10 rounded-none shadow-sm"
             data-aos="fade-up"
             data-aos-duration="600"
           >
@@ -375,7 +389,7 @@ const Menu = () => {
                 setSelectedCategory('all');
                 setSearchQuery('');
               }}
-              className="mt-6 inline-flex items-center justify-center rounded bg-[#F28C13] px-6 py-3 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#d97706] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13]"
+              className="mt-6 inline-flex items-center justify-center rounded-none bg-[#F28C13] px-6 py-3 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#d97706] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13]"
             >
               RESET MENU FILTERS
             </button>
@@ -438,7 +452,7 @@ const Menu = () => {
                                   handleOpenProduct(product);
                                 }
                               }}
-                              className="relative aspect-[4/3] w-full overflow-hidden bg-[#2B1B12]/5 cursor-pointer rounded-sm"
+                              className="relative aspect-[4/3] w-full overflow-hidden bg-[#2B1B12]/5 cursor-pointer rounded-none"
                               aria-label={`View details and options for ${product.name}`}
                             >
                               <img
@@ -449,7 +463,7 @@ const Menu = () => {
                               />
 
                               {product.is_featured && (
-                                <span className="absolute top-3 left-3 bg-[#2B1B12] text-[#FFF4E6] px-2.5 py-1 font-sans text-[10px] font-semibold uppercase tracking-[0.16em] rounded-sm">
+                                <span className="absolute top-3 left-3 bg-[#2B1B12] text-[#FFF4E6] px-2.5 py-1 font-sans text-[10px] font-semibold uppercase tracking-[0.16em] rounded-none">
                                   FAVOURITE
                                 </span>
                               )}
@@ -493,7 +507,7 @@ const Menu = () => {
                                 onClick={(e) => handleQuickAdd(product, e)}
                                 disabled={isAdded}
                                 aria-label={`Add ${product.name} to order`}
-                                className={`min-h-[44px] min-w-[44px] px-3.5 py-2 rounded-sm font-sans text-xs font-semibold uppercase tracking-[0.12em] transition-all duration-200 flex items-center justify-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13] ${
+                                className={`min-h-[44px] min-w-[44px] px-3.5 py-2 rounded-none font-sans text-xs font-semibold uppercase tracking-[0.12em] transition-all duration-200 flex items-center justify-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13] ${
                                   isAdded
                                     ? 'bg-[#F28C13] text-white'
                                     : 'bg-[#2B1B12] text-[#FFF4E6] hover:bg-[#F28C13]'

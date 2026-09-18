@@ -43,7 +43,7 @@ const Contact = () => {
     name: '',
     email: '',
     phone: '',
-    subject: '',
+    subject: 'General Inquiry',
     message: ''
   });
   const [errors, setErrors] = useState({});
@@ -53,14 +53,24 @@ const Contact = () => {
   useEffect(() => {
     AOS.init({
       duration: 800,
-      once: true,
-      easing: 'ease-out',
+      once: false,
+      offset: 100,
+      easing: 'ease-out-cubic',
     });
 
     const timer = setTimeout(() => {
       AOS.refreshHard();
-    }, 100);
-    return () => clearTimeout(timer);
+    }, 150);
+
+    const handleResize = () => {
+      AOS.refresh();
+    };
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   // Compute live café status (Open vs Closed) based on actual current time
@@ -228,27 +238,27 @@ const Contact = () => {
     setFormStatus('idle');
     setApiError(null);
     setErrors({});
+    setActiveCategory('general');
+    setPreferredContact('email');
     setFormData({
       name: '',
       email: '',
       phone: '',
-      subject: '',
+      subject: 'General Inquiry',
       message: ''
     });
   };
 
   return (
-    <div className="bg-[#FAF5EE] text-[#2B1B12] min-h-screen overflow-x-clip">
+    <div className="bg-[#FAF5EE] text-[#2B1B12] min-h-screen">
       
-      {/* 1. Hero Section - Editorial Human-Designed Aesthetic (Matches Our Story) */}
-      <section className="relative w-full bg-[#2B1B12] overflow-hidden">
-        {/* Full-width Photography Background */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <img 
-            src={goldenHourCoffee} 
-            alt="Artisanal Crafted Coffee at L'Oven" 
-            className="w-full h-full object-cover object-center"
-          />
+      {/* 1. Hero Section - Sticky Background & Content on Scroll */}
+      <section className="sticky top-20 z-0 w-full min-h-[70vh] sm:min-h-[76vh] bg-[#2B1B12] overflow-hidden">
+        {/* Sticky Background Layer */}
+        <div 
+          className="absolute inset-0 z-0 pointer-events-none bg-cover bg-center"
+          style={{ backgroundImage: `url("${goldenHourCoffee}")` }}
+        >
           {/* Deep espresso overlay matching About.jsx */}
           <div className="absolute inset-0 bg-[#2B1B12] opacity-45 pointer-events-none"></div>
         </div>
@@ -256,10 +266,14 @@ const Contact = () => {
         {/* Content Container - Editorial Typography & Left Alignment */}
         <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
           <div className="min-h-[70vh] sm:min-h-[76vh] flex items-center py-16 sm:py-24 lg:py-28">
-            <div className="max-w-xl lg:max-w-2xl text-left" data-aos="fade-up" data-aos-duration="900">
+            <div className="max-w-xl lg:max-w-2xl text-left">
               
               {/* Eyebrow Label with subtle horizontal accent */}
-              <div className="flex items-center gap-3 mb-4 sm:mb-6">
+              <div 
+                className="flex items-center gap-3 mb-4 sm:mb-6"
+                data-aos="fade-up" 
+                data-aos-duration="700"
+              >
                 <p className="text-xs sm:text-sm font-semibold tracking-[0.25em] text-[#F28C13] uppercase">
                   GET IN TOUCH
                 </p>
@@ -267,18 +281,33 @@ const Contact = () => {
               </div>
 
               {/* Main Heading */}
-              <h1 className="font-['Lora',serif] text-[34px] xs:text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal leading-[1.08] tracking-tight text-[#FFF4E6] mb-5 sm:mb-8">
+              <h1 
+                className="font-['Lora',serif] text-[34px] xs:text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal leading-[1.08] tracking-tight text-[#FFF4E6] mb-5 sm:mb-8"
+                data-aos="fade-up" 
+                data-aos-duration="800"
+                data-aos-delay="100"
+              >
                 Start a<br />
                 Conversation.
               </h1>
 
               {/* Supporting Text */}
-              <p className="text-[15px] sm:text-lg text-[#FFF4E6]/85 font-light leading-relaxed max-w-xl mb-7 sm:mb-10">
+              <p 
+                className="text-[15px] sm:text-lg text-[#FFF4E6]/85 font-light leading-relaxed max-w-xl mb-7 sm:mb-10"
+                data-aos="fade-up" 
+                data-aos-duration="800"
+                data-aos-delay="200"
+              >
                 Where every conversation begins with artisanal hospitality. Whether reserving a table, arranging event catering, or inquiring about our weekly micro-roasts—we are at your service.
               </p>
 
               {/* CTA Link */}
-              <div className="pt-1">
+              <div 
+                className="pt-1"
+                data-aos="fade-up" 
+                data-aos-duration="800"
+                data-aos-delay="300"
+              >
                 <a 
                   href="#contact-section" 
                   className="inline-flex items-center gap-2.5 py-1.5 text-xs sm:text-sm font-semibold tracking-[0.22em] text-[#F28C13] uppercase border-b border-[#F28C13] hover:text-[#f8a846] hover:border-[#f8a846] transition-colors duration-200"
@@ -293,17 +322,20 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* 2. Main Editorial Contact Section - Clean Two-Column Journal Layout */}
-      <section id="contact-section" className="bg-[#FAF5EE] text-[#2B1B12] py-16 sm:py-24 lg:py-32 scroll-mt-16">
+      {/* Subsequent Content Wrapper - Glides smoothly over the sticky hero on scroll */}
+      <div className="relative z-10 bg-[#FAF5EE] shadow-[0_-12px_40px_rgba(43,27,18,0.2)]">
+
+        {/* 2. Main Editorial Contact Section - Clean Two-Column Journal Layout */}
+        <section id="contact-section" className="relative bg-[#FAF5EE] text-[#2B1B12] py-16 sm:py-24 lg:py-32 scroll-mt-24">
         <div className="max-w-[1240px] mx-auto px-5 sm:px-8 lg:px-12">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
             {/* Left Column (lg:col-span-5): Concierge, Hours & Direct Lines */}
-            <div className="lg:col-span-5 space-y-10 text-left" data-aos="fade-up">
+            <div className="lg:col-span-5 space-y-10 text-left">
               
               {/* Section Header */}
-              <div>
+              <div data-aos="fade-up" data-aos-duration="750">
                 <div className="flex items-center gap-3 mb-3">
                   <p className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#C8681A] uppercase">
                     HOSPITALITY DESK
@@ -319,7 +351,7 @@ const Contact = () => {
               </div>
 
               {/* Chapter 01 — Opening Hours */}
-              <div className="pt-2">
+              <div className="pt-2" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
                 <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#2B1B12]/15">
                   <div className="flex items-center gap-3">
                     <span className="text-xs font-semibold text-[#C8681A] tracking-wider">01</span>
@@ -387,7 +419,7 @@ const Contact = () => {
               </div>
 
               {/* Chapter 02 — Direct Concierge Lines */}
-              <div>
+              <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="150">
                 <div className="flex items-center gap-3 mb-4 pb-2 border-b border-[#2B1B12]/15">
                   <span className="text-xs font-semibold text-[#C8681A] tracking-wider">02</span>
                   <span className="text-[11px] sm:text-xs font-semibold tracking-[0.2em] text-[#C8681A] uppercase">
@@ -472,7 +504,7 @@ const Contact = () => {
               </div>
 
               {/* Editorial Quote & Signature at Bottom */}
-              <div className="pt-4 border-t border-[#2B1B12]/15">
+              <div className="pt-4 border-t border-[#2B1B12]/15" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
                 <p className="font-['Lora',serif] italic text-base sm:text-lg text-[#2B1B12]/85 leading-snug mb-3">
                   “Great coffee brings people together.”
                 </p>
@@ -490,30 +522,37 @@ const Contact = () => {
             </div>
 
             {/* Right Column (lg:col-span-7): Clean Editorial Contact Form */}
-            <div className="lg:col-span-7 bg-[#FFFFFF] p-6 sm:p-10 lg:p-12 border border-[#2B1B12]/15 shadow-2xs text-left" data-aos="fade-up" data-aos-delay="100">
+            <div 
+              className="lg:col-span-7 bg-[#FFFFFF] p-5 sm:p-10 lg:p-12 border border-[#2B1B12]/15 shadow-2xs text-left" 
+              data-aos="fade-up" 
+              data-aos-duration="850"
+              data-aos-delay="100"
+            >
               
               {/* Header */}
-              <div className="mb-8">
+              <div className="mb-5 sm:mb-8">
                 <div className="flex items-center gap-3 mb-2">
                   <p className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#C8681A] uppercase">
                     SEND A NOTE
                   </p>
                   <div className="w-8 h-[1px] bg-[#C8681A]"></div>
                 </div>
-                <h3 className="font-['Lora',serif] text-2xl sm:text-3xl lg:text-[34px] font-normal leading-[1.15] text-[#2B1B12] mb-3">
+                <h3 className="font-['Lora',serif] text-2xl sm:text-3xl lg:text-[34px] font-normal leading-[1.15] text-[#2B1B12] mb-2 sm:mb-3">
                   How Can We Help You Today?
                 </h3>
-                <p className="text-xs sm:text-[13.5px] leading-[1.75] text-[#5A4538] font-normal">
+                <p className="text-xs sm:text-[13.5px] leading-relaxed text-[#5A4538] font-normal">
                   Fill out the form below and our team will get back to you promptly.
                 </p>
               </div>
 
-              {/* Topic Pills */}
-              <div className="mb-6">
-                <span className="text-[10px] font-bold tracking-[0.2em] text-[#7A695E] uppercase block mb-2">
+              {/* Topic Selection - Desktop Pills vs Mobile Dropdown */}
+              <div className="mb-4 sm:mb-6">
+                <span className="text-[10px] font-bold tracking-[0.2em] text-[#7A695E] uppercase block mb-1.5 sm:mb-2">
                   SELECT A TOPIC
                 </span>
-                <div className="flex flex-wrap gap-2">
+
+                {/* Desktop: Editorial Pill Buttons */}
+                <div className="hidden sm:flex flex-wrap gap-2">
                   {INQUIRY_CATEGORIES.map(cat => {
                     const isSelected = activeCategory === cat.id;
                     return (
@@ -532,12 +571,33 @@ const Contact = () => {
                     );
                   })}
                 </div>
+
+                {/* Mobile: Compact Editorial Select Dropdown */}
+                <div className="sm:hidden relative">
+                  <select
+                    id="contact-category-mobile"
+                    value={activeCategory}
+                    onChange={(e) => handleCategorySelect(e.target.value)}
+                    className="w-full text-xs py-2.5 px-3.5 bg-[#FAF5EE] border border-[#2B1B12]/20 text-[#2B1B12] focus:bg-white focus:outline-none focus:border-[#C8681A] transition-colors appearance-none cursor-pointer pr-10 font-medium"
+                  >
+                    {INQUIRY_CATEGORIES.map(cat => (
+                      <option key={cat.id} value={cat.id}>
+                        {cat.label}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-[#C8681A]">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
               </div>
 
               {/* Form or Inline Confirmation */}
               {formStatus === 'success' ? (
                 <div 
-                  className="bg-[#FAF5EE] border border-[#2B1B12]/15 p-8 sm:p-10 text-center space-y-4"
+                  className="bg-[#FAF5EE] border border-[#2B1B12]/15 p-6 sm:p-10 text-center space-y-4"
                   role="status"
                   aria-live="polite"
                 >
@@ -561,11 +621,11 @@ const Contact = () => {
                   </div>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} noValidate className="space-y-5">
+                <form onSubmit={handleSubmit} noValidate className="space-y-3.5 sm:space-y-5">
                   {/* Row 1: Name & Email */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                     <div>
-                      <label htmlFor="contact-name" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1.5">
+                      <label htmlFor="contact-name" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1 sm:mb-1.5">
                         Full Name <span className="text-[#C8681A]">*</span>
                       </label>
                       <input
@@ -579,7 +639,7 @@ const Contact = () => {
                         onChange={handleInputChange}
                         aria-invalid={!!errors.name}
                         aria-describedby={errors.name ? 'contact-name-error' : undefined}
-                        className={`w-full text-xs py-3 px-3.5 bg-[#FAF5EE] border text-[#2B1B12] placeholder:text-[#9C8270] focus:bg-white focus:outline-none transition-colors ${
+                        className={`w-full text-xs py-2.5 sm:py-3 px-3.5 bg-[#FAF5EE] border text-[#2B1B12] placeholder:text-[#9C8270] focus:bg-white focus:outline-none transition-colors ${
                           errors.name 
                             ? 'border-rose-500' 
                             : 'border-[#2B1B12]/20 focus:border-[#C8681A]'
@@ -593,7 +653,7 @@ const Contact = () => {
                     </div>
 
                     <div>
-                      <label htmlFor="contact-email" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1.5">
+                      <label htmlFor="contact-email" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1 sm:mb-1.5">
                         Email Address <span className="text-[#C8681A]">*</span>
                       </label>
                       <input
@@ -607,7 +667,7 @@ const Contact = () => {
                         onChange={handleInputChange}
                         aria-invalid={!!errors.email}
                         aria-describedby={errors.email ? 'contact-email-error' : undefined}
-                        className={`w-full text-xs py-3 px-3.5 bg-[#FAF5EE] border text-[#2B1B12] placeholder:text-[#9C8270] focus:bg-white focus:outline-none transition-colors ${
+                        className={`w-full text-xs py-2.5 sm:py-3 px-3.5 bg-[#FAF5EE] border text-[#2B1B12] placeholder:text-[#9C8270] focus:bg-white focus:outline-none transition-colors ${
                           errors.email 
                             ? 'border-rose-500' 
                             : 'border-[#2B1B12]/20 focus:border-[#C8681A]'
@@ -622,9 +682,9 @@ const Contact = () => {
                   </div>
 
                   {/* Row 2: Phone & Preferred Reply Method */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                     <div>
-                      <label htmlFor="contact-phone" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1.5">
+                      <label htmlFor="contact-phone" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1 sm:mb-1.5">
                         Phone / WhatsApp <span className="text-[#7A695E] font-normal lowercase">(optional)</span>
                       </label>
                       <input
@@ -635,51 +695,83 @@ const Contact = () => {
                         placeholder="+256 700 000 000"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        className="w-full text-xs py-3 px-3.5 bg-[#FAF5EE] border border-[#2B1B12]/20 text-[#2B1B12] placeholder:text-[#9C8270] focus:bg-white focus:outline-none focus:border-[#C8681A] transition-colors"
+                        className="w-full text-xs py-2.5 sm:py-3 px-3.5 bg-[#FAF5EE] border border-[#2B1B12]/20 text-[#2B1B12] placeholder:text-[#9C8270] focus:bg-white focus:outline-none focus:border-[#C8681A] transition-colors"
                       />
                     </div>
 
                     <div>
-                      <span id="contact-reply-label" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1.5">
-                        Preferred Reply
-                      </span>
-                      <div 
-                        role="radiogroup" 
-                        aria-labelledby="contact-reply-label"
-                        className="flex border border-[#2B1B12]/20 p-0.5 bg-[#FAF5EE]"
-                      >
-                        {[
-                          { id: 'email', label: 'Email' },
-                          { id: 'phone', label: 'Phone' },
-                          { id: 'whatsapp', label: 'WhatsApp' }
-                        ].map(item => {
-                          const isSelected = preferredContact === item.id;
-                          return (
-                            <button
-                              key={item.id}
-                              type="button"
-                              role="radio"
-                              aria-checked={isSelected}
-                              onClick={() => setPreferredContact(item.id)}
-                              className={`flex-1 text-[11px] font-medium py-2 transition-colors cursor-pointer ${
-                                isSelected
-                                  ? 'bg-[#2B1B12] text-[#FFF4E6]'
-                                  : 'text-[#5A4538] hover:text-[#2B1B12]'
-                              }`}
-                            >
-                              {item.label}
-                            </button>
-                          );
-                        })}
+                      {/* Desktop Segmented Buttons */}
+                      <div className="hidden sm:block">
+                        <span id="contact-reply-label" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1.5">
+                          Preferred Reply
+                        </span>
+                        <div 
+                          role="radiogroup" 
+                          aria-labelledby="contact-reply-label"
+                          className="flex border border-[#2B1B12]/20 p-0.5 bg-[#FAF5EE]"
+                        >
+                          {[
+                            { id: 'email', label: 'Email' },
+                            { id: 'phone', label: 'Phone' },
+                            { id: 'whatsapp', label: 'WhatsApp' }
+                          ].map(item => {
+                            const isSelected = preferredContact === item.id;
+                            return (
+                              <button
+                                key={item.id}
+                                type="button"
+                                role="radio"
+                                aria-checked={isSelected}
+                                onClick={() => setPreferredContact(item.id)}
+                                className={`flex-1 text-[11px] font-medium py-2 transition-colors cursor-pointer ${
+                                  isSelected
+                                    ? 'bg-[#2B1B12] text-[#FFF4E6]'
+                                    : 'text-[#5A4538] hover:text-[#2B1B12]'
+                                }`}
+                              >
+                                {item.label}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Mobile Dropdown */}
+                      <div className="sm:hidden">
+                        <label htmlFor="contact-reply-mobile" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1 sm:mb-1.5">
+                          Preferred Reply
+                        </label>
+                        <div className="relative">
+                          <select
+                            id="contact-reply-mobile"
+                            value={preferredContact}
+                            onChange={(e) => setPreferredContact(e.target.value)}
+                            className="w-full text-xs py-2.5 px-3.5 bg-[#FAF5EE] border border-[#2B1B12]/20 text-[#2B1B12] focus:bg-white focus:outline-none focus:border-[#C8681A] transition-colors appearance-none cursor-pointer pr-10 font-medium"
+                          >
+                            <option value="email">Email Response</option>
+                            <option value="whatsapp">WhatsApp Message</option>
+                            <option value="phone">Phone Call</option>
+                          </select>
+                          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-[#C8681A]">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   {/* Row 3: Subject */}
                   <div>
-                    <label htmlFor="contact-subject" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1.5">
-                      Subject / Topic <span className="text-[#C8681A]">*</span>
-                    </label>
+                    <div className="flex items-center justify-between mb-1 sm:mb-1.5">
+                      <label htmlFor="contact-subject" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12]">
+                        Subject / Topic <span className="text-[#C8681A]">*</span>
+                      </label>
+                      <span className="text-[10px] text-[#7A695E] font-normal sm:hidden lowercase">
+                        (auto-filled from topic)
+                      </span>
+                    </div>
                     <input
                       id="contact-subject"
                       name="subject"
@@ -690,7 +782,7 @@ const Contact = () => {
                       onChange={handleInputChange}
                       aria-invalid={!!errors.subject}
                       aria-describedby={errors.subject ? 'contact-subject-error' : undefined}
-                      className={`w-full text-xs py-3 px-3.5 bg-[#FAF5EE] border text-[#2B1B12] placeholder:text-[#9C8270] focus:bg-white focus:outline-none transition-colors ${
+                      className={`w-full text-xs py-2.5 sm:py-3 px-3.5 bg-[#FAF5EE] border text-[#2B1B12] placeholder:text-[#9C8270] focus:bg-white focus:outline-none transition-colors ${
                         errors.subject 
                           ? 'border-rose-500' 
                           : 'border-[#2B1B12]/20 focus:border-[#C8681A]'
@@ -705,20 +797,20 @@ const Contact = () => {
 
                   {/* Row 4: Message */}
                   <div>
-                    <label htmlFor="contact-message" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1.5">
+                    <label htmlFor="contact-message" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1 sm:mb-1.5">
                       Your Message <span className="text-[#C8681A]">*</span>
                     </label>
                     <textarea
                       id="contact-message"
                       name="message"
                       required
-                      rows={5}
+                      rows={4}
                       placeholder="Tell us how we can help..."
                       value={formData.message}
                       onChange={handleInputChange}
                       aria-invalid={!!errors.message}
                       aria-describedby={errors.message ? 'contact-message-error' : undefined}
-                      className={`w-full min-h-[140px] resize-y text-xs py-3 px-3.5 bg-[#FAF5EE] border text-[#2B1B12] placeholder:text-[#9C8270] leading-relaxed focus:bg-white focus:outline-none transition-colors ${
+                      className={`w-full min-h-[110px] sm:min-h-[140px] resize-y text-xs py-2.5 sm:py-3 px-3.5 bg-[#FAF5EE] border text-[#2B1B12] placeholder:text-[#9C8270] leading-relaxed focus:bg-white focus:outline-none transition-colors ${
                         errors.message 
                           ? 'border-rose-500' 
                           : 'border-[#2B1B12]/20 focus:border-[#C8681A]'
@@ -746,11 +838,11 @@ const Contact = () => {
                   )}
 
                   {/* Submit Button */}
-                  <div className="pt-2">
+                  <div className="pt-1.5 sm:pt-2">
                     <button
                       type="submit"
                       disabled={formStatus === 'submitting'}
-                      className="group w-full py-4 px-6 text-xs font-bold uppercase tracking-[0.22em] bg-[#2B1B12] hover:bg-[#C8681A] disabled:bg-[#7A695E] text-[#FFF4E6] transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      className="group w-full py-3.5 sm:py-4 px-6 text-xs font-bold uppercase tracking-[0.22em] bg-[#2B1B12] hover:bg-[#C8681A] disabled:bg-[#7A695E] text-[#FFF4E6] transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
                       {formStatus === 'submitting' ? (
                         <>
@@ -769,11 +861,10 @@ const Contact = () => {
                         </>
                       )}
                     </button>
+                    <p className="text-[10px] sm:text-[11px] text-[#7A695E] text-center mt-2 font-light">
+                      We usually respond within 2 hours during roastery opening times.
+                    </p>
                   </div>
-
-                  <p className="text-[11px] text-[#7A695E] text-center font-light pt-1">
-                    We respect your privacy. Your details are kept strictly confidential.
-                  </p>
                 </form>
               )}
 
@@ -790,7 +881,7 @@ const Contact = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16 items-center">
             
             {/* Left: Narrative */}
-            <div className="lg:col-span-6 space-y-4 text-left" data-aos="fade-up">
+            <div className="lg:col-span-6 space-y-4 text-left" data-aos="fade-up" data-aos-duration="800">
               <div className="flex items-center gap-3">
                 <span className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#C8681A] uppercase">
                   THE FLAGSHIP ROASTERY
@@ -822,7 +913,7 @@ const Contact = () => {
             </div>
 
             {/* Right: Authentic Photograph Frame */}
-            <div className="lg:col-span-6" data-aos="fade-up" data-aos-delay="100">
+            <div className="lg:col-span-6" data-aos="fade-up" data-aos-duration="850" data-aos-delay="150">
               <div className="w-full h-[260px] sm:h-[340px] md:h-[400px] overflow-hidden bg-[#EFE8DD] shadow-sm">
                 <img
                   src={cozyCoffee}
@@ -841,7 +932,7 @@ const Contact = () => {
       <section className="bg-[#FAF5EE] text-[#2B1B12] py-16 sm:py-24 lg:py-28 border-t border-[#2B1B12]/15">
         <div className="max-w-[1040px] mx-auto px-5 sm:px-8 lg:px-12 text-left">
           
-          <div className="max-w-xl mb-10 sm:mb-14" data-aos="fade-up">
+          <div className="max-w-xl mb-10 sm:mb-14" data-aos="fade-up" data-aos-duration="800">
             <div className="flex items-center gap-3 mb-3">
               <span className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#C8681A] uppercase">
                 QUICK ANSWERS
@@ -857,13 +948,16 @@ const Contact = () => {
           </div>
 
           {/* Clean Hairline Accordion List */}
-          <div className="border-t border-[#2B1B12]/15" data-aos="fade-up">
+          <div className="border-t border-[#2B1B12]/15">
             {FAQS.map((faq, idx) => {
               const isOpen = openFaq === idx;
               return (
                 <div
                   key={idx}
                   className="border-b border-[#2B1B12]/15 transition-colors"
+                  data-aos="fade-up"
+                  data-aos-duration="700"
+                  data-aos-delay={idx * 80}
                 >
                   <button
                     type="button"
@@ -889,6 +983,8 @@ const Contact = () => {
 
         </div>
       </section>
+
+      </div>
 
     </div>
   );

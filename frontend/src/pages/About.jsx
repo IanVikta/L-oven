@@ -28,7 +28,7 @@ import coffeeGrowerWoman from '../assets/people/coffee_grower_woman.jpg';
 import baristaCraft from '../assets/people/barista_craft.jpg';
 import farmingCommunity from '../assets/people/farming_community.jpg';
 import handsCherries from '../assets/people/hands_cherries.jpg';
-import ctaEditorialCup from '../assets/story/cta_editorial_cup.jpg';
+import lovenImg from '../assets/loven.png';
 
 const About = () => {
   useEffect(() => {
@@ -97,7 +97,7 @@ const About = () => {
       </section>
 
       {/* Main Storytelling Section - Editorial Coffee Journal */}
-      <section id="our-story" className="bg-[#F7F2EA] text-[#24160E] scroll-mt-20">
+      <section id="our-story" className="relative z-10 bg-[#F7F2EA] text-[#24160E] scroll-mt-20">
         <div className="max-w-5xl mx-auto px-5 sm:px-10 lg:px-12 pt-14 sm:pt-24 pb-10 sm:pb-14">
           
           {/* Section Introduction */}
@@ -142,7 +142,7 @@ const About = () => {
           </div>
 
           {/* Photographic Breathing Moment */}
-          <div className="w-full h-[190px] sm:h-[300px] md:h-[380px] overflow-hidden mb-14 sm:mb-24">
+          <div className="w-full h-[220px] sm:h-[340px] md:h-[440px] overflow-hidden mb-14 sm:mb-24 shadow-xs">
             <img 
               src={africanPlantation} 
               alt="Mount Kilimanjaro Coffee Landscape" 
@@ -207,31 +207,31 @@ const About = () => {
           </div>
 
         </div>
+      </section>
 
-        {/* Final Conclusion Section — Today (Integrated full-bleed banner with background image) */}
-        <div className="relative w-full bg-[#1E120B] text-[#FFF4E6] overflow-hidden">
-          {/* Coffee cup background image anchored to the right */}
-          <div 
-            className="absolute inset-y-0 right-0 w-full sm:w-3/5 lg:w-1/2 bg-no-repeat bg-cover bg-center sm:bg-right pointer-events-none"
-            style={{ backgroundImage: `url(${todayCoffeeBanner})` }}
-          >
-            {/* Seamless gradient overlay blending image left edge into #1E120B background */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#1E120B] via-[#1E120B]/80 sm:via-[#1E120B]/40 to-transparent sm:bg-gradient-to-r"></div>
-          </div>
+      {/* Final Conclusion Section — Today (Editorial Full-Bleed Banner) */}
+      <section className="relative w-full bg-[#1E120B] text-[#FFF4E6] overflow-hidden">
+        {/* Coffee cup background image anchored to the right */}
+        <div 
+          className="absolute inset-y-0 right-0 w-full sm:w-3/5 lg:w-1/2 bg-no-repeat bg-cover bg-center sm:bg-right pointer-events-none"
+          style={{ backgroundImage: `url(${todayCoffeeBanner})` }}
+        >
+          {/* Seamless gradient overlay blending image left edge into #1E120B background */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1E120B] via-[#1E120B]/80 sm:via-[#1E120B]/40 to-transparent sm:bg-gradient-to-r"></div>
+        </div>
 
-          <div className="relative z-10 max-w-5xl mx-auto px-5 sm:px-10 lg:px-12 py-12 sm:py-18 lg:py-20">
-            <div className="max-w-md sm:max-w-lg">
-              <p className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#C8681A] uppercase mb-3 sm:mb-4">
-                TODAY
-              </p>
-              <h3 className="font-['Lora',serif] text-2xl sm:text-3xl lg:text-[34px] font-normal leading-snug sm:leading-[1.2] text-[#FFF4E6] mb-3 sm:mb-5">
-                A Sanctuary Where<br />
-                Passion Meets Perfection.
-              </h3>
-              <p className="text-xs sm:text-[13.5px] leading-[1.75] text-[#FFF4E6]/85 font-normal max-w-md">
-                From our roots in East Africa to our home in Italy, L'OVEN is more than a coffee brand — it's a celebration of culture, craftsmanship and the people who make it possible.
-              </p>
-            </div>
+        <div className="relative z-10 max-w-5xl mx-auto px-5 sm:px-10 lg:px-12 py-14 sm:py-20 lg:py-24">
+          <div className="max-w-md sm:max-w-lg">
+            <p className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#C8681A] uppercase mb-3 sm:mb-4">
+              TODAY
+            </p>
+            <h3 className="font-['Lora',serif] text-2xl sm:text-3xl lg:text-[34px] font-normal leading-snug sm:leading-[1.2] text-[#FFF4E6] mb-3 sm:mb-5">
+              A Sanctuary Where<br />
+              Passion Meets Perfection.
+            </h3>
+            <p className="text-xs sm:text-[13.5px] leading-[1.75] text-[#FFF4E6]/85 font-normal max-w-md">
+              From our roots in East Africa to our home in Italy, L'OVEN is more than a coffee brand — it's a celebration of culture, craftsmanship and the people who make it possible.
+            </p>
           </div>
         </div>
       </section>
@@ -989,8 +989,8 @@ const About = () => {
             <div className="lg:col-span-7" data-aos="fade-up" data-aos-delay="100">
               <div className="w-full h-[260px] xs:h-[320px] sm:h-[460px] lg:h-[540px] overflow-hidden bg-[#EFE8DD] shadow-sm">
                 <img 
-                  src={ctaEditorialCup} 
-                  alt="L'OVEN specialty coffee with latte art on rustic wood" 
+                  src={lovenImg} 
+                  alt="L'OVEN specialty coffee cup" 
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />
