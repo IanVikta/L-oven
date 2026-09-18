@@ -1,24 +1,17 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import AOS from 'aos';
-import $ from 'jquery';
-if (typeof window !== 'undefined') {
-  window.jQuery = window.$ = $;
-}
-import 'jquery-validation';
 import { sendContactMessage } from '../services/contactService';
 
-// High-End Coffee Assets
+// Authentic High-End Coffee Assets
 import goldenHourCoffee from '../assets/coffee high end/Golden Hour Magic_ a Perfect Shot of Coffee Art 🍫☕📸.jpg';
-import italianCoffee from '../assets/coffee high end/Italian coffee.jpg';
 import cozyCoffee from '../assets/coffee high end/Cozy Coffee Experience_ Specialty Coffee Beans  Warm Ambiance.jpg';
-import roasteryBeans from '../assets/coffee high end/130956301659872151.jpg';
 
 const INQUIRY_CATEGORIES = [
-  { id: 'general', label: 'General Inquiry', placeholder: 'Ask us anything about our roastery, café menu, or story...' },
-  { id: 'reservation', label: 'Table Booking', placeholder: 'Specify date, time, and number of guests for your table...' },
-  { id: 'catering', label: 'Event Catering', placeholder: 'Tell us about your event, headcount, and pastry preferences...' },
-  { id: 'wholesale', label: 'Wholesale Beans', placeholder: 'Inquire about bulk specialty beans for your cafe or office...' },
-  { id: 'feedback', label: 'Feedback', placeholder: 'Share your dining or delivery experience with our baristas...' },
+  { id: 'general', label: 'General Inquiry' },
+  { id: 'reservation', label: 'Table Booking' },
+  { id: 'catering', label: 'Event Catering' },
+  { id: 'wholesale', label: 'Wholesale Beans' },
+  { id: 'feedback', label: 'Guest Feedback' },
 ];
 
 const FAQS = [
@@ -28,7 +21,7 @@ const FAQS = [
   },
   {
     question: 'Can L\'Oven cater private corporate events or weddings?',
-    answer: 'Yes! We offer full-service mobile espresso bar catering and artisanal pastry spreads. Contact our events coordinator via the form above with your event date and estimated head count.'
+    answer: 'Yes! We offer full-service mobile espresso bar catering and artisanal pastry spreads. Contact our events coordinator via the form with your event date and estimated head count.'
   },
   {
     question: 'Are vegan and gluten-friendly options available?',
@@ -36,12 +29,11 @@ const FAQS = [
   },
   {
     question: 'Do you offer fresh coffee bean deliveries?',
-    answer: 'We roast micro-batches twice weekly. You can purchase whole beans or custom-ground bags directly at our Kitende café or order online for sameday delivery.'
+    answer: 'We roast micro-batches twice weekly. You can purchase whole beans or custom-ground bags directly at our Kitende café or order online for same-day delivery.'
   }
 ];
 
 const Contact = () => {
-  const formRef = useRef(null);
   const [activeCategory, setActiveCategory] = useState('general');
   const [preferredContact, setPreferredContact] = useState('email');
   const [openFaq, setOpenFaq] = useState(null);
@@ -51,588 +43,936 @@ const Contact = () => {
     name: '',
     email: '',
     phone: '',
-    subject: '',
+    subject: 'General Inquiry',
     message: ''
   });
-  const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [formStatus, setFormStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
   const [apiError, setApiError] = useState(null);
 
-  const handleApiSubmit = async () => {
-    setIsSubmitting(true);
-    setApiError(null);
-    try {
-      const payload = {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        subject: formData.subject,
-        category: activeCategory,
-        message: formData.message
-      };
-      const res = await sendContactMessage(payload);
-      if (res.success) {
-        setSubmitted(true);
-      } else {
-        setApiError(res.message || 'Failed to send message.');
-      }
-    } catch (err) {
-      console.error('Contact form submission error:', err);
-      const msg = err.response?.data?.message || 'A network error occurred. Please try again.';
-      setApiError(msg);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   useEffect(() => {
+    AOS.init({
+      duration: 800,
+      once: false,
+      offset: 100,
+      easing: 'ease-out-cubic',
+    });
+
     const timer = setTimeout(() => {
       AOS.refreshHard();
-    }, 100);
-    return () => clearTimeout(timer);
-  }, []);
+    }, 150);
 
-  // jQuery Form Validation Setup
-  useEffect(() => {
-    let validator;
-    if (formRef.current && !submitted) {
-      validator = $(formRef.current).validate({
-        rules: {
-          name: {
-            required: true,
-            minlength: 2
-          },
-          email: {
-            required: true,
-            email: true
-          },
-          subject: {
-            required: true,
-            minlength: 3
-          },
-          message: {
-            required: true,
-            minlength: 10
-          }
-        },
-        messages: {
-          name: {
-            required: 'Please enter your full name.',
-            minlength: 'Name must be at least 2 characters.'
-          },
-          email: {
-            required: 'Please enter your email address.',
-            email: 'Please enter a valid email address.'
-          },
-          subject: {
-            required: 'Please enter a subject / topic.',
-            minlength: 'Subject must be at least 3 characters.'
-          },
-          message: {
-            required: 'Please enter your message.',
-            minlength: 'Message must be at least 10 characters.'
-          }
-        },
-        errorElement: 'span',
-        errorClass: 'text-[11px] text-red-600 font-semibold mt-1 block',
-        highlight: function (element) {
-          $(element).addClass('border-red-400 focus:border-red-500').removeClass('border-amber-200/80');
-        },
-        unhighlight: function (element) {
-          $(element).removeClass('border-red-400 focus:border-red-500').addClass('border-amber-200/80');
-        },
-        submitHandler: function () {
-          handleApiSubmit();
-          return false;
-        }
-      });
-    }
+    const handleResize = () => {
+      AOS.refresh();
+    };
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      if (validator && typeof validator.destroy === 'function') {
-        validator.destroy();
-      }
+      clearTimeout(timer);
+      window.removeEventListener('resize', handleResize);
     };
-  }, [submitted, formData, activeCategory]);
+  }, []);
 
-  // Compute live café status (Open vs Closed)
+  // Compute live café status (Open vs Closed) based on actual current time
   const getCafeStatus = () => {
     const now = new Date();
-    const day = now.getDay(); // 0 is Sunday, 6 is Saturday
+    const day = now.getDay(); // 0 is Sunday, 1-5 is Mon-Fri, 6 is Saturday
     const hours = now.getHours();
     const minutes = now.getMinutes();
     const currentTime = hours * 60 + minutes;
 
     let openTime = 6 * 60 + 30; // 6:30 AM
     let closeTime = 21 * 60; // 9:00 PM
+    let closeFormatted = '9:00 PM';
 
     if (day === 6) {
       openTime = 7 * 60; // 7:00 AM
       closeTime = 22 * 60; // 10:00 PM
+      closeFormatted = '10:00 PM';
     } else if (day === 0) {
       openTime = 7 * 60 + 30; // 7:30 AM
       closeTime = 20 * 60; // 8:00 PM
+      closeFormatted = '8:00 PM';
     }
 
-    if (currentTime >= openTime && currentTime < closeTime) {
-      return { isOpen: true, text: 'Open Now • Baristas Serving Fresh Brews' };
+    const isOpen = currentTime >= openTime && currentTime < closeTime;
+
+    if (isOpen) {
+      return {
+        isOpen: true,
+        label: 'Open Now',
+        detail: `Closes tonight at ${closeFormatted}`,
+        currentDay: day
+      };
     }
-    return { isOpen: false, text: 'Closed Now • Opens Tomorrow at 6:30 AM' };
+
+    let nextOpenText = 'Opens tomorrow at 6:30 AM';
+    if (currentTime < openTime) {
+      const openFormatted = day === 6 ? '7:00 AM' : day === 0 ? '7:30 AM' : '6:30 AM';
+      nextOpenText = `Opens today at ${openFormatted}`;
+    } else {
+      const tomorrow = (day + 1) % 7;
+      const tomorrowOpen = tomorrow === 6 ? '7:00 AM' : tomorrow === 0 ? '7:30 AM' : '6:30 AM';
+      nextOpenText = `Opens tomorrow at ${tomorrowOpen}`;
+    }
+
+    return {
+      isOpen: false,
+      label: 'Closed Now',
+      detail: nextOpenText,
+      currentDay: day
+    };
   };
 
   const status = getCafeStatus();
 
-  const handleCategorySelect = (catId) => {
-    setActiveCategory(catId);
-    const catObj = INQUIRY_CATEGORIES.find(c => c.id === catId);
-    if (catObj && !formData.subject) {
-      setFormData(prev => ({ ...prev, subject: catObj.label.replace(/^[^\s]+\s/, '') }));
+  const handleCopy = (text, fieldName) => {
+    if (navigator?.clipboard?.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        setCopiedField(fieldName);
+        setTimeout(() => setCopiedField(null), 2000);
+      }).catch(() => {
+        setCopiedField(fieldName);
+        setTimeout(() => setCopiedField(null), 2000);
+      });
+    } else {
+      setCopiedField(fieldName);
+      setTimeout(() => setCopiedField(null), 2000);
     }
   };
 
-  const handleSubmit = (e) => {
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'Please enter your name.';
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = 'Name must be at least 2 characters.';
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email.trim()) {
+      newErrors.email = 'Please enter a valid email address.';
+    } else if (!emailRegex.test(formData.email.trim())) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+
+    if (!formData.subject.trim()) {
+      newErrors.subject = 'Subject is required.';
+    } else if (formData.subject.trim().length < 3) {
+      newErrors.subject = 'Subject must be at least 3 characters.';
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message must be at least 10 characters.';
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = 'Message must be at least 10 characters.';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: null }));
+    }
+  };
+
+  const handleCategorySelect = (catId) => {
+    setActiveCategory(catId);
+    const catObj = INQUIRY_CATEGORIES.find(c => c.id === catId);
+    if (catObj) {
+      const isDefaultSubject = !formData.subject || INQUIRY_CATEGORIES.some(c => c.label === formData.subject);
+      if (isDefaultSubject) {
+        setFormData(prev => ({ ...prev, subject: catObj.label }));
+        if (errors.subject) {
+          setErrors(prev => ({ ...prev, subject: null }));
+        }
+      }
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if ($(formRef.current).valid()) {
-      handleApiSubmit();
+    if (!validateForm()) {
+      return;
+    }
+
+    setFormStatus('submitting');
+    setApiError(null);
+
+    try {
+      const messageBody = preferredContact
+        ? `${formData.message.trim()}\n\n[Preferred Reply Method: ${preferredContact.charAt(0).toUpperCase() + preferredContact.slice(1)}]`
+        : formData.message.trim();
+
+      const payload = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim() || undefined,
+        subject: formData.subject.trim(),
+        category: activeCategory,
+        message: messageBody,
+        preferred_reply_method: preferredContact
+      };
+
+      const res = await sendContactMessage(payload);
+      if (res && res.success) {
+        setFormStatus('success');
+      } else {
+        setApiError(res?.message || 'Something went wrong while sending your message. Please try again or contact us directly.');
+        setFormStatus('error');
+      }
+    } catch (err) {
+      console.error('Contact form submission error:', err);
+      const msg = err.response?.data?.message || 'Something went wrong while sending your message. Please try again or contact us directly.';
+      setApiError(msg);
+      setFormStatus('error');
     }
   };
 
   const handleResetForm = () => {
-    setSubmitted(false);
+    setFormStatus('idle');
     setApiError(null);
-    setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+    setErrors({});
+    setActiveCategory('general');
+    setPreferredContact('email');
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      subject: 'General Inquiry',
+      message: ''
+    });
   };
-
-  const handleCopy = (text, fieldName) => {
-    navigator.clipboard.writeText(text);
-    setCopiedField(fieldName);
-    setTimeout(() => setCopiedField(null), 2000);
-  };
-
-  const currentCategoryObj = INQUIRY_CATEGORIES.find(c => c.id === activeCategory);
 
   return (
-    <div className="bg-cream-100 min-h-screen py-10 md:py-16 text-brown-900 overflow-x-hidden">
-      <div className="container mx-auto px-4 max-w-6xl space-y-16">
-
-        {/* Magazine Editorial Hero Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center pt-4 pb-4">
-
-          {/* Hero Left Text (7 cols) */}
-          <div className="lg:col-span-7 space-y-6 text-left" data-aos="fade-right" data-aos-duration="800">
-
-
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-brown-900 leading-[1.1] tracking-tight">
-              Where Every Conversation Begins with{' '}
-              <span className="italic font-serif text-orange-600 block sm:inline">
-                Artisanal Hospitality.
-              </span>
-            </h1>
-
-            <p className="text-sm md:text-base text-brown-700/90 max-w-xl font-light leading-relaxed">
-              Whether reserving a quiet corner in our sunlit gardens, arranging mobile barista catering for your event, or inquiring about our weekly Ethiopian micro-roasts—our front-of-house team is at your service.
-            </p>
-
-            {/* Clean Key Metadata Row */}
-
-          </div>
-
-          {/* Hero Right Image Showcase (5 cols) */}
-          <div className="lg:col-span-5 relative" data-aos="fade-left" data-aos-duration="800">
-            {/* Soft Ambient Background Glow */}
-            <div className="absolute -top-8 -right-8 w-72 h-72 bg-amber-300/20 rounded-full filter blur-3xl pointer-events-none"></div>
-
-            {/* Clean Architectural Photo Frame */}
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-amber-200/80 group aspect-[4/5] max-h-[460px]">
-              <img
-                src={goldenHourCoffee}
-                alt="Signature High-End Coffee Art"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ease-out"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-brown-950/40 via-transparent to-transparent pointer-events-none"></div>
-            </div>
-          </div>
-
+    <div className="bg-[#FAF5EE] text-[#2B1B12] min-h-screen">
+      
+      {/* 1. Hero Section - Sticky Background & Content on Scroll */}
+      <section className="sticky top-20 z-0 w-full min-h-[70vh] sm:min-h-[76vh] bg-[#2B1B12] overflow-hidden">
+        {/* Sticky Background Layer */}
+        <div 
+          className="absolute inset-0 z-0 pointer-events-none bg-cover bg-center"
+          style={{ backgroundImage: `url("${goldenHourCoffee}")` }}
+        >
+          {/* Deep espresso overlay matching About.jsx */}
+          <div className="absolute inset-0 bg-[#2B1B12] opacity-45 pointer-events-none"></div>
         </div>
 
-        {/* Main 2-Column Section with Atmospheric Coffee Background Container */}
-        <div className="relative p-4 sm:p-6 lg:p-8 rounded-[2.5rem] overflow-hidden border border-amber-900/20 shadow-xl">
-          {/* Background Image & Warm Overlay Layer */}
-          <div className="absolute inset-0 z-0">
-            <img
-              src={roasteryBeans}
-              alt="Artisanal Roastery Background"
-              className="w-full h-full object-cover object-center transform scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-br from-[#1a0f0a]/80 via-[#2a170e]/70 to-[#120905]/80 backdrop-blur-[2px]"></div>
+        {/* Content Container - Editorial Typography & Left Alignment */}
+        <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="min-h-[70vh] sm:min-h-[76vh] flex items-center py-16 sm:py-24 lg:py-28">
+            <div className="max-w-xl lg:max-w-2xl text-left">
+              
+              {/* Eyebrow Label with subtle horizontal accent */}
+              <div 
+                className="flex items-center gap-3 mb-4 sm:mb-6"
+                data-aos="fade-up" 
+                data-aos-duration="700"
+              >
+                <p className="text-xs sm:text-sm font-semibold tracking-[0.25em] text-[#F28C13] uppercase">
+                  GET IN TOUCH
+                </p>
+                <div className="w-8 sm:w-10 h-[1px] bg-[#F28C13]"></div>
+              </div>
+
+              {/* Main Heading */}
+              <h1 
+                className="font-['Lora',serif] text-[34px] xs:text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal leading-[1.08] tracking-tight text-[#FFF4E6] mb-5 sm:mb-8"
+                data-aos="fade-up" 
+                data-aos-duration="800"
+                data-aos-delay="100"
+              >
+                Start a<br />
+                Conversation.
+              </h1>
+
+              {/* Supporting Text */}
+              <p 
+                className="text-[15px] sm:text-lg text-[#FFF4E6]/85 font-light leading-relaxed max-w-xl mb-7 sm:mb-10"
+                data-aos="fade-up" 
+                data-aos-duration="800"
+                data-aos-delay="200"
+              >
+                Where every conversation begins with artisanal hospitality. Whether reserving a table, arranging event catering, or inquiring about our weekly micro-roasts—we are at your service.
+              </p>
+
+              {/* CTA Link */}
+              <div 
+                className="pt-1"
+                data-aos="fade-up" 
+                data-aos-duration="800"
+                data-aos-delay="300"
+              >
+                <a 
+                  href="#contact-section" 
+                  className="inline-flex items-center gap-2.5 py-1.5 text-xs sm:text-sm font-semibold tracking-[0.22em] text-[#F28C13] uppercase border-b border-[#F28C13] hover:text-[#f8a846] hover:border-[#f8a846] transition-colors duration-200"
+                >
+                  <span>CONNECT WITH US</span>
+                  <span aria-hidden="true" className="text-base leading-none">↓</span>
+                </a>
+              </div>
+
+            </div>
           </div>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
+      {/* Subsequent Content Wrapper - Glides smoothly over the sticky hero on scroll */}
+      <div className="relative z-10 bg-[#FAF5EE] shadow-[0_-12px_40px_rgba(43,27,18,0.2)]">
 
-            {/* Left Column: Combined Hours & Contact Lines Sidebar - Sticky on scroll (5 cols) */}
-            <div className="lg:col-span-5 lg:sticky lg:top-24 self-start bg-white p-6 sm:p-8 rounded-3xl shadow-md border border-amber-200/70 space-y-6 z-20" data-aos="fade-right" data-aos-duration="800">
+        {/* 2. Main Editorial Contact Section - Clean Two-Column Journal Layout */}
+        <section id="contact-section" className="relative bg-[#FAF5EE] text-[#2B1B12] py-16 sm:py-24 lg:py-32 scroll-mt-24">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8 lg:px-12">
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
-              {/* Operating Hours Section */}
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold uppercase tracking-widest text-orange-600">
-                    Opening Hours
-                  </span>
-                  <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${status.isOpen ? 'bg-emerald-50 text-emerald-800 border border-emerald-200/80' : 'bg-rose-50 text-rose-800 border border-rose-200/80'}`}>
-                    {status.isOpen ? 'Open Now' : 'Closed'}
-                  </span>
+            {/* Left Column (lg:col-span-5): Concierge, Hours & Direct Lines */}
+            <div className="lg:col-span-5 space-y-10 text-left">
+              
+              {/* Section Header */}
+              <div data-aos="fade-up" data-aos-duration="750">
+                <div className="flex items-center gap-3 mb-3">
+                  <p className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#C8681A] uppercase">
+                    HOSPITALITY DESK
+                  </p>
+                  <div className="w-8 h-[1px] bg-[#C8681A]"></div>
+                </div>
+                <h2 className="font-['Lora',serif] text-3xl sm:text-4xl lg:text-[42px] font-normal leading-[1.12] text-[#2B1B12] mb-4 tracking-tight">
+                  Artisan Hospitality,<br />Seven Days a Week.
+                </h2>
+                <p className="text-sm text-[#5A4538] font-light leading-relaxed max-w-md">
+                  Step into our sunlit roastery or connect directly with our front-of-house team. We take pride in responding promptly and warmly to every guest.
+                </p>
+              </div>
+
+              {/* Chapter 01 — Opening Hours */}
+              <div className="pt-2" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#2B1B12]/15">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-semibold text-[#C8681A] tracking-wider">01</span>
+                    <span className="text-[11px] sm:text-xs font-semibold tracking-[0.2em] text-[#C8681A] uppercase">
+                      OPENING HOURS
+                    </span>
+                  </div>
+
+                  {/* Dynamic Status Indicator */}
+                  <div 
+                    className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[11px] font-semibold tracking-wider uppercase ${
+                      status.isOpen 
+                        ? 'text-emerald-800 bg-emerald-50/80 border border-emerald-300/60' 
+                        : 'text-[#7A6050] bg-[#EFE8DD] border border-[#2B1B12]/15'
+                    }`}
+                    aria-live="polite"
+                  >
+                    <span className={`w-1.5 h-1.5 rounded-full ${status.isOpen ? 'bg-emerald-600 animate-pulse' : 'bg-[#9C8270]'}`}></span>
+                    <span>{status.label}</span>
+                  </div>
                 </div>
 
-                <p className="text-xs text-brown-600 font-medium">{status.text}</p>
+                <p className="text-xs text-[#7A695E] mb-3 font-light">
+                  {status.detail}
+                </p>
 
-                <div className="bg-cream-100/70 p-4 rounded-2xl border border-amber-100/80 space-y-2 text-xs">
-                  <div className="flex justify-between items-center text-brown-700">
-                    <span>Monday – Friday</span>
-                    <span className="font-bold text-brown-900">6:30 AM – 9:00 PM</span>
+                {/* Scannable Schedule with Clean Hairlines */}
+                <div className="space-y-2 text-xs">
+                  <div className={`flex justify-between items-center py-1.5 px-2 border-b border-[#2B1B12]/10 ${
+                    status.currentDay >= 1 && status.currentDay <= 5 ? 'font-semibold text-[#2B1B12] bg-[#F7F2EA]' : 'text-[#5A4538]'
+                  }`}>
+                    <span className="flex items-center gap-2">
+                      Monday – Friday
+                      {status.currentDay >= 1 && status.currentDay <= 5 && (
+                        <span className="text-[9px] uppercase font-bold tracking-widest text-[#C8681A]">Today</span>
+                      )}
+                    </span>
+                    <span>6:30 AM – 9:00 PM</span>
                   </div>
-                  <div className="flex justify-between items-center text-brown-700">
-                    <span>Saturday</span>
-                    <span className="font-bold text-brown-900">7:00 AM – 10:00 PM</span>
+
+                  <div className={`flex justify-between items-center py-1.5 px-2 border-b border-[#2B1B12]/10 ${
+                    status.currentDay === 6 ? 'font-semibold text-[#2B1B12] bg-[#F7F2EA]' : 'text-[#5A4538]'
+                  }`}>
+                    <span className="flex items-center gap-2">
+                      Saturday
+                      {status.currentDay === 6 && (
+                        <span className="text-[9px] uppercase font-bold tracking-widest text-[#C8681A]">Today</span>
+                      )}
+                    </span>
+                    <span>7:00 AM – 10:00 PM</span>
                   </div>
-                  <div className="flex justify-between items-center text-brown-700">
-                    <span>Sunday</span>
-                    <span className="font-bold text-brown-900">7:30 AM – 8:00 PM</span>
+
+                  <div className={`flex justify-between items-center py-1.5 px-2 border-b border-[#2B1B12]/10 ${
+                    status.currentDay === 0 ? 'font-semibold text-[#2B1B12] bg-[#F7F2EA]' : 'text-[#5A4538]'
+                  }`}>
+                    <span className="flex items-center gap-2">
+                      Sunday
+                      {status.currentDay === 0 && (
+                        <span className="text-[9px] uppercase font-bold tracking-widest text-[#C8681A]">Today</span>
+                      )}
+                    </span>
+                    <span>7:30 AM – 8:00 PM</span>
                   </div>
                 </div>
               </div>
 
-              {/* Divider */}
-              <hr className="border-amber-100/80" />
-
-              {/* Direct Contact Lines Section */}
-              <div className="space-y-4">
-                <span className="text-xs font-bold uppercase tracking-widest text-orange-600 block">
-                  Direct Contact
-                </span>
-
-                {/* Location */}
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-xl bg-amber-100/70 text-brown-900 flex items-center justify-center shrink-0 mt-0.5">
-                    <svg className="w-4 h-4 text-brown-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-bold text-brown-900">Flagship Café</h4>
-                    <p className="text-xs text-brown-700 mt-0.5">Entebbe Road, Kitende</p>
-                    <p className="text-[11px] text-brown-500">Uganda</p>
-                  </div>
+              {/* Chapter 02 — Direct Concierge Lines */}
+              <div data-aos="fade-up" data-aos-duration="800" data-aos-delay="150">
+                <div className="flex items-center gap-3 mb-4 pb-2 border-b border-[#2B1B12]/15">
+                  <span className="text-xs font-semibold text-[#C8681A] tracking-wider">02</span>
+                  <span className="text-[11px] sm:text-xs font-semibold tracking-[0.2em] text-[#C8681A] uppercase">
+                    DIRECT CONTACT
+                  </span>
                 </div>
 
-                {/* Phone & WhatsApp */}
-                <div className="flex items-center justify-between pt-1">
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-amber-100/70 text-brown-900 flex items-center justify-center shrink-0 mt-0.5">
-                      <svg className="w-4 h-4 text-brown-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                      </svg>
-                    </div>
+                <div className="space-y-4">
+                  {/* Location */}
+                  <div className="flex items-start justify-between gap-4 py-2 border-b border-[#2B1B12]/10">
                     <div>
-                      <h4 className="text-xs font-bold text-brown-900">Phone &amp; WhatsApp</h4>
-                      <a href="tel:+256770123456" className="text-xs text-brown-900 hover:text-orange-600 font-semibold block transition-colors">
-                        +256 770 123 456
-                      </a>
+                      <span className="text-[10px] font-bold tracking-[0.2em] text-[#C8681A] uppercase block mb-0.5">
+                        FLAGSHIP CAFÉ
+                      </span>
+                      <p className="text-xs text-[#2B1B12] font-medium">Entebbe Road, Kitende, Uganda</p>
                     </div>
+                    <a
+                      href="https://maps.google.com/?q=Kitende,Uganda"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[11px] font-semibold text-[#C8681A] hover:text-[#9E6438] underline underline-offset-4 transition-colors shrink-0"
+                    >
+                      Get Directions ↗
+                    </a>
                   </div>
-                  <button
-                    onClick={() => handleCopy('+256770123456', 'phone')}
-                    className="text-[11px] font-semibold text-brown-600 hover:text-orange-600 transition-colors cursor-pointer"
-                  >
-                    {copiedField === 'phone' ? 'Copied ✓' : 'Copy'}
-                  </button>
-                </div>
 
-                {/* Email */}
-                <div className="flex items-center justify-between pt-1">
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-amber-100/70 text-brown-900 flex items-center justify-center shrink-0 mt-0.5">
-                      <svg className="w-4 h-4 text-brown-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                    </div>
+                  {/* Phone & WhatsApp */}
+                  <div className="flex items-start justify-between gap-4 py-2 border-b border-[#2B1B12]/10">
                     <div>
-                      <h4 className="text-xs font-bold text-brown-900">Email Concierge</h4>
-                      <a href="mailto:lovencoffee2@gmail.com" className="text-xs text-brown-900 hover:text-orange-600 font-semibold block transition-colors">
+                      <span className="text-[10px] font-bold tracking-[0.2em] text-[#C8681A] uppercase block mb-0.5">
+                        PHONE &amp; WHATSAPP
+                      </span>
+                      <div className="flex items-center gap-2 text-xs flex-wrap">
+                        <a 
+                          href="tel:+256770123456" 
+                          className="font-medium text-[#2B1B12] hover:text-[#C8681A] transition-colors"
+                        >
+                          +256 770 123 456
+                        </a>
+                        <span className="text-[#C8681A]/40">•</span>
+                        <a
+                          href="https://wa.me/256770123456?text=Hello%20L%27Oven%20Coffee%2C%20I%20have%20an%20inquiry"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#C8681A] font-semibold hover:underline"
+                        >
+                          WhatsApp Chat ↗
+                        </a>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleCopy('+256770123456', 'phone')}
+                      className="text-[11px] font-medium text-[#7A695E] hover:text-[#2B1B12] transition-colors shrink-0 cursor-pointer pt-0.5"
+                    >
+                      {copiedField === 'phone' ? 'Copied ✓' : 'Copy'}
+                    </button>
+                  </div>
+
+                  {/* Email Concierge */}
+                  <div className="flex items-start justify-between gap-4 py-2 border-b border-[#2B1B12]/10">
+                    <div>
+                      <span className="text-[10px] font-bold tracking-[0.2em] text-[#C8681A] uppercase block mb-0.5">
+                        EMAIL CONCIERGE
+                      </span>
+                      <a 
+                        href="mailto:lovencoffee2@gmail.com" 
+                        className="text-xs font-medium text-[#2B1B12] hover:text-[#C8681A] transition-colors block truncate"
+                      >
                         lovencoffee2@gmail.com
                       </a>
                     </div>
+                    <button
+                      type="button"
+                      onClick={() => handleCopy('lovencoffee2@gmail.com', 'email')}
+                      className="text-[11px] font-medium text-[#7A695E] hover:text-[#2B1B12] transition-colors shrink-0 cursor-pointer pt-0.5"
+                    >
+                      {copiedField === 'email' ? 'Copied ✓' : 'Copy'}
+                    </button>
                   </div>
-                  <button
-                    onClick={() => handleCopy('lovencoffee2@gmail.com', 'email')}
-                    className="text-[11px] font-semibold text-brown-600 hover:text-orange-600 transition-colors cursor-pointer"
-                  >
-                    {copiedField === 'email' ? 'Copied ✓' : 'Copy'}
-                  </button>
+                </div>
+              </div>
+
+              {/* Editorial Quote & Signature at Bottom */}
+              <div className="pt-4 border-t border-[#2B1B12]/15" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                <p className="font-['Lora',serif] italic text-base sm:text-lg text-[#2B1B12]/85 leading-snug mb-3">
+                  “Great coffee brings people together.”
+                </p>
+                <div className="flex items-center gap-3 select-none">
+                  <span className="font-['Lora',serif] text-sm font-medium tracking-wider text-[#C8681A]">
+                    L'OVEN
+                  </span>
+                  <div className="w-[1px] h-3 bg-[#C8681A]"></div>
+                  <span className="text-[10px] font-semibold tracking-[0.22em] text-[#7A695E] uppercase">
+                    SPECIALTY COFFEE &amp; MORE
+                  </span>
                 </div>
               </div>
 
             </div>
 
-            {/* Right Column: Redesigned Classic Contact Form (7 cols) */}
-            <div className="lg:col-span-7 bg-white p-6 sm:p-10 rounded-3xl shadow-md border border-amber-200/70 space-y-6" data-aos="fade-left" data-aos-duration="800">
-
-              <div>
-                <span className="text-xs font-bold uppercase tracking-widest text-orange-600">Send a Note</span>
-                <h2 className="text-2xl sm:text-3xl font-display font-bold text-brown-900 mt-1">
+            {/* Right Column (lg:col-span-7): Clean Editorial Contact Form */}
+            <div 
+              className="lg:col-span-7 bg-[#FFFFFF] p-5 sm:p-10 lg:p-12 border border-[#2B1B12]/15 shadow-2xs text-left" 
+              data-aos="fade-up" 
+              data-aos-duration="850"
+              data-aos-delay="100"
+            >
+              
+              {/* Header */}
+              <div className="mb-5 sm:mb-8">
+                <div className="flex items-center gap-3 mb-2">
+                  <p className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#C8681A] uppercase">
+                    SEND A NOTE
+                  </p>
+                  <div className="w-8 h-[1px] bg-[#C8681A]"></div>
+                </div>
+                <h3 className="font-['Lora',serif] text-2xl sm:text-3xl lg:text-[34px] font-normal leading-[1.15] text-[#2B1B12] mb-2 sm:mb-3">
                   How Can We Help You Today?
-                </h2>
-                <p className="text-xs text-brown-600 mt-1">
+                </h3>
+                <p className="text-xs sm:text-[13.5px] leading-relaxed text-[#5A4538] font-normal">
                   Fill out the form below and our team will get back to you promptly.
                 </p>
               </div>
 
-              {/* Interactive Form or Success State */}
-              {submitted ? (
-                <div className="bg-amber-50/60 border border-amber-200 p-8 rounded-3xl text-center space-y-4 shadow-xs animate-fade-in">
-                  <div className="w-14 h-14 bg-brown-900 text-white rounded-full flex items-center justify-center text-2xl mx-auto shadow-sm">
+              {/* Topic Selection - Desktop Pills vs Mobile Dropdown */}
+              <div className="mb-4 sm:mb-6">
+                <span className="text-[10px] font-bold tracking-[0.2em] text-[#7A695E] uppercase block mb-1.5 sm:mb-2">
+                  SELECT A TOPIC
+                </span>
+
+                {/* Desktop: Editorial Pill Buttons */}
+                <div className="hidden sm:flex flex-wrap gap-2">
+                  {INQUIRY_CATEGORIES.map(cat => {
+                    const isSelected = activeCategory === cat.id;
+                    return (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        onClick={() => handleCategorySelect(cat.id)}
+                        className={`text-xs px-3 py-1.5 transition-colors cursor-pointer border ${
+                          isSelected
+                            ? 'bg-[#2B1B12] text-[#FFF4E6] border-[#2B1B12]'
+                            : 'bg-[#FAF5EE] text-[#2B1B12] border-[#2B1B12]/20 hover:border-[#C8681A]'
+                        }`}
+                      >
+                        {cat.label}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Mobile: Compact Editorial Select Dropdown */}
+                <div className="sm:hidden relative">
+                  <select
+                    id="contact-category-mobile"
+                    value={activeCategory}
+                    onChange={(e) => handleCategorySelect(e.target.value)}
+                    className="w-full text-xs py-2.5 px-3.5 bg-[#FAF5EE] border border-[#2B1B12]/20 text-[#2B1B12] focus:bg-white focus:outline-none focus:border-[#C8681A] transition-colors appearance-none cursor-pointer pr-10 font-medium"
+                  >
+                    {INQUIRY_CATEGORIES.map(cat => (
+                      <option key={cat.id} value={cat.id}>
+                        {cat.label}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-[#C8681A]">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              {/* Form or Inline Confirmation */}
+              {formStatus === 'success' ? (
+                <div 
+                  className="bg-[#FAF5EE] border border-[#2B1B12]/15 p-6 sm:p-10 text-center space-y-4"
+                  role="status"
+                  aria-live="polite"
+                >
+                  <div className="w-12 h-12 rounded-full bg-[#2B1B12] text-[#FFF4E6] flex items-center justify-center text-xl mx-auto">
                     ✓
                   </div>
-                  <div className="space-y-1">
-                    <span className="text-xs font-bold uppercase tracking-widest text-orange-600">Hospitality Desk</span>
-                    <h3 className="text-2xl font-display font-bold text-brown-900">Message Sent Successfully</h3>
-                  </div>
-                  <p className="text-xs text-brown-700 max-w-md mx-auto leading-relaxed">
-                    Thank you, <strong className="text-brown-900">{formData.name || 'Friend'}</strong>! Our team will review your {currentCategoryObj?.label} request and respond to <span className="text-brown-900 font-semibold">{formData.email}</span> within 2 to 4 business hours.
+                  <h4 className="font-['Lora',serif] text-2xl text-[#2B1B12] font-normal">
+                    Message Sent Successfully
+                  </h4>
+                  <p className="text-xs sm:text-sm text-[#5A4538] max-w-md mx-auto leading-relaxed">
+                    Thank you, <strong className="text-[#2B1B12]">{formData.name || 'Friend'}</strong>. Our hospitality desk has received your note regarding <span className="font-semibold text-[#2B1B12]">{formData.subject}</span> and will respond to <span className="font-semibold text-[#2B1B12]">{formData.email}</span> shortly.
                   </p>
                   <div className="pt-2">
                     <button
+                      type="button"
                       onClick={handleResetForm}
-                      className="btn btn-secondary text-xs py-2.5 px-6 shadow-xs cursor-pointer"
+                      className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.2em] text-[#C8681A] uppercase border-b border-[#C8681A] pb-0.5 hover:text-[#2B1B12] hover:border-[#2B1B12] transition-colors cursor-pointer"
                     >
-                      ← Send Another Message
+                      <span>← SEND ANOTHER MESSAGE</span>
                     </button>
                   </div>
                 </div>
               ) : (
-                <form ref={formRef} noValidate onSubmit={handleSubmit} className="space-y-5">
-
-                  {/* Name & Email */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form onSubmit={handleSubmit} noValidate className="space-y-3.5 sm:space-y-5">
+                  {/* Row 1: Name & Email */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                     <div>
-                      <label className="block text-xs font-bold text-brown-900 mb-1.5">
-                        Full Name <span className="text-orange-600">*</span>
+                      <label htmlFor="contact-name" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1 sm:mb-1.5">
+                        Full Name <span className="text-[#C8681A]">*</span>
                       </label>
                       <input
-                        type="text"
+                        id="contact-name"
                         name="name"
+                        type="text"
                         required
+                        autoComplete="name"
                         placeholder="e.g. Jane Austen"
                         value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="input text-xs py-3.5 px-4 rounded-xl border-amber-200/80 focus:border-brown-900 focus:ring-2 focus:ring-amber-900/10 placeholder:text-brown-400"
+                        onChange={handleInputChange}
+                        aria-invalid={!!errors.name}
+                        aria-describedby={errors.name ? 'contact-name-error' : undefined}
+                        className={`w-full text-xs py-2.5 sm:py-3 px-3.5 bg-[#FAF5EE] border text-[#2B1B12] placeholder:text-[#9C8270] focus:bg-white focus:outline-none transition-colors ${
+                          errors.name 
+                            ? 'border-rose-500' 
+                            : 'border-[#2B1B12]/20 focus:border-[#C8681A]'
+                        }`}
                       />
+                      {errors.name && (
+                        <span id="contact-name-error" role="alert" className="text-[11px] text-rose-700 mt-1 block">
+                          {errors.name}
+                        </span>
+                      )}
                     </div>
+
                     <div>
-                      <label className="block text-xs font-bold text-brown-900 mb-1.5">
-                        Email Address <span className="text-orange-600">*</span>
+                      <label htmlFor="contact-email" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1 sm:mb-1.5">
+                        Email Address <span className="text-[#C8681A]">*</span>
                       </label>
                       <input
-                        type="email"
+                        id="contact-email"
                         name="email"
+                        type="email"
                         required
+                        autoComplete="email"
                         placeholder="jane@example.com"
                         value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="input text-xs py-3.5 px-4 rounded-xl border-amber-200/80 focus:border-brown-900 focus:ring-2 focus:ring-amber-900/10 placeholder:text-brown-400"
+                        onChange={handleInputChange}
+                        aria-invalid={!!errors.email}
+                        aria-describedby={errors.email ? 'contact-email-error' : undefined}
+                        className={`w-full text-xs py-2.5 sm:py-3 px-3.5 bg-[#FAF5EE] border text-[#2B1B12] placeholder:text-[#9C8270] focus:bg-white focus:outline-none transition-colors ${
+                          errors.email 
+                            ? 'border-rose-500' 
+                            : 'border-[#2B1B12]/20 focus:border-[#C8681A]'
+                        }`}
                       />
+                      {errors.email && (
+                        <span id="contact-email-error" role="alert" className="text-[11px] text-rose-700 mt-1 block">
+                          {errors.email}
+                        </span>
+                      )}
                     </div>
                   </div>
 
-                  {/* Phone & Contact Preference */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Row 2: Phone & Preferred Reply Method */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                     <div>
-                      <label className="block text-xs font-bold text-brown-900 mb-1.5">
-                        Phone / WhatsApp <span className="text-brown-400 font-normal">(Optional)</span>
+                      <label htmlFor="contact-phone" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1 sm:mb-1.5">
+                        Phone / WhatsApp <span className="text-[#7A695E] font-normal lowercase">(optional)</span>
                       </label>
                       <input
-                        type="tel"
+                        id="contact-phone"
                         name="phone"
+                        type="tel"
+                        autoComplete="tel"
                         placeholder="+256 700 000 000"
                         value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="input text-xs py-3.5 px-4 rounded-xl border-amber-200/80 focus:border-brown-900 focus:ring-2 focus:ring-amber-900/10 placeholder:text-brown-400"
+                        onChange={handleInputChange}
+                        className="w-full text-xs py-2.5 sm:py-3 px-3.5 bg-[#FAF5EE] border border-[#2B1B12]/20 text-[#2B1B12] placeholder:text-[#9C8270] focus:bg-white focus:outline-none focus:border-[#C8681A] transition-colors"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-brown-900 mb-1.5">
-                        Preferred Reply Method
-                      </label>
-                      <div className="flex bg-cream-100 p-1 rounded-xl border border-amber-200/80">
-                        {['email', 'phone', 'whatsapp'].map(method => (
-                          <button
-                            key={method}
-                            type="button"
-                            onClick={() => setPreferredContact(method)}
-                            className={`flex-1 text-[11px] font-semibold py-2 rounded-lg capitalize transition-all cursor-pointer ${preferredContact === method
-                              ? 'bg-brown-900 text-white shadow-xs'
-                              : 'text-brown-600 hover:text-brown-900'
-                              }`}
+                      {/* Desktop Segmented Buttons */}
+                      <div className="hidden sm:block">
+                        <span id="contact-reply-label" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1.5">
+                          Preferred Reply
+                        </span>
+                        <div 
+                          role="radiogroup" 
+                          aria-labelledby="contact-reply-label"
+                          className="flex border border-[#2B1B12]/20 p-0.5 bg-[#FAF5EE]"
+                        >
+                          {[
+                            { id: 'email', label: 'Email' },
+                            { id: 'phone', label: 'Phone' },
+                            { id: 'whatsapp', label: 'WhatsApp' }
+                          ].map(item => {
+                            const isSelected = preferredContact === item.id;
+                            return (
+                              <button
+                                key={item.id}
+                                type="button"
+                                role="radio"
+                                aria-checked={isSelected}
+                                onClick={() => setPreferredContact(item.id)}
+                                className={`flex-1 text-[11px] font-medium py-2 transition-colors cursor-pointer ${
+                                  isSelected
+                                    ? 'bg-[#2B1B12] text-[#FFF4E6]'
+                                    : 'text-[#5A4538] hover:text-[#2B1B12]'
+                                }`}
+                              >
+                                {item.label}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Mobile Dropdown */}
+                      <div className="sm:hidden">
+                        <label htmlFor="contact-reply-mobile" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1 sm:mb-1.5">
+                          Preferred Reply
+                        </label>
+                        <div className="relative">
+                          <select
+                            id="contact-reply-mobile"
+                            value={preferredContact}
+                            onChange={(e) => setPreferredContact(e.target.value)}
+                            className="w-full text-xs py-2.5 px-3.5 bg-[#FAF5EE] border border-[#2B1B12]/20 text-[#2B1B12] focus:bg-white focus:outline-none focus:border-[#C8681A] transition-colors appearance-none cursor-pointer pr-10 font-medium"
                           >
-                            {method}
-                          </button>
-                        ))}
+                            <option value="email">Email Response</option>
+                            <option value="whatsapp">WhatsApp Message</option>
+                            <option value="phone">Phone Call</option>
+                          </select>
+                          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-[#C8681A]">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Subject */}
+                  {/* Row 3: Subject */}
                   <div>
-                    <label className="block text-xs font-bold text-brown-900 mb-1.5">
-                      Subject / Topic <span className="text-orange-600">*</span>
-                    </label>
+                    <div className="flex items-center justify-between mb-1 sm:mb-1.5">
+                      <label htmlFor="contact-subject" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12]">
+                        Subject / Topic <span className="text-[#C8681A]">*</span>
+                      </label>
+                      <span className="text-[10px] text-[#7A695E] font-normal sm:hidden lowercase">
+                        (auto-filled from topic)
+                      </span>
+                    </div>
                     <input
-                      type="text"
+                      id="contact-subject"
                       name="subject"
+                      type="text"
                       required
                       placeholder="e.g. Table reservation for 4, Wholesale pricing inquiry..."
                       value={formData.subject}
-                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      className="input text-xs py-3.5 px-4 rounded-xl border-amber-200/80 focus:border-brown-900 focus:ring-2 focus:ring-amber-900/10 placeholder:text-brown-400"
+                      onChange={handleInputChange}
+                      aria-invalid={!!errors.subject}
+                      aria-describedby={errors.subject ? 'contact-subject-error' : undefined}
+                      className={`w-full text-xs py-2.5 sm:py-3 px-3.5 bg-[#FAF5EE] border text-[#2B1B12] placeholder:text-[#9C8270] focus:bg-white focus:outline-none transition-colors ${
+                        errors.subject 
+                          ? 'border-rose-500' 
+                          : 'border-[#2B1B12]/20 focus:border-[#C8681A]'
+                      }`}
                     />
+                    {errors.subject && (
+                      <span id="contact-subject-error" role="alert" className="text-[11px] text-rose-700 mt-1 block">
+                        {errors.subject}
+                      </span>
+                    )}
                   </div>
 
-                  {/* Message */}
+                  {/* Row 4: Message */}
                   <div>
-                    <label className="block text-xs font-bold text-brown-900 mb-1.5">
-                      Your Message <span className="text-orange-600">*</span>
+                    <label htmlFor="contact-message" className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2B1B12] mb-1 sm:mb-1.5">
+                      Your Message <span className="text-[#C8681A]">*</span>
                     </label>
                     <textarea
-                      rows={4}
+                      id="contact-message"
                       name="message"
                       required
-                      placeholder={currentCategoryObj?.placeholder || 'Tell us how we can serve you better...'}
+                      rows={4}
+                      placeholder="Tell us how we can help..."
                       value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="input text-xs py-3.5 px-4 rounded-xl border-amber-200/80 focus:border-brown-900 focus:ring-2 focus:ring-amber-900/10 placeholder:text-brown-400 leading-relaxed"
+                      onChange={handleInputChange}
+                      aria-invalid={!!errors.message}
+                      aria-describedby={errors.message ? 'contact-message-error' : undefined}
+                      className={`w-full min-h-[110px] sm:min-h-[140px] resize-y text-xs py-2.5 sm:py-3 px-3.5 bg-[#FAF5EE] border text-[#2B1B12] placeholder:text-[#9C8270] leading-relaxed focus:bg-white focus:outline-none transition-colors ${
+                        errors.message 
+                          ? 'border-rose-500' 
+                          : 'border-[#2B1B12]/20 focus:border-[#C8681A]'
+                      }`}
                     />
+                    {errors.message && (
+                      <span id="contact-message-error" role="alert" className="text-[11px] text-rose-700 mt-1 block">
+                        {errors.message}
+                      </span>
+                    )}
                   </div>
 
-                  {apiError && (
-                    <div className="p-3.5 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl flex items-center gap-2">
-                      <span className="font-bold">⚠️</span>
-                      <span>{apiError}</span>
+                  {/* Inline API Error Alert */}
+                  {formStatus === 'error' && (
+                    <div 
+                      role="alert" 
+                      aria-live="assertive"
+                      className="p-3.5 bg-rose-50 border border-rose-300 text-rose-900 text-xs"
+                    >
+                      <p className="font-semibold mb-0.5">Unable to deliver message</p>
+                      <p className="text-[11px] text-rose-800">
+                        {apiError || 'Something went wrong while sending your message. Please try again or contact us directly.'}
+                      </p>
                     </div>
                   )}
 
                   {/* Submit Button */}
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full py-3.5 text-xs font-bold uppercase tracking-wider bg-brown-900 hover:bg-orange-600 disabled:bg-brown-400 text-white rounded-xl transition-all duration-300 shadow-md cursor-pointer disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        <span>Sending Message...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Send Message</span>
-                        <span className="text-sm">→</span>
-                      </>
-                    )}
-                  </button>
-
-                  <p className="text-xs text-center text-brown-500 font-normal pt-1">
-                    We respect your privacy. Your details are kept strictly confidential.
-                  </p>
-
+                  <div className="pt-1.5 sm:pt-2">
+                    <button
+                      type="submit"
+                      disabled={formStatus === 'submitting'}
+                      className="group w-full py-3.5 sm:py-4 px-6 text-xs font-bold uppercase tracking-[0.22em] bg-[#2B1B12] hover:bg-[#C8681A] disabled:bg-[#7A695E] text-[#FFF4E6] transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                      {formStatus === 'submitting' ? (
+                        <>
+                          <svg className="animate-spin h-4 w-4 text-[#FFF4E6]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          <span>SENDING...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>SEND MESSAGE</span>
+                          <span className="transition-transform duration-200 group-hover:translate-x-1.5 inline-block">
+                            →
+                          </span>
+                        </>
+                      )}
+                    </button>
+                    <p className="text-[10px] sm:text-[11px] text-[#7A695E] text-center mt-2 font-light">
+                      We usually respond within 2 hours during roastery opening times.
+                    </p>
+                  </div>
                 </form>
               )}
 
             </div>
 
           </div>
+
         </div>
+      </section>
 
-        {/* Secondary Visual Strip: Roastery Craft & Coffee Wallpaper */}
-        <div className="bg-white rounded-3xl p-8 sm:p-10 lg:p-12 shadow-xl border border-amber-200/60 relative overflow-hidden" data-aos="fade-up" data-aos-duration="800">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+      {/* 3. The Flagship Experience Section - Editorial Narrative & Photography (Matches Our Story Chapter 03 / Section 1) */}
+      <section className="bg-[#F7F2EA] text-[#2B1B12] py-16 sm:py-24 lg:py-28 border-t border-[#2B1B12]/15">
+        <div className="max-w-[1160px] mx-auto px-5 sm:px-10 lg:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16 items-center">
+            
+            {/* Left: Narrative */}
+            <div className="lg:col-span-6 space-y-4 text-left" data-aos="fade-up" data-aos-duration="800">
+              <div className="flex items-center gap-3">
+                <span className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#C8681A] uppercase">
+                  THE FLAGSHIP ROASTERY
+                </span>
+                <div className="w-8 h-[1px] bg-[#C8681A]"></div>
+              </div>
 
-            {/* Left Content Column */}
-            <div className="lg:col-span-7 space-y-4">
-              <p className="text-xs font-bold uppercase tracking-widest text-orange-600">
-                The Flagship Experience
-              </p>
-
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-brown-900 leading-snug tracking-tight">
-                Visit Us in Person for Freshly Baked Croissants &amp; Espresso
+              <h2 className="font-['Lora',serif] text-3xl sm:text-4xl lg:text-[46px] font-normal leading-[1.12] text-[#2B1B12] tracking-tight">
+                Visit Us in Person for<br />
+                Artisan Bakes &amp; Espresso.
               </h2>
 
-              <p className="text-sm sm:text-base text-brown-700/90 leading-relaxed font-light">
-                Step into a warm ambiance filled with the rich aroma of micro-roasted Ethiopian coffee beans and classic butter pastries. Complimentary high-speed Wi-Fi and quiet nooks make L'Oven your perfect remote workspace or morning rendezvous spot.
+              <p className="text-sm sm:text-base text-[#5A4538] font-light leading-relaxed">
+                Step into a warm ambiance filled with the aroma of micro-roasted Ethiopian coffee beans and classic butter pastries. Complimentary high-speed Wi-Fi and quiet garden corners make L'Oven your morning rendezvous spot or remote workspace.
               </p>
 
               <div className="pt-2">
                 <a
-                  href="https://maps.google.com"
+                  href="https://maps.google.com/?q=Kitende,Uganda"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-brown-900 text-white hover:bg-orange-600 text-xs font-bold uppercase tracking-wider px-6 py-3.5 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg"
+                  className="group inline-flex items-center gap-2.5 py-1 text-xs sm:text-sm font-bold tracking-[0.22em] text-[#C8681A] uppercase transition-colors duration-200 hover:text-[#2B1B12]"
                 >
-                  <span>Get Directions</span>
-                  <span className="text-sm">→</span>
+                  <span>GET DIRECTIONS ON GOOGLE MAPS</span>
+                  <span className="text-base transform group-hover:translate-x-1.5 transition-transform duration-200">→</span>
                 </a>
+                <div className="w-56 h-[1px] bg-[#C8681A]/60 mt-0.5"></div>
               </div>
             </div>
 
-            {/* Right Photo Column */}
-            <div className="lg:col-span-5 relative h-[260px] sm:h-[300px] rounded-2xl overflow-hidden shadow-lg border border-amber-100 shrink-0">
-              <img
-                src={cozyCoffee}
-                alt="Warm Coffee Ambiance"
-                className="w-full h-full object-cover"
-              />
+            {/* Right: Authentic Photograph Frame */}
+            <div className="lg:col-span-6" data-aos="fade-up" data-aos-duration="850" data-aos-delay="150">
+              <div className="w-full h-[260px] sm:h-[340px] md:h-[400px] overflow-hidden bg-[#EFE8DD] shadow-sm">
+                <img
+                  src={cozyCoffee}
+                  alt="L'Oven warm café atmosphere in Kitende"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
             </div>
 
           </div>
         </div>
+      </section>
 
-        {/* Interactive FAQ Accordion Section */}
-        <div className="space-y-8" data-aos="fade-up" data-aos-duration="800">
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-xs font-bold uppercase tracking-widest text-orange-600">Quick Answers</span>
-            <h2 className="text-3xl font-display font-bold text-brown-900">
+      {/* 4. Minimalist FAQ Section - Hairline Editorial Accordion (Matches Our Story Manifesto) */}
+      <section className="bg-[#FAF5EE] text-[#2B1B12] py-16 sm:py-24 lg:py-28 border-t border-[#2B1B12]/15">
+        <div className="max-w-[1040px] mx-auto px-5 sm:px-8 lg:px-12 text-left">
+          
+          <div className="max-w-xl mb-10 sm:mb-14" data-aos="fade-up" data-aos-duration="800">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-[#C8681A] uppercase">
+                QUICK ANSWERS
+              </span>
+              <div className="w-8 h-[1px] bg-[#C8681A]"></div>
+            </div>
+            <h2 className="font-['Lora',serif] text-3xl sm:text-4xl lg:text-[42px] font-normal leading-tight text-[#2B1B12] mb-3 tracking-tight">
               Frequently Asked Questions
             </h2>
-            <p className="text-xs text-brown-600">
-              Got a quick question about reservations, catering, or bean roasting? Here is what guests ask us most often.
+            <p className="text-xs sm:text-sm text-[#5A4538] font-light leading-relaxed">
+              Everything you need to know about reservations, catering, and our roasting schedules.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl mx-auto">
+          {/* Clean Hairline Accordion List */}
+          <div className="border-t border-[#2B1B12]/15">
             {FAQS.map((faq, idx) => {
               const isOpen = openFaq === idx;
               return (
                 <div
                   key={idx}
-                  className={`bg-white rounded-2xl border transition-all duration-300 overflow-hidden shadow-xs ${isOpen ? 'border-orange-400 ring-2 ring-orange-500/10' : 'border-amber-100 hover:border-amber-200'
-                    }`}
+                  className="border-b border-[#2B1B12]/15 transition-colors"
+                  data-aos="fade-up"
+                  data-aos-duration="700"
+                  data-aos-delay={idx * 80}
                 >
                   <button
                     type="button"
                     onClick={() => setOpenFaq(isOpen ? null : idx)}
-                    className="w-full text-left p-5 flex items-center justify-between gap-4 cursor-pointer"
+                    className="w-full text-left py-5 sm:py-6 flex items-center justify-between gap-6 cursor-pointer focus:outline-none"
                   >
-                    <span className="text-xs sm:text-sm font-bold text-brown-900">
+                    <span className="font-['Lora',serif] text-base sm:text-lg font-medium text-[#2B1B12]">
                       {faq.question}
                     </span>
-                    <span className={`w-7 h-7 rounded-full bg-amber-50 text-orange-600 flex items-center justify-center font-bold text-sm shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 bg-orange-600 text-white' : ''}`}>
-                      ↓
+                    <span className="text-sm font-light text-[#C8681A] transition-transform duration-200">
+                      {isOpen ? '—' : '+'}
                     </span>
                   </button>
                   {isOpen && (
-                    <div className="px-5 pb-5 pt-1 text-xs text-brown-700 leading-relaxed border-t border-amber-50">
+                    <div className="pb-6 text-xs sm:text-[13.5px] leading-[1.75] text-[#5A4538] font-normal max-w-2xl">
                       {faq.answer}
                     </div>
                   )}
@@ -640,9 +980,12 @@ const Contact = () => {
               );
             })}
           </div>
+
         </div>
+      </section>
 
       </div>
+
     </div>
   );
 };

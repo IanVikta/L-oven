@@ -25,6 +25,7 @@ class ProductResource extends JsonResource
             'calories' => $this->calories,
             'is_available' => $this->is_available,
             'is_featured' => $this->is_featured,
+            'category_id' => (int) $this->category_id,
             'category' => new CategoryResource($this->whenLoaded('category')),
             'variants' => $this->whenLoaded('variants', function () {
                 return $this->variants->map(function ($variant) {

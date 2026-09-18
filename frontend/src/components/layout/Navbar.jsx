@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useCart } from '../../hooks/useCart';
+import logo from '../../assets/logo.png';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,12 +34,16 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex items-center justify-between h-20">
           {/* Brand / Logo */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 relative z-20">
             <Link
               to="/"
-              className="text-2xl md:text-[26px] font-\['Cormorant_Garamond',Georgia,serif\] font-medium tracking-[0.18em] text-[#FFF4E6] hover:text-[#FFFFFF] transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F28C13]"
+              className="flex items-center focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F28C13] group translate-y-0.5 md:translate-y-1 transition-transform duration-200"
             >
-              L'OVEN
+              <img
+                src={logo}
+                alt="Cafe L'Oven"
+                className="h-[64px] w-[64px] md:h-[70px] md:w-[70px] max-w-none object-contain transition-transform duration-200 group-hover:scale-105"
+              />
             </Link>
           </div>
 
