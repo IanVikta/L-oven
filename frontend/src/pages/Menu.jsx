@@ -290,7 +290,6 @@ const Menu = () => {
         </div>
       </section>
 
-<<<<<<< HEAD
       {/* SECTION 2 — MENU CONTROLS (SEARCH & CATEGORY NAVIGATION) */}
       <div className="border-b border-[#2B1B12]/10 bg-[#FFF4E6]/95 backdrop-blur-md relative md:sticky md:top-20 z-20 shadow-[0_4px_20px_-4px_rgba(43,27,18,0.06)]">
         <div className="mx-auto max-w-7xl px-4 sm:px-8 lg:px-12 py-3 sm:py-4">
