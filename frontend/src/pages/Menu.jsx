@@ -597,32 +597,12 @@ const Menu = () => {
             })}
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
 };
 
 export default Menu;
-            </div>
-            <h2
-              id="menu-heading"
-              className="font-['Playfair_Display',Georgia,serif] text-[36px] font-normal leading-[1.1] tracking-[-0.02em] text-[#2B1B12] sm:text-5xl lg:text-[56px]"
-            >
-              Made with love,<br className="hidden sm:block" /> served with care.
-            </h2>
-            <p className="mt-5 max-w-xl font-sans text-[15px] leading-[1.7] text-[#2B1B12]/60 sm:text-base">
-              Handcrafted drinks and freshly baked treats, prepared with the same care that defines the L'Oven experience.
-            </p>
-          </motion.div>
-
-          {/* Search */}
-          <motion.div
-            initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-10 max-w-md sm:mt-12"
-          >
             <label className="sr-only" htmlFor="menu-search">Search the menu</label>
             <div className="relative">
               <input
