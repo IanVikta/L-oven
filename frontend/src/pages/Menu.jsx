@@ -585,29 +585,24 @@ const Menu = () => {
                                     <span>ADD</span>
                                   </>
                                 )}
-      {/* ─── OUR MENU ─── */}
-      <section className="bg-[#FFF4E6] pt-20 pb-8 sm:pt-24 sm:pb-10 lg:pt-28 lg:pb-12" aria-labelledby="menu-heading">
+                              </button>
+                            </div>
+                          </div>
+                        </article>
+                      );
+                    })}
+                  </div>
+                </section>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
-        {/* Section intro */}
-        <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
-          <motion.div
-            initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.6, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <div className="flex items-center gap-4 mb-5">
-              <motion.div
-                initial={shouldReduceMotion ? {} : { scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
-                className="h-[2px] w-10 origin-left bg-[#F28C13]"
-                aria-hidden="true"
-              />
-              <span className="font-sans text-[11px] font-bold uppercase tracking-[0.25em] text-[#F28C13] sm:text-xs">
-                Our Menu
-              </span>
+export default Menu;
             </div>
             <h2
               id="menu-heading"
