@@ -1,12 +1,20 @@
 import axios from 'axios';
 
-const PRIMARY_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001/api';
-const FALLBACK_URL = import.meta.env.VITE_API_FALLBACK_URL || 'http://localhost:8000/api';
+const PRIMARY_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+const FALLBACK_URL = import.meta.env.VITE_API_FALLBACK_URL || 'http://localhost:8001/api';
 
 // Dynamic default based on hostname
 const defaultBaseURL = typeof window !== 'undefined' && window.location.hostname
   ? `http://${window.location.hostname}:8000/api`
   : PRIMARY_URL;
+
+// Clear any cached wrong port from localStorage
+if (typeof window !== 'undefined') {
+  const cached = localStorage.getItem('active_api_url');
+  if (cached && cached.includes(':8001')) {
+    localStorage.removeItem('active_api_url');
+  }
+}
 
 // Currently active base URL (persisted in session/memory)
 let activeBaseUrl = localStorage.getItem('active_api_url') || defaultBaseURL;
