@@ -200,7 +200,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
         aria-modal="true"
         aria-labelledby="product-modal-title"
         aria-describedby="product-modal-description"
-        className="relative w-full max-w-4xl max-h-[92vh] sm:max-h-[88vh] bg-[#FFF4E6] text-[#2B1B12] rounded-t-2xl sm:rounded-2xl shadow-2xl border-t sm:border border-[#2B1B12]/10 overflow-hidden flex flex-col md:grid md:grid-cols-12 focus:outline-none"
+        className="relative w-full max-w-4xl max-h-[92vh] sm:max-h-[88vh] bg-[#FFF4E6] text-[#2B1B12] rounded-none shadow-2xl border-t sm:border border-[#2B1B12]/10 overflow-hidden flex flex-col md:grid md:grid-cols-12 focus:outline-none"
       >
         {/* Close Button (Accessible across mobile and desktop) */}
         <button
@@ -208,7 +208,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
           type="button"
           onClick={onClose}
           aria-label="Close product modal"
-          className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full border border-[#2B1B12]/15 bg-[#FFF4E6]/90 hover:bg-[#2B1B12] text-[#2B1B12] hover:text-[#FFF4E6] transition-colors duration-150 flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13]"
+          className="absolute top-4 right-4 z-20 w-8 h-8 rounded-none border border-[#2B1B12]/15 bg-[#FFF4E6]/90 hover:bg-[#2B1B12] text-[#2B1B12] hover:text-[#FFF4E6] transition-colors duration-150 flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13]"
         >
           <svg
             className="w-3.5 h-3.5"
@@ -283,7 +283,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                         key={variant.id}
                         type="button"
                         onClick={() => setSelectedVariant(variant)}
-                        className={`p-3 rounded-sm border text-left transition-all duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F28C13] ${
+                        className={`p-3 rounded-none border text-left transition-all duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F28C13] ${
                           isSelected
                             ? 'border-[#F28C13] bg-white text-[#2B1B12] ring-1 ring-[#F28C13]'
                             : 'border-[#2B1B12]/15 hover:border-[#2B1B12]/30 text-[#2B1B12]/75 bg-transparent'
@@ -338,7 +338,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                           return (
                             <label
                               key={item.id}
-                              className={`flex items-center justify-between p-2.5 rounded-sm border cursor-pointer transition-colors duration-150 ${
+                              className={`flex items-center justify-between p-2.5 rounded-none border cursor-pointer transition-colors duration-150 ${
                                 isChecked
                                   ? 'border-[#F28C13] bg-white text-[#2B1B12]'
                                   : 'border-[#2B1B12]/15 hover:border-[#2B1B12]/30 text-[#2B1B12]/75 bg-transparent'
@@ -384,7 +384,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                 placeholder="e.g. Extra hot, oat milk on the side..."
                 value={itemNotes}
                 onChange={(e) => setItemNotes(e.target.value)}
-                className="w-full bg-white border border-[#2B1B12]/15 rounded-sm px-3.5 py-2.5 font-sans text-xs text-[#2B1B12] placeholder-[#2B1B12]/40 focus:outline-none focus:border-[#F28C13] transition-colors"
+                className="w-full bg-white border border-[#2B1B12]/15 rounded-none px-3.5 py-2.5 font-sans text-xs text-[#2B1B12] placeholder-[#2B1B12]/40 focus:outline-none focus:border-[#F28C13] transition-colors"
               />
             </div>
           </div>
@@ -392,7 +392,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
           {/* STICKY BOTTOM BAR: Quantity & Add to Cart */}
           <div className="p-4 sm:p-6 border-t border-[#2B1B12]/10 bg-[#FFF4E6] flex items-center justify-between gap-3 sm:gap-4 sticky bottom-0 z-10">
             {/* Quantity Selector */}
-            <div className="flex items-center border border-[#2B1B12]/20 rounded-sm bg-white">
+            <div className="flex items-center border border-[#2B1B12]/20 rounded-none bg-white">
               <button
                 type="button"
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -419,7 +419,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
               type="button"
               onClick={handleAddToCart}
               disabled={isAdded}
-              className={`flex-1 py-3 px-4 sm:px-6 rounded-sm font-sans text-xs sm:text-sm font-semibold tracking-[0.14em] uppercase transition-colors duration-150 flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13] ${
+              className={`flex-1 py-3 px-4 sm:px-6 rounded-none font-sans text-xs sm:text-sm font-semibold tracking-[0.14em] uppercase transition-colors duration-150 flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F28C13] ${
                 isAdded
                   ? 'bg-[#2B1B12] text-[#FFF4E6]'
                   : 'bg-[#F28C13] hover:bg-[#d97706] text-white shadow-none'

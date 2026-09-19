@@ -5,9 +5,11 @@ import 'aos/dist/aos.css';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import BackToTop from '../common/BackToTop';
+import { updateSEO } from '../../utils/seo';
 
 const Layout = () => {
   const location = useLocation();
+  const isAdmin = location.pathname.startsWith('/admin');
 
   useEffect(() => {
     AOS.init({
@@ -20,6 +22,7 @@ const Layout = () => {
   }, []);
 
   useEffect(() => {
+    updateSEO(location.pathname);
     window.scrollTo(0, 0);
     const timer = setTimeout(() => {
       AOS.refreshHard();
@@ -29,12 +32,12 @@ const Layout = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
+      {!isAdmin && <Navbar />}
       <main className="flex-grow">
         <Outlet />
       </main>
-      <Footer />
-      <BackToTop />
+      {!isAdmin && <Footer />}
+      {!isAdmin && <BackToTop />}
     </div>
   );
 };
